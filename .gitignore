@@ -19,3 +19,5 @@ main.lof
 main.tdo
 *.synctex.gz
 template/blind*
+template/title_Thesis_TU_Graz.dvi
+main.out.ps

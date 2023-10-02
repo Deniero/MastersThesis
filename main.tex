@@ -259,15 +259,15 @@
 \mainmatter                     %% KOMA: marks main part using arabic page numbers and such; only available in scrbook
 
 
-\input{example-short-chapter}   %% remove this line to get rid of the example chapter
-\input{example-style-chapter}   %% remove this line to get rid of the style chapter
+% \input{example-short-chapter}   %% remove this line to get rid of the example chapter
+% \input{example-style-chapter}   %% remove this line to get rid of the style chapter
 
 %% include tex file chapters:
-% \include{introduction}        %% this is a suggestion: you have to create this file on demand
-% \include{problem}             %% this is a suggestion: you have to create this file on demand
-% \include{solution}            %% this is a suggestion: you have to create this file on demand
-% \include{evaluation}          %% this is a suggestion: you have to create this file on demand
-% \include{outlook}             %% this is a suggestion: you have to create this file on demand
+\include{1_introduction}
+\include{2_tools}
+\include{3_implementation}
+\include{4_evaluation}
+\include{5_conclusion}
 
 \appendix                       %% closes main document, appendix follows until end; only available in book-classes
 \addpart*{Appendix}             %% adding Appendix to tableofcontents
