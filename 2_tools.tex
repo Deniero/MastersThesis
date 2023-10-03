@@ -1,14 +1,59 @@
 \chapter{Tools}
 \section{Genetic Algorithm}
-\subsection{Basic Idea}
+
+While a short intrododuction was already given, the idea of a Genetic Algorithm will now be explained in greater detail.
+We will have a look at its History and then discussing the most important parameters.
+
+\todo{Usage of GA}
+
+\subsection{History}
+The GA was invented by....
+
+
 \subsection{Different Hyperparameter}
-\subsubsection{Num of genes}
+Hyperparamter have a huge influence on the performance of a Genetic Algorihm. They have an impact on the "convergin" ...
+It has been shown, that there is no universal hyperparamter set and that it needs to be optimized on a per "problem" basis.
+
+\subsubsection{Num of generations}
+The Number of Generation defines the duration of a GA. As long as the algorihtm has not converged, ....?
+For my testing, using a generation size of 40 was almost always sufficient, and will thus mostly be used.
+
 \subsubsection{Pop Size}
+Pop size will set the number of Individuals of a GA per Generation. The higher the pop size, the bigger the less change of premature converging. 
+It will however also lead to a longer convergin time.
+
 \subsubsection{Selection}
+Selection defines how which individuals are allowed to mate and move into the next generation.
+
+\todo{pros and cons of roulett vs Tournament}
+tournament was chosen to be used for this works because of this paper (and also because of pros and cons list)
+
+Other ideas are evolve around having a flexible selection system debending on fitness \todo{cite paper}
+
 \subsubsection{Crossover}
+Crossover is the mating process.
+\todo{Discuss all used crossover methods}
+
+
 \subsubsection{Mutation}
+Mutation is responsible for introducing new information into the gene pool.
+
+\todo{Discuss individual mutation}
+\todo{Discuss all used mutation methods}
+
 \subsubsection{Other}
+More to come....
 
 \section{Behavior Tree}
-\subsection{Basic Idea}
-\subsection{Own Implementation}
+A behavior tree is a decision tree. \todo{insert a good introduction to BT}
+
+\subsection{Usage for GA}
+Due to the fact, \todo{insert ref to discussion}, that there is no full stack available for the EGO vehicle, a solution had to be found.
+In order to have the Genetic Algorithm controll only NPCs and not the EGO vehicle itselve, a behaviour tree is used.
+The behaviour tree is used to controll the EGO vehicle over the action interface provided by the Traffic Manager. This is the same as the Genetic Algorithm is doing.
+
+The behaviour tree will define which direction the EGO should take at junctions and it will realistically dodge obstacles intoduced by the Genetic Algorithm. The main goal of the BT is to make the EGO vehicle behave in a realistic way.
+
+In a further chapter it will be dicussed if a GA with controll of the EGO (i.e. no BT will be used) lead to better cost.
+
+

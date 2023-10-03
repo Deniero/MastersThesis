@@ -1,15 +1,37 @@
 \chapter{Introduction}
-\section{Problem}
-Explain Basic Problem
+This Thesis will use a Genetic Algorithm in order to generate Driving Scenarios for testing ADAS/AD Functionality in vehicles.
+While generating these scenarios is the objective, the main task of the thesis will evolve around the implementation of the Genetic Algorithm as well as the Optimization of its Hyperparemter.
 
-\subsection{GBT}
 
-\section{Environment}
-\subsection{OpenDrive/Scenario}
-\subsection{ESmini}
+\section{Genetic Algorithm}
+Genetic Algorithms are a popular search algorithm that utilizes the principle of Darwin. They have been used successfully in various areas.
+Some of their strengths are ....
+However we will also look at shortcomings, which mainly evolve around performance.
+
+
+\section{Traffic Manager}
+The Genetic Algorithm will control the simulation of a custom developed Traffic Manager. This Traffic Manager was developed closely to fit the needs of the Genetic Algorithm. 
+It, however is not part of this Thesis and will thus will only get a brief introduction. 
+In general, it will simulate traffic starting from a predefined scenarios where the positions and types of Vehicles and Pedestrians are given (i.e. actors). It also allows for an Interface for aplying actions on all actors in the simulation, which will be discussed in section \ref{implementation:action_interface}.
+
+A simulation consits of multpile NPCs and exactly one EGO vehicle. While the NPCs are only controlled by the Traffic Manager (and dadurch also by its action interface), the ego vehicle can be either partly or even completly controlled by an ADAS/AD Function. This function can then be tested inside the simulation on errors.
+
+
+
+\todo{might not fit into this section:}
+The task of the Genetic Algorithm is to search for sequences of actions that will result in the most interesting Scenarios according to its cost function.
+
+\subsection{OpenDrive Standard}
+The OpenDrive Standart is used to define the roads and traffic signs. It is a widely accepted standard and is, for example, also used by Carla.
+
+\subsection{Graphics}
+During the simulation, usually no graphics engine is used in order to save performance. In order to visualize the results, two options can be chosen. The more lightweigth Esmini, as well as Carla, which is using Unreal Engine to render realistic graphics.
+
 \subsection{used PC}
+The PC used for the simulation as the following specs:
 
+\section{Shortcomings}
+This Master Thesis started with the developement of the Traffic Manger and thus progress was closely linked. Without a working simulations, no genetic alogirthmis could be tested. Due to time and performance constraints, it is not possible to test a full driving stack like autoware, as well as other professional ADAS/AD functions.
+In this Thesis, internal functions like Time-To-Collision and Emergency Braking will be optimized. The learned  information on e.g. optimal hyperparameter settings can then be applied in further steps to test these functions.
 
-\section{Shortcommings}
-performance
-No full driving stack, only internal functions
+Performance is also a problem and will lead to many shortcuts that need to be taken. There is a hughe number of possible compations of hyperparamter, so only a handful can be tested. In further chapers, these shortcuts will be explained and their relevancy will be dicussed.
