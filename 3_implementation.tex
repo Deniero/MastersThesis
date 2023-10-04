@@ -1,10 +1,88 @@
 \chapter{Implementation}
 \section{Action Interface}
 \label{implementation:action_interface}
+The Traffic Manager has already been discussed in some detail, however it can be thought of as a blackbox, which returned simulation is used by the cost function of the Genetic Algorithm.
+To interface with this blackbox, actions have to be used. An action will request a certain behaviour from an actor. If no action is set, the actor will behave in a normal manner inside the simulation. An action can be set to at any timestep (for this thesis, the simulation is running with 100 Hz) for any actor. Pedestrians and vehicles however have different actions.
+
+The following list are now all actions provided by the traffic manager that were available for the genetic algorithm at the time of this master thesis.
+\begin{itemize}
+	\item JunctionSelection
+		\begin{itemize}
+			\item Parameters: Vehicle ID: int, Junction\_selection\_angle: float
+			\item Angle is set in radiant. Default value is 0. Vehicles will chose which direction to take at a junction based on this angle.
+		\end{itemize}
+	\item LaneChange
+		\begin{itemize}
+			\item Parameters: Vehicle ID: int, ...
+			\item Initiates a LaneChange based on its given parameters.
+		\end{itemize}
+	\item AbortLaneChange
+		\begin{itemize}
+			\item Parameters: Vehicle ID: int, ...
+			\item If a LaneChange is currently happening, it will get aborted.
+		\end{itemize}
+	\item ModifyTargetVelocity
+		\begin{itemize}
+			\item Parameters: Vehicle ID: int, ...
+			\item Modifies the interal Target Velocity of the Traffic Manager by a percentage. If it is for example 0, the vehicle will stop.
+		\end{itemize}
+	\item TurnHeading
+		\begin{itemize}
+			\item Parameters: Pedestrian ID: int, ...
+			\item The pedestrian will turn 180 degrees and walk in the oposite direction
+		\end{itemize}
+	\item CrossRoad
+		\begin{itemize}
+			\item Parameters: Pedestrian ID: int, ...
+			\item The pedestrian will cross the road immediately.
+		\end{itemize}
+	\item CrossAtCrosswalk
+		\begin{itemize}
+			\item Parameters: Pedestrian ID: int, ...
+			\item The pedestrian will cross the road at the next crosswalk.
+		\end{itemize}
+\end{itemize}
+All these actions are accessed by the Genetic Algorithm to maximize a given Cost Function.
+
+\section{Map and Starting Scenario}
+The map is Town10 from Carla. It was chosen, because 1. its roads are self contained, 2. its not too big, yet still complex and 3. its supported by Carla and thus visualization looks better.
+
+The Starting Scenario defines the number and type of all actors as well as their position. It needs to be created manually.
+Changing the scenario will have a great impact on the Genetic Algorithms performance. For time and complexity reasons, it was thus decided to first stick with one scenario and do all hyperparameter testing there. And finally test the performance for a handfull different scenarios.
 
 \section{Genetic Algorithm}
+\todo{explain why pygad was NOT chosen}
+For implementing the Genetic Algorithm, DEAP\todo{cite} was chosen. It is a popular tool for accademia \todo{cite 3 examples}.
+
 \subsection{Encoding}
+When implementing a Genetic Algorithm, it is necessary to implement a Encoding that fits to the problem.
+\todo{cite what makes an encoding good: eg. simplicity,...}
+
+\subsubsection{Gene}
+Genes are the building blocks of a GA.
+
+\subsubsection{Chromosome}
+Each Individual has 1 chomosome which consits of a list of genes. Starting out, 2 different encodings came to mind, in both cases, the genes position in the chromosome defined the time an action is set.
+
+\todo{generate images}
+Encoding 1 has the idea that each gene stands for 1 time step. Because multiple actors exist in the simulation, a gene thus needs to be a list of actions. This list always has the length of the number of all actors. This means that crossover can only move all actions of a timestep at once, modifing between actions of the same timestep can only be done using mutation.
+
+Encoding 2 has not only the time step encoded in the position, also the actor ID is encoded. This makes a chromosome now much longer than in the previous encoding, whith the eqatuion beeing: number of timesteps * number of actors. Now crossover has more possibilities.
+
+In the chapter \ref{chap:evaluation} these two chromosome types will be compared.
+
 \subsection{Rules}
+Often, actions are not possible if specific requirements are not met. The obvious example is that it is not possible to perform the action AbortLaneChange if there is no current LaneChange happening. LaneChange during a LaneChange is not possible as well. Also Pedestrians can not CrossRoad shortly in a Row.
+The hypothesis is that implementing Rules that dont allow for these behaviours will reduce the searchspace and will thus make GA converge quicker.
+
+\todo{be carefull, lanechange after lanechange or crossroad after crossroad might be possible if prev did not happen. Good to explain}
 \subsection{Cost Function}
+Cost function is a bit difficult, as we are only using interal values. No ADAS/AD system is tested and we thus have to work with what we got.
+Currently 3 different cost functions are tested
+
 
 \section{Behavior Tree}
+The Behavior Tree will controll the ego vehicle 
+
+
+
