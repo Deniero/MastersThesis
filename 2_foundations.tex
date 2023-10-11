@@ -1,0 +1,121 @@
+\chapter{Foundations}
+
+\section{Genetic Algorithm}
+Genetic Algorithms are a popular search algorithm that utilizes the principle of Darwin. They have been used successfully in various areas.
+Some of their strengths are ....
+However we will also look at shortcomings, which mainly evolve around performance.
+\todo{Define a vocabulary}
+We will have a look at its History and then discussing the most important parameters.
+
+The task of the Genetic Algorithm is to search for sequences of actions that will result in the most interesting Scenarios according to its cost function.
+
+\todo{Usage of GA}
+
+\subsection{History}
+The GA was invented by....
+
+
+\subsection{Different Hyperparameter}
+Hyperparamter have a huge influence on the performance of a Genetic Algorihm. They have an impact on the "convergin" ...
+It has been shown, that there is no universal hyperparamter set and that it needs to be optimized on a per "problem" basis.
+
+\subsubsection{Num of generations}
+The Number of Generation defines the duration of a GA. As long as the algorihtm has not converged, ....?
+For my testing, using a generation size of 40 was almost always sufficient, and will thus mostly be used.
+
+\subsubsection{Pop Size}
+Pop size will set the number of Individuals of a GA per Generation. The higher the pop size, the bigger the less change of premature converging. 
+It will however also lead to a longer convergin time.
+
+\subsubsection{Selection}
+Selection defines how which individuals are allowed to mate and move into the next generation.
+
+\todo{pros and cons of roulette vs Tournament}
+tournament was chosen to be used for this works because of this paper (and also because of pros and cons list)
+
+Other ideas are evolve around having a flexible selection system debending on fitness \todo{cite paper}
+
+\subsubsection{Crossover}
+Crossover is the mating process.
+\todo{Discuss all used crossover methods}
+
+
+\subsubsection{Mutation}
+Mutation is responsible for introducing new information into the gene pool.
+
+\todo{Discuss individual mutation}
+\todo{Discuss all used mutation methods}
+
+\subsubsection{Other}
+More to come....
+
+\section{Behavior Tree}
+A behavior tree is a decision tree. \todo{insert a good introduction to BT}
+
+\subsection{Usage for GA}
+Due to the fact, \todo{insert ref to discussion}, that there is no full stack available for the EGO vehicle, a solution had to be found.
+In order to have the Genetic Algorithm controll only NPCs and not the EGO vehicle itselve, a behaviour tree is used.
+The behaviour tree is used to controll the EGO vehicle over the action interface provided by the Traffic Manager. This is the same as the Genetic Algorithm is doing.
+
+The behaviour tree will define which direction the EGO should take at junctions and it will realistically dodge obstacles intoduced by the Genetic Algorithm. The main goal of the BT is to make the EGO vehicle behave in a realistic way.
+
+In a further chapter it will be dicussed if a GA with controll of the EGO (i.e. no BT will be used) lead to better cost.
+
+
+
+\section{Traffic Manager}
+The Genetic Algorithm will control the simulation of a custom developed Traffic Manager. This Traffic Manager was developed closely to fit the needs of the Genetic Algorithm. 
+It, however is not part of this Thesis and will thus will only get a brief introduction. 
+In general, it will simulate traffic starting from a predefined scenarios where the positions and types of Vehicles and Pedestrians are given (i.e. actors). It also allows for an Interface for aplying actions on all actors in the simulation, which will be discussed in section \ref{implementation:action_interface}.
+
+A simulation consists of multiple NPCs and exactly one EGO vehicle. While the NPCs are only controlled by the Traffic Manager (and dadurch also by its action interface), the ego vehicle can be either partly or even completly controlled by an ADAS/AD Function. This function can then be tested inside the simulation on errors.
+
+
+\subsection{Action Interface}
+\label{implementation:action_interface}
+To interface with the Traffic Manager, actions have to be used. An action will request a certain behaviour from an actor. If no action is set, the actor will behave in a normal manner inside the simulation. An action can be set to at any timestep (for this thesis, the simulation is running with 100 Hz) for any actor. Pedestrians and vehicles however have different actions.
+
+The following list are now all actions provided by the traffic manager that were available for the genetic algorithm at the time of this master thesis.
+\begin{itemize}
+	\item JunctionSelection
+	\begin{itemize}
+		\item Parameters: Vehicle ID: int, Junction\_selection\_angle: float
+		\item Angle is set in radiant. Default value is 0. Vehicles will chose which direction to take at a junction based on this angle.
+	\end{itemize}
+	\item LaneChange
+	\begin{itemize}
+		\item Parameters: Vehicle ID: int, ...
+		\item Initiates a LaneChange based on its given parameters.
+	\end{itemize}
+	\item AbortLaneChange
+	\begin{itemize}
+		\item Parameters: Vehicle ID: int, ...
+		\item If a LaneChange is currently happening, it will get aborted.
+	\end{itemize}
+	\item ModifyTargetVelocity
+	\begin{itemize}
+		\item Parameters: Vehicle ID: int, ...
+		\item Modifies the interal Target Velocity of the Traffic Manager by a percentage. If it is for example 0, the vehicle will stop.
+	\end{itemize}
+	\item TurnHeading
+	\begin{itemize}
+		\item Parameters: Pedestrian ID: int, ...
+		\item The pedestrian will turn 180 degrees and walk in the oposite direction
+	\end{itemize}
+	\item CrossRoad
+	\begin{itemize}
+		\item Parameters: Pedestrian ID: int, ...
+		\item The pedestrian will cross the road immediately.
+	\end{itemize}
+	\item CrossAtCrosswalk
+	\begin{itemize}
+		\item Parameters: Pedestrian ID: int, ...
+		\item The pedestrian will cross the road at the next crosswalk.
+	\end{itemize}
+\end{itemize}
+
+
+\subsection{Graphics}
+During the simulation, usually no graphics engine is used in order to save performance. In order to visualize the results, two options can be chosen. The more lightweight Esmini, as well as Carla, which is using Unreal Engine to render realistic graphics.
+
+

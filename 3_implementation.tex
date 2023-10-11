@@ -1,47 +1,7 @@
 \chapter{Implementation}
-\section{Action Interface}
-\label{implementation:action_interface}
-The Traffic Manager has already been discussed in some detail, however it can be thought of as a blackbox, which returned simulation is used by the cost function of the Genetic Algorithm.
-To interface with this blackbox, actions have to be used. An action will request a certain behaviour from an actor. If no action is set, the actor will behave in a normal manner inside the simulation. An action can be set to at any timestep (for this thesis, the simulation is running with 100 Hz) for any actor. Pedestrians and vehicles however have different actions.
+This chapter will explain 
 
-The following list are now all actions provided by the traffic manager that were available for the genetic algorithm at the time of this master thesis.
-\begin{itemize}
-	\item JunctionSelection
-		\begin{itemize}
-			\item Parameters: Vehicle ID: int, Junction\_selection\_angle: float
-			\item Angle is set in radiant. Default value is 0. Vehicles will chose which direction to take at a junction based on this angle.
-		\end{itemize}
-	\item LaneChange
-		\begin{itemize}
-			\item Parameters: Vehicle ID: int, ...
-			\item Initiates a LaneChange based on its given parameters.
-		\end{itemize}
-	\item AbortLaneChange
-		\begin{itemize}
-			\item Parameters: Vehicle ID: int, ...
-			\item If a LaneChange is currently happening, it will get aborted.
-		\end{itemize}
-	\item ModifyTargetVelocity
-		\begin{itemize}
-			\item Parameters: Vehicle ID: int, ...
-			\item Modifies the interal Target Velocity of the Traffic Manager by a percentage. If it is for example 0, the vehicle will stop.
-		\end{itemize}
-	\item TurnHeading
-		\begin{itemize}
-			\item Parameters: Pedestrian ID: int, ...
-			\item The pedestrian will turn 180 degrees and walk in the oposite direction
-		\end{itemize}
-	\item CrossRoad
-		\begin{itemize}
-			\item Parameters: Pedestrian ID: int, ...
-			\item The pedestrian will cross the road immediately.
-		\end{itemize}
-	\item CrossAtCrosswalk
-		\begin{itemize}
-			\item Parameters: Pedestrian ID: int, ...
-			\item The pedestrian will cross the road at the next crosswalk.
-		\end{itemize}
-\end{itemize}
+
 All these actions are accessed by the Genetic Algorithm to maximize a given Cost Function.
 
 \section{Map and Starting Scenario}
