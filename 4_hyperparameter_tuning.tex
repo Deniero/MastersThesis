@@ -1,7 +1,100 @@
 \chapter{Hyperparameter Tuning}
+\label{chap:hyperparameter_tuning}
 In this chapter, we will incrementally move to an optimized Genetic Algorithm
+
+\section{No Free Lunch Theorem}
+No Free Lunch Theorem:
+The best hyperparameter settings of a Genetic Alogrithm are very problem specific. \cite{kacprzyk_parameter_2007}, \cite{dao_maximising_2016} \todo{More ref}
+
 \section{Start Scenario}
 
 \section{Population}
+The number of Individuals is of high importance to a genetic algorithm, as has been explained in section \ref{chap:foundation:genetic_algorithm}. Especially considering the limed processing resources available, a suitable population size has to be found. On one hand, a population that is too low might result in less diverse runs of the genetic algorithm, on the other hand, if population is too high, the simulations will become too costly. Considering these points, the first step of the hyper parameter tuning was to find a suitable population size. In the next chapter \ref{chap:hyperparameter_tuning:other_parameter}, we will aim to improve the hyperparamter using a more robust approach.
+
+In order to test for the best population size, the other hyperparameters have to be assumed using an educated guess. While reviewing the literature, trends of general settings for genetic algorithms can be found. However \cite{mills_determining_2015} highlight the inconsistencies between findings, stating to have "uncovered conflicting opinions and evidence regarding key GA control parameters". 
+
+However \cite{grefenstette_optimization_1986} suggests, that "while it is possible to optimize GA control parameters, very good performance can be obtained with a range of GA control parameter settings." 
+This is also complimented by findings from \cite{kacprzyk_parameter_2007}: "The key insight from such studies is the robustness of EAs with respect to their parameter settings. Getting “in the ball park” is generally sufficient for good EA performance. Stated another way, the EA parameter “sweet spot” is reasonably large and easy to find [18]. As a consequence most EAs today come with a default set of static parameter values that have been found to be quite robust in practice."
+
+Chosing the right selection method is complicated as well, as discuees by \cite{kacprzyk_parameter_2007}:
+"One source of difficulty here is that selection pressure is not as easy to “parameterize” as population size. We have a number of families of selection procedures (e.g, tournament selection, truncation selection, fitness-proportional selection, etc.) to choose from and a considerable body of literature analyzing their differences (see, for example, [19] or [15]), but deciding which family to choose or even which member of a parameterized family is still quite difficult, particularly because of the interacting effects with population size [13]."
+
+Looking at the literature might lead to hyperparameters are used that at least sufficient enough, to get an idea which range for population size is suitable. We will now look at different concrete hyperparameter suggestions from the literature.
+
+\subsection{Suggested hyperparameter from the literature}
+\todo{Use best values also from : Using genetic algorithms for automating automated lane-keeping system testing}
+\todo{Talk about rules (e.g. 1/n for mut rate...) - look at: Parameter selection in genetic algorithms}
+In an often cited thesis by \cite{de_jong_analysis_1975}, the following parameters have been suggested:
+GA(50, 0.6, 0.001, 1.0, 7, E) These suggested parameters have been used successfully by various different genetic algorithms \cite{grefenstette_optimization_1986}. 
+
+An extensive study by \cite{mills_determining_2015} which that took over "over 60 numerical optimization problems." into consideration found that "the most effective level settings found for each factor: population size = 200, selection method = SUS, elite selection percentage = 8\%, reboot proportion = 0.4, number of crossover points = 3, mutation rate = adaptive and precision scaling = 1/2 as fine as specified by the user."
+
+\cite{grefenstette_optimization_1986} claim that GA(30, 0.95, 0.01, 1.0, 1, E) and GA(80, 0.45, 0.01, 0.9, 1, P) produced the best results. They also advised against, a mutation rate of over 0.05, suggesting poor performance. Using a low mutation rate is also suggested by \cite{whitley_genetic_1994} and \cite{jinghui_zhong_comparison_2005}. 
+On the other hand, \cite{boyabatli_parameter_2004} state, that "Controversial to existing literature on GA, our computational results reveal that in the case of a dominant set of decision variable the crossover operator does not have a significant impact on the performance measures, whereas high mutation rates are more suitable for GA applications."
+Other paper also find a relatively high mutation rate useful. \cite{almanee_scenorita_2021} uses genetic algorithms in a similar domain as this thesis. There, a Population of 50, crossover of 0.8 and mut of 0.2 was used. These used params are the same as the default params from deap (pop = 50 CXPB, MUTPB, NGEN = 0.5, 0.2, 4). \todo{cite https://deap.readthedocs.io/en/master/overview.html}
+
+\cite{srinivas_genetic_1994} state, that for a higher population, cross : 0.6, mut: 0.001 and pop: 100 is a good starting point, while a lower population needs higher crossover and mutation rates like this cross: 0.9, mut: 0.01, pop: 30
+
+These next three paper use ANOVA analysis to come a conclusion. \cite{fazal_estimating_2005} recommend:
+Migration direction: Forward
+Population size: 50 
+Fitness scaling function: Rank
+Selection function: Tournament
+Elite count: 5
+Crossover fraction: 0.5
+Crossover function: Scattered
+
+
+\cite{dao_maximising_2016} suggests these values after anova:
+Migdirection: forwards
+pop size: 200
+fitness scaling: rank
+selection: roulette
+elite count: 1
+Crossover prop: 0.7
+MutationFunc: Gaussian
+Crossover FUnc: two point
+hybrid function: none
+
+
+\cite{assistant_professor_amity_university_jaipur_rajasthan_india_parameter_2019} use these values after anova:
+Direction: Forward
+Pop: 200 
+Fitness Scaling Function: linar Shift
+selection: Roulette 
+elite count: 10 
+Crossover: 0.4 
+Mutation: Constraint Dependent 
+Crossover function: Heuristi
+Hybrid Function: None
+
+
+
+
+\subsection{results}
+This now leads to a difficult decision in choosing the right parameters. Based on the extensive research, we will compare population size of 32, 48, 64 and 96. We will compare the different crossover rates: 0.8 and 0.6. For mutation, 0.01 and 0.2 will be discussed. Further we will use tournament selection with 2 and 4.
+Each run will be executed 5 times to get rid of randomness and to make the results more robuts. We will run each simulation for 40 Generations.
+
+
+\begin{tabular}{ |l||c|c|c|c|  }
+	\hline
+	\multicolumn{5}{|c|}{ Comparison of Population Size} \\
+	\hline
+	Settings & 32 & 48 & 64 & 96\\
+	\hline
+	C: 0.8, M: 0.01, TS: 2   	& 1000(1000) & 1000(1000) & 1000(1000) & 1000(1000)\\
+	C: 0.8, M: 0.01, TS: 4		& 0(0) & 0(0) & 0(0) & 0(0)\\
+	C: 0.8, M: 0.2, TS: 2 		& 0(0) & 0(0) & 0(0) & 0(0)\\
+	C: 0.8, M: 0.2, TS: 4    	& 0(0) & 0(0) & 0(0) & 0(0)\\
+	C: 0.6, M: 0.01, TS: 2   	& 0(0) & 0(0) & 0(0) & 0(0)\\
+	C: 0.6, M: 0.01, TS: 4		& 0(0) & 0(0) & 0(0) & 0(0)\\
+	C: 0.6, M: 0.2, TS: 2 		& 0(0) & 0(0) & 0(0) & 0(0)\\
+	C: 0.6, M: 0.2, TS: 4    	& 0(0) & 0(0) & 0(0) & 0(0)\\
+	\hline
+\end{tabular}
+
+Here is a boxplot of the different repetitions:
+\todo{Insert BoxPlot}
 
 \section{other parameter}
+\label{chap:hyperparameter_tuning:other_parameter}
