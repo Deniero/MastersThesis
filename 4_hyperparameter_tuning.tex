@@ -9,6 +9,7 @@ The best hyperparameter settings of a Genetic Alogrithm are very problem specifi
 \section{Start Scenario}
 
 \section{Population}
+\label{chap:hyperparameter_tuning:population}
 The number of Individuals is of high importance to a genetic algorithm, as has been explained in section \ref{chap:foundation:genetic_algorithm}. Especially considering the limed processing resources available, a suitable population size has to be found. On one hand, a population that is too low might result in less diverse runs of the genetic algorithm, on the other hand, if population is too high, the simulations will become too costly. Considering these points, the first step of the hyper parameter tuning was to find a suitable population size. In the next chapter \ref{chap:hyperparameter_tuning:other_parameter}, we will aim to improve the hyperparamter using a more robust approach.
 
 In order to test for the best population size, the other hyperparameters have to be assumed using an educated guess. While reviewing the literature, trends of general settings for genetic algorithms can be found. However \cite{mills_determining_2015} highlight the inconsistencies between findings, stating to have "uncovered conflicting opinions and evidence regarding key GA control parameters". 
@@ -83,18 +84,95 @@ Each run will be executed 5 times to get rid of randomness and to make the resul
 	Settings & 32 & 48 & 64 & 96\\
 	\hline
 	C: 0.8, M: 0.01, TS: 2   	& 1000(1000) & 1000(1000) & 1000(1000) & 1000(1000)\\
-	C: 0.8, M: 0.01, TS: 4		& 0(0) & 0(0) & 0(0) & 0(0)\\
-	C: 0.8, M: 0.2, TS: 2 		& 0(0) & 0(0) & 0(0) & 0(0)\\
-	C: 0.8, M: 0.2, TS: 4    	& 0(0) & 0(0) & 0(0) & 0(0)\\
-	C: 0.6, M: 0.01, TS: 2   	& 0(0) & 0(0) & 0(0) & 0(0)\\
-	C: 0.6, M: 0.01, TS: 4		& 0(0) & 0(0) & 0(0) & 0(0)\\
-	C: 0.6, M: 0.2, TS: 2 		& 0(0) & 0(0) & 0(0) & 0(0)\\
-	C: 0.6, M: 0.2, TS: 4    	& 0(0) & 0(0) & 0(0) & 0(0)\\
+	C: 0.8, M: 0.01, TS: 4		& 1000(1000) & 1000(1000) & 1000(1000) & 1000(1000)\\
+	C: 0.8, M: 0.2, TS: 2 		& 1000(1000) & 1000(1000) & 1000(1000) & 1000(1000)\\
+	C: 0.8, M: 0.2, TS: 4    	& 1000(1000) & 1000(1000) & 1000(1000) & 1000(1000)\\
+	C: 0.6, M: 0.01, TS: 2   	& 1000(1000) & 1000(1000) & 1000(1000) & 1000(1000)\\
+	C: 0.6, M: 0.01, TS: 4		& 1000(1000) & 1000(1000) & 1000(1000) & 1000(1000)\\
+	C: 0.6, M: 0.2, TS: 2 		& 1000(1000) & 1000(1000) & 1000(1000) & 1000(1000)\\
+	C: 0.6, M: 0.2, TS: 4    	& 1000(1000) & 1000(1000) & 1000(1000) & 1000(1000)\\
 	\hline
 \end{tabular}
 
-Here is a boxplot of the different repetitions:
+Here is a boxplot of the best settings per Population Size:
 \todo{Insert BoxPlot}
+
 
 \section{other parameter}
 \label{chap:hyperparameter_tuning:other_parameter}
+
+This chapter will now discuss the tuning of all the other hyperparameter. 
+Due to the high computation time per simulations, automated hyperparamter tuning approaches like "Grid Search", "Bayesian Optimization, "Simmulated Annealing or "Hyperband" were not used.\todo{find references} 
+The goal is to use as little simulation runs as possible. This is done by manually selecting a list of hyperparameter based on experience and based on the literature discussed in chapter \ref{chap:hyperparameter_tuning:population}. 
+
+
+The following table will provide you information on what we want to test:
+
+\begin{tabular}{ |l||c|c|c|c|  }
+	\hline
+	\multicolumn{5}{|c|}{ Hyperparameter } \\
+	\hline
+	ChromosomeType   	& Time & Time+NPC & - & -\\
+	GeneType			& int & dict & - & -\\
+	CrossoverType 		& one point & two point & uniform & -\\
+	RulesEnabled    	& true & false & - & -\\
+	CrossoverProp    	& 0.2 & 0.5 & 0.8 & 0.9\\
+	MutationProp   		& 0.01 & 0.1 & 0.3 & 0.5\\
+	IndMutationProp		& 0.1 & 0.5 & 1.0 & -\\
+	TournamentSize 		& 2 & 4 & 6 & -\\
+	\hline
+\end{tabular}
+
+Testing over all combinations is not feasable. Using combinatorial testing, we will signifficantly reduce the number of required tests. Finally we can find the best parameters using ANOVA analysis.
+
+Probably https://www.york.ac.uk/depts/maths/tables/l16b.htm with Chromosome Type and GeneType Combined. Ind MutProp Removed. Rules moved to a different chapter.
+
+NOPE, USE L16(2_3 x 4_4): https://support.minitab.com/en-us/minitab/20/help-and-how-to/statistical-modeling/doe/supporting-topics/taguchi-designs/catalogue-of-taguchi-designs/#l16-23-44
+
+\begin{tabular}{ |l||c|c|c|c|  }
+	\hline
+	\multicolumn{5}{|c|}{ Hyperparameter } \\
+	\hline
+	ChromosomeType   	& Time & Time+NPC & - & -\\
+	GeneType			& int & dict & - & -\\
+	IndMutationProp		& 0.1 & 0.5 & - & -\\	\todo{or 1.0 or RULES?}
+	CrossoverType 		& one point & two point & three point & uniform\\
+	CrossoverProp    	& 0.2 & 0.5 & 0.8 & 0.9\\
+	MutationProp   		& 0.01 & 0.1 & 0.3 & 0.5\\
+	TournamentSize 		& 2 & 4 & 6 & -\\		\todo{either 8 or different selection}
+	\hline
+\end{tabular}
+
+
+
+Pros:
+easy
+literature to back it up
+Can make 10 runs, not only 5...
+still it takes only 9 Days...
+we can later test rules enabled/disabled
+
+
+Cons:
+No Rules tested
+
+
+TODO: Fr:
+1. alte paper durchschauen, ob etwas zu ANOVA übersehen wurde
+2. referenzen speichern
+3. Schauen ob buch gut ist - DONE
+4. mehr paper zu anova finden
+5. Buch drucken - DONE
+6. Orthogonal Array table definieren
+7. Orthogonal Array table implementieren im Code.
+8. Code für pop graphen definieren (mit R)
+
+
+
+\subsection{Full Factorial Design vs. Fractional factorial design vs. Taggucchi Design}
+
+
+
+
+
+
