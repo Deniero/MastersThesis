@@ -177,7 +177,7 @@ TODO: Fr:
 
 
 \subsection{Tagucchi Design}
-\begin{figure}[!h]
+\begin{figure}[H]
 	\centering
 \begin{tabular}{ |l|c||c|c|c|c|  }
 	\hline
@@ -203,7 +203,7 @@ We now need to find a suitable Taguchi Orthogonal array. First, we have to caluc
 \todo{Insert equation}
 
 
-\begin{figure}[!h]
+\begin{figure}[H]
 	\centering
 \begin{tabular}{ |c||c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|  }
 	\hline
@@ -233,7 +233,7 @@ We now need to find a suitable Taguchi Orthogonal array. First, we have to caluc
 
 Using the linear graph, we will have to asing Factors, there are multiple Graphs to chose from L16, we will use this one:
 
-\begin{figure}[!h]
+\begin{figure}[H]
 	\centering
 \begin{tikzpicture}
 	% Define 1 2 3
@@ -282,7 +282,7 @@ Using the linear graph, we will have to asing Factors, there are multiple Graphs
 A, B and C are both 4 level factors. An interaction between DE is might be possible. As we have one trible more in the graph, we will also look at the interaction of FG. This will then look like this:
 
 
-\begin{figure}[!h]
+\begin{figure}[H]
 	\centering
 \begin{tikzpicture}
 	% Define 1 2 3
@@ -345,7 +345,7 @@ A, B and C are both 4 level factors. An interaction between DE is might be possi
 Now we combine collums 1 2 3 to A, 4 8 12 to B and 5 10 15 to C:
 Using these rules:
 
-\begin{figure}[!h]
+\begin{figure}[H]
 	\centering
 	\begin{tabular}{ |ccccccc|  }
 		\hline
@@ -361,7 +361,7 @@ Using these rules:
 \end{figure}
 
 
-\begin{figure}[!h]
+\begin{figure}[H]
 	\centering
 	\begin{tabular}{ |c||cccc|cccc|cccc|  }
 		\hline
@@ -390,7 +390,7 @@ Using these rules:
 
 After removing the old and inserting the new collumns in the table and transcoding 7 to D, 9 to E, 14 to DE, 6 to F, 11 to G and 13 to FG, we have the following table:
 
-\begin{figure}[!h]
+\begin{figure}[H]
 	\centering
 	\begin{tabular}{ |c||c|c|c|c|c|c|c|c|c|  }
 		\hline
@@ -421,7 +421,7 @@ After removing the old and inserting the new collumns in the table and transcodi
 This now can be used for running all the needed testcases (the interaction collumns can be ignored until the evaluation). Simply exchange all levels in the table with the corresponding setting from table \ref{table:hyperparameter_tuning:settings_to_level}. We will repeat every setting 5 times. These are the results:
 
 
-\begin{figure}[!h]
+\begin{figure}[H]
 	\centering
 	\begin{tabular}{ |c||c|c|c|c|c|c|c||c|c|c|c|c|  }
 		\hline
