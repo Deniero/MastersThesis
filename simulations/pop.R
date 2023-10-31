@@ -13,8 +13,8 @@ best_settings <- data.frame()
 # load all pops
 pop_32 = read.csv(here('MastersThesis/simulations/population/32.csv'))[,0:30]
 pop_48 = read.csv(here('MastersThesis/simulations/population/32.csv'))[,0:30]
-pop_64 = read.csv(here('MastersThesis/simulations/population/32.csv'))[,0:30]
-pop_96 = read.csv(here('MastersThesis/simulations/population/32.csv'))[,0:30]
+pop_64 = read.csv(here('MastersThesis/simulations/population/64.csv'))[,0:30]
+pop_96 = read.csv(here('MastersThesis/simulations/population/64.csv'))[,0:30]
 
 
 #### POP 32 ####
@@ -185,5 +185,6 @@ axis(1, at = 1:ncol(best_settings), labels = colnames(best_settings), las = 1)
 
 # Rotate x-axis labels for better readability
 par(las = 1)
+
 
 
