@@ -14,8 +14,13 @@ best_settings <- data.frame()
 pop_32 = read.csv(here('MastersThesis/simulations/population/32.csv'))[,0:30]
 pop_48 = read.csv(here('MastersThesis/simulations/population/32.csv'))[,0:30]
 pop_64 = read.csv(here('MastersThesis/simulations/population/64.csv'))[,0:30]
-pop_96 = read.csv(here('MastersThesis/simulations/population/64.csv'))[,0:30]
+pop_96 = read.csv(here('MastersThesis/simulations/population/96.csv'))[,0:30]
 
+
+
+std_col_calc <- function(data) {
+  apply(data, 2, sd)
+}
 
 #### POP 32 ####
 # get the last generation
@@ -38,6 +43,7 @@ colnames(transposed_results) <- c("A", "B", "C", "D", "E", "F", "G", "H")
 mean_values <- colMeans(transposed_results)
 best_setting <- which.min(mean_values)
 best_settings <- data.frame(POP32 = transposed_results[, best_setting])
+std_32 <- std_col_calc(transposed_results)
 
 # Plot
 matplot(1:ncol(transposed_results), t(transposed_results), type = 'p', pch = 16, col = 'blue',
@@ -76,6 +82,7 @@ colnames(transposed_results) <- c("A", "B", "C", "D", "E", "F", "G", "H")
 mean_values <- colMeans(transposed_results)
 best_setting <- which.min(mean_values)
 best_settings$POP48 <- transposed_results[, best_setting]
+std_48 <- std_col_calc(transposed_results)
 
 # Plot
 matplot(1:ncol(transposed_results), t(transposed_results), type = 'p', pch = 16, col = 'blue',
@@ -113,6 +120,8 @@ colnames(transposed_results) <- c("A", "B", "C", "D", "E", "F", "G", "H")
 mean_values <- colMeans(transposed_results)
 best_setting <- which.min(mean_values)
 best_settings$POP64 <- transposed_results[, best_setting]
+std_64 <- std_col_calc(transposed_results)
+
 
 # Plot
 matplot(1:ncol(transposed_results), t(transposed_results), type = 'p', pch = 16, col = 'blue',
@@ -150,6 +159,7 @@ colnames(transposed_results) <- c("A", "B", "C", "D", "E", "F", "G", "H")
 mean_values <- colMeans(transposed_results)
 best_setting <- which.min(mean_values)
 best_settings$POP96 <- transposed_results[, best_setting]
+std_96 <- std_col_calc(transposed_results)
 
 # Plot
 matplot(1:ncol(transposed_results), t(transposed_results), type = 'p', pch = 16, col = 'blue',
@@ -187,4 +197,17 @@ axis(1, at = 1:ncol(best_settings), labels = colnames(best_settings), las = 1)
 par(las = 1)
 
 
+#### STD + MEAN ####
+print("This is now STD + MEAN:")
+print(std_32)
+print(mean(std_32))
+
+print(std_48)
+print(mean(std_48))
+
+print(std_64)
+print(mean(std_64))
+
+print(std_96)
+print(mean(std_96))
 
