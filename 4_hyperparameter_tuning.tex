@@ -4,7 +4,7 @@ In this chapter, we will incrementally move to an optimized Genetic Algorithm
 
 \section{No Free Lunch Theorem}
 No Free Lunch Theorem:
-The best hyperparameter settings of a Genetic Alogrithm are very problem specific. \cite{kacprzyk_parameter_2007}, \cite{dao_maximising_2016} \todo{More ref}
+The best hyperparameter settings of a Genetic Algorithm are very problem specific. \cite{kacprzyk_parameter_2007}, \cite{dao_maximising_2016} \todo{More ref}
 
 \section{Start Scenario}
 
@@ -101,7 +101,7 @@ Here is a scatterplot of the best settings per Population Size:
 \todo{Insert BoxPlot}
 
 
-\section{other parameter}
+\section{Tuning other parameter using Taguchi orthogonal array}
 \label{chap:hyperparameter_tuning:other_parameter}
 
 This chapter will now discuss the tuning of all the other hyperparameter. 
@@ -111,10 +111,13 @@ The goal is to use as little simulation runs as possible. This is done by manual
 Testing over all combinations is not feasable. Using combinatorial testing, we will signifficantly reduce the number of required tests. Finally we can find the best parameters using ANOVA analysis.
 
 
+\subsection{Taguchi Design}
+
+This is an extensive explaination of taguchi with all pros and cons.
 
 
-\subsection{Full Factorial Design vs. Fractional factorial design vs. Tagucchi Design}
-\subsection{Tagucchi Design}
+
+
 \begin{figure}[H]
 	\centering
 \begin{tabular}{ |l|c||c|c|c|c|  }
@@ -157,7 +160,7 @@ According to \cite{yang_design_2009}, we will have to follow a three step proced
 \end{enumerate}
 
 
-\subsubsection{Selection of a suitable standart orthogonal array}
+\subsection{Selection of a suitable standart orthogonal array}
 The total degree of freedom can be quickly calculated using the rules provided by \cite{yang_design_2009}:
 
 \begin{enumerate}
@@ -393,6 +396,8 @@ After removing the old and inserting the new columns in the table and transcodin
 \end{figure}
 
 
+\subsection{Analysing the results}
+
 This now can be used for running all the needed testcases (the interaction columns can be ignored until the evaluation). Simply exchange all levels in the table with the corresponding setting from table \ref{table:hyperparameter_tuning:settings_to_level}. We will repeat every setting 8 times. These are the results:
 
 
@@ -425,14 +430,121 @@ This now can be used for running all the needed testcases (the interaction colum
 
 
 
+\subsubsection{ANOVA}
+
 Due to our number of repetitions, the number of DOF increases according to the following equation (taken from \cite{roy_primer_1990}):
 
 \begin{equation} \label{full DOF}
 	\begin{split}
-	DOF & = totalNumberOfResults - 1 \\
+		DOF & = totalNumberOfResults - 1 \\
 		& = numberOfTrials * numberOfRepetitions - 1 \\
 		& = 16 * 8 - 1 = 127
 	\end{split}
 \end{equation}
 
 
+
+Calculating ANOVA can be done using R: \todo{Cite book from Gabriel}
+\begin{lstlisting}[language=R]
+	# pivot the results, so that the table has 8 times the rows
+	taguchi.combined_pivoted <- taguchi.combined %>% pivot_longer(cols = starts_with("min_"), values_to = "results")
+
+	# run anova analysis
+	anova <- aov(results ~ factor(A) + factor(B) + factor(C) + factor(D) * factor(E) + factor(F) * factor(G), data = taguchi.combined_pivoted)
+	summary(anova)
+\end{lstlisting}
+
+After pooling, we can run anova again:
+\begin{lstlisting}[language=R]
+	anova <- aov(results ~ factor(A) + factor(B) + factor(C) + factor(D) * factor(E) + factor(F) * factor(G), data = taguchi.combined_pivoted)
+	summary(anova)
+\end{lstlisting}
+
+This will result in the following table:
+
+\begin{figure}[H]
+	\centering
+	\begin{tabular}{ |cccccc|  }
+		\hline
+		Column 		& DF & Sum Sq & Mean Sq & F value & p value\\
+		\hline
+		1  & A 		& 3 & 1000 & 1000 & 1000\\
+		2  & B 		& 3 & 1000 & 1000 & 1000\\
+		3  & C 		& 3 & 1000 & 1000 & 1000\\
+		4  & D 		& 1 & 1000 & 1000 & 1000\\
+		5  & E 		& 1 & 1000 & 1000 & 1000\\
+		6  & F 		& 1 & 1000 & 1000 & 1000\\
+		7  & G 		& 1 & 1000 & 1000 & 1000\\
+		8  & DxE 	& 1 & 1000 & 1000 & 1000\\
+		9  & FxG 	& 1 & 1000 & 1000 & 1000\\
+		\hline
+		\multicolumn{2}{|c}{Residuals} &  & 1000 & 1000 & 1000\\
+		\hline
+	\end{tabular}
+	\caption{ANOVA results}
+\end{figure}
+
+\subsubsection{Main-effects and interaction chart}\todo{Main-effects or main-effect}
+
+According to \cite{yang_design_2009}, "The main-effects chart is a plot of average responses at different levels of a factor versus the factor levels" and the calculation" of main-effect charts and iteration charts are the same as those of classical experimental data analysis".
+
+For every factor, sum up the mean of the results per level, then divide by the number of runs per level. This is the calculation for D:
+\todo{Insert calculation for d}
+
+The resulting main-effect charts can be seen here:
+\begin{figure}[H] 
+	\begin{minipage}[b]{0.33\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{simulations/taguchi/plots/main_effect_a} 
+	\end{minipage}%%
+	\begin{minipage}[b]{0.33\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{simulations/taguchi/plots/main_effect_b} 
+	\end{minipage}%%
+	\begin{minipage}[b]{0.33\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{simulations/taguchi/plots/main_effect_c} 
+	\end{minipage}
+	
+	\begin{minipage}[b]{0.33\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{simulations/taguchi/plots/main_effect_d} 
+	\end{minipage}%% 
+	\begin{minipage}[b]{0.33\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{simulations/taguchi/plots/main_effect_e} 
+	\end{minipage}%% 
+	\begin{minipage}[b]{0.33\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{simulations/taguchi/plots/main_effect_f} 
+	\end{minipage}
+	
+	\begin{minipage}[b]{0.33\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{simulations/taguchi/plots/main_effect_g} 
+	\end{minipage}
+	\caption{Main-effect charts}
+\end{figure}
+
+
+
+Similaly, the interactions are calculated like this:
+\todo{Insert example calculation of interaction}
+
+
+The resulting interaction charts can be seen here:
+\begin{figure}[H] 
+	\begin{minipage}[b]{0.33\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{simulations/taguchi/plots/interaction_de} 
+	\end{minipage}%%
+	\begin{minipage}[b]{0.33\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{simulations/taguchi/plots/interaction_fg} 
+	\end{minipage}
+	\caption{Interaction charts}
+\end{figure}
+
+
+
+\paragraph{Best factor level selection and optimal performance level prediction (Take from yang\_design\_2009, so reformulate)}

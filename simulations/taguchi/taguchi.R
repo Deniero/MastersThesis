@@ -92,7 +92,7 @@ for (i in 1:nrow(taguchi.main_effects)) {
     gg <- ggplot(df, aes(x, y)) +
       geom_line() +
       scale_x_continuous(breaks = 1:4, labels = as.character(1:4)) +
-      ggtitle(paste("Factor", row_name))
+      ggtitle(paste("main-effect", row_name))
     
     print(gg)  # Use print to display the plot
   }
@@ -102,7 +102,7 @@ for (i in 1:nrow(taguchi.main_effects)) {
     gg <- ggplot(df, aes(x, y)) +
       geom_line() +
       scale_x_continuous(breaks = 1:2, labels = as.character(1:2)) +
-      ggtitle(paste("Factor", row_name))
+      ggtitle(paste("main-effect", row_name))
     
     print(gg)  # Use print to display the plot
   }
