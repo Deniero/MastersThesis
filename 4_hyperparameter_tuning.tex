@@ -110,27 +110,6 @@ The goal is to use as little simulation runs as possible. This is done by manual
 
 Testing over all combinations is not feasable. Using combinatorial testing, we will signifficantly reduce the number of required tests. Finally we can find the best parameters using ANOVA analysis.
 
-Pros:
-easy
-literature to back it up
-Can make 10 runs, not only 5...
-still it takes only 9 Days...
-we can later test rules enabled/disabled
-
-
-Cons:
-No Rules tested
-
-
-TODO: Fr:
-1. alte paper durchschauen, ob etwas zu ANOVA übersehen wurde - DONE
-2. referenzen speichern - DONE
-3. Schauen ob buch gut ist - DONE
-4. mehr paper zu anova finden - DONE
-5. Buch drucken - DONE
-6. Orthogonal Array table definieren - TODO: Interactions müssen brücksichtigt werden, DANN: Orthogonal Array table implementieren im Code.
-7. Erste POP ergebnisse auslesen. MIT R - DONE
-8. Code für pop graphen definieren (mit R) - DONE
 
 
 
@@ -142,7 +121,7 @@ TODO: Fr:
 	\hline
 	Factors & Code & Level 1 & Level 2 & Level 3 & Level 4\\
 	\hline
-	CrossoverType 		& A & one point & two point & three point & uniform\\
+	CrossoverType 		& A & one point & two point & uniform 0.1 & uniform 0.5\\
 	CrossoverProp    	& B & 0.2 & 0.5 & 0.8 & 0.9\\
 	MutationProp   		& C & 0.01 & 0.1 & 0.3 & 0.5\\
 	ChromosomeType   	& D & Time & Time+NPC & - & -\\
@@ -156,10 +135,47 @@ TODO: Fr:
 \end{figure}
 
 This means, that we want to have 3 Factors of Level 4 and 4 Factors of Level 2. If the researcher is interested in possible interactions, taguchi allows this, at the cost of DOF.
-An interaction between Chromosome Type and Gene Type might be interesting, and will thus be investigated. Using the power of hinsight, we know, that a second two factor interaction is possible within our chosen array, thus we will have a look at the interaction between Tournament Size and IndMutationPropability.
-We now need to find a suitable Taguchi Orthogonal array. First, we have to caluclate the needed DOF using this equation:
+An interaction between Chromosome Type and Gene Type might be interesting, and will thus be investigated. Using the power of hindsight, we know, that a second two factor interaction is possible within our chosen array, thus we will have a look at the interaction between Tournament Size and IndMutationPropability.
+We now need to find a suitable Taguchi Orthogonal array.
 
-\todo{Insert equation}
+According to \cite{yang_design_2009}, we will have to follow a three step procedure:
+
+\begin{enumerate}
+	\item Calculate the total degree of freedom (DOF). 
+	\item Following two rules, standard orthogonal array should be selected:
+	\begin{enumerate}
+			\item Total DOF need to be smaller than the number of runs provided by the orthogonal array.
+			\item All required factor level combinations need to be accommodated by the orthogonal array.
+	\end{enumerate}
+
+	\item Factors have to be assigned using these rules: 
+	\begin{enumerate}
+		\item In case the factor level does not fit into the orthogonal array, methods such as column merging and dummy level can be used to modify the original array.
+		\item Using the linear graph and interaction table, interactions can be defined. 
+		\item In case some columns are not assigned, its possible to keep these columns empty.
+	\end{enumerate}
+\end{enumerate}
+
+
+\subsubsection{Selection of a suitable standart orthogonal array}
+The total degree of freedom can be quickly calculated using the rules provided by \cite{yang_design_2009}:
+
+\begin{enumerate}
+	\item 1 DOF is always used for the overall mean. 
+	\item Each factor has a DOF of NumberOfLevels - 1.
+	\item Two-factor interactions use this equation to calculate DOF: $(n_{factor1} - 1)(n_{factor2} - 1)$ where $n$ = number of levels.
+\end{enumerate}
+
+This leads to the following calulation when using table \ref{table:hyperparameter_tuning:settings_to_level}:
+
+\begin{equation} \label{DOF}
+	\begin{split}
+		DOF & = 1 + 3 * (3 - 1) + 4 * (2 - 1) + 2 * (2 - 1) * (2 - 1) \\
+		& = 13
+	\end{split}
+\end{equation}
+
+An $L_{16}$ array seems suitable to accommodate the required 13 DOF
 
 
 \begin{figure}[H]
@@ -190,7 +206,9 @@ We now need to find a suitable Taguchi Orthogonal array. First, we have to caluc
 \caption{ $L_{16}(2^{15})$ Taguchi ortohogonal array taken from \cite{roy_primer_1990}}
 \end{figure}
 
-Using the linear graph, we will have to asing Factors, there are multiple Graphs to chose from L16, we will use this one:
+
+This graph now needs to be fitted to the needed factors. 4 Level Factors need more space which will be generated using column merging, while interactions need to be assigned as well.
+For this, either an interaction table or linear graphs of this $L_{16}$ array can be used. The linear graph approach is straight forward and will be selected. While there are multiple linear graphs for $L_{16}$ array, the following graph has the best fit for the requirements from table \ref{table:hyperparameter_tuning:settings_to_level}.
 
 \begin{figure}[H]
 	\centering
@@ -238,7 +256,7 @@ Using the linear graph, we will have to asing Factors, there are multiple Graphs
 
 
 
-A, B and C are both 4 level factors. An interaction between DE is might be possible. As we have one trible more in the graph, we will also look at the interaction of FG. This will then look like this:
+A, B and C are both 4 level factors. An interaction between DE is might be possible. As we still have some unused space in the graph, we will also look at the interaction of FG. This will then look like this:
 
 
 \begin{figure}[H]
@@ -301,8 +319,7 @@ A, B and C are both 4 level factors. An interaction between DE is might be possi
 \end{figure}
 
 
-Now we combine columns 1 2 3 to A, 4 8 12 to B and 5 10 15 to C:
-Using these rules:
+Combining columns 1 2 3 to A, 4 8 12 to B and 5 10 15 to C can be done using these rules:
 
 \begin{figure}[H]
 	\centering
@@ -318,7 +335,6 @@ Using these rules:
 	\end{tabular}
 	\caption{Rules taken from \cite{roy_primer_1990}}
 \end{figure}
-
 
 \begin{figure}[H]
 	\centering
@@ -377,35 +393,46 @@ After removing the old and inserting the new columns in the table and transcodin
 \end{figure}
 
 
-This now can be used for running all the needed testcases (the interaction columns can be ignored until the evaluation). Simply exchange all levels in the table with the corresponding setting from table \ref{table:hyperparameter_tuning:settings_to_level}. We will repeat every setting 5 times. These are the results:
+This now can be used for running all the needed testcases (the interaction columns can be ignored until the evaluation). Simply exchange all levels in the table with the corresponding setting from table \ref{table:hyperparameter_tuning:settings_to_level}. We will repeat every setting 8 times. These are the results:
 
 
 \begin{figure}[H]
 	\centering
-	\begin{tabular}{ |c||c|c|c|c|c|c|c||c|c|c|c|c|c|c|c|  }
+	\begin{tabular}{ |c||c|c|c|c|c|c|c|c|  }
 		\hline
-		NO.& A & B & C & D & E & F & G & rep1 & rep2 & rep3 & rep4 & rep5 & rep3 & rep4 & rep5\\
+		NO.& rep1 & rep2 & rep3 & rep4 & rep5 & rep6 & rep7 & rep8\\
 		\hline
-		1  & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		2  & 1 & 2 & 2 & 1 & 2 & 1 & 2 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		3  & 1 & 3 & 3 & 2 & 1 & 2 & 1 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		4  & 1 & 4 & 4 & 2 & 2 & 2 & 2 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		5  & 2 & 1 & 2 & 2 & 1 & 2 & 2 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		6  & 2 & 2 & 1 & 2 & 2 & 2 & 1 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		7  & 2 & 3 & 4 & 1 & 1 & 1 & 2 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		8  & 2 & 4 & 3 & 1 & 2 & 1 & 1 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		9  & 3 & 1 & 3 & 2 & 2 & 1 & 2 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		10 & 3 & 2 & 4 & 2 & 1 & 1 & 1 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		11 & 3 & 3 & 1 & 1 & 2 & 2 & 2 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		12 & 3 & 4 & 2 & 1 & 1 & 2 & 1 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		13 & 4 & 1 & 4 & 1 & 2 & 2 & 1 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		14 & 4 & 2 & 3 & 1 & 1 & 2 & 2 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		15 & 4 & 3 & 2 & 2 & 2 & 1 & 1 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		16 & 4 & 4 & 1 & 2 & 1 & 1 & 2 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		1  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		2  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		3  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		4  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		5  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		6  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		7  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		8  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		9  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		10 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		11 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		12 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		13 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		14 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		15 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		16 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
 		\hline
 	\end{tabular}
-	\caption{List of runs with settings and results of repetitions}
+	\caption{List of results}
 \end{figure}
 
+
+
+Due to our number of repetitions, the number of DOF increases according to the following equation (taken from \cite{roy_primer_1990}):
+
+\begin{equation} \label{full DOF}
+	\begin{split}
+	DOF & = totalNumberOfResults - 1 \\
+		& = numberOfTrials * numberOfRepetitions - 1 \\
+		& = 16 * 8 - 1 = 127
+	\end{split}
+\end{equation}
 
 

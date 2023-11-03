@@ -197,8 +197,8 @@ axis(1, at = 1:ncol(best_settings), labels = colnames(best_settings), las = 1)
 par(las = 1)
 
 
-#### STD + MEAN ####
-print("This is now STD + MEAN:")
+#### STD + STDMEAN ####
+print("This is now STD + STDMEAN:")
 print(std_32)
 print(mean(std_32))
 
