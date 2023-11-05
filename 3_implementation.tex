@@ -49,5 +49,24 @@ While not implemented here, Oracles are needed in order to get a list of good sc
 \section{Behavior Tree}
 The Behavior Tree will controll the ego vehicle 
 
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		% Define 1 2 3
+		\node (NodeStart) at (0,0) {0};
+		\node (Sequence1) at (1,0) {->};
+		\draw[->] (NodeStart) -- (Sequence1);
+		
+		\node (Action1) at (4,2) {setJunctionSelection(Step)};
+		\node (Selector1) at (4,-2) {?};
+		\draw[->] (Sequence1) -- (Action1);
+		\draw[->] (Sequence1) -- (Selector1);
+
+
+		
+	\end{tikzpicture}
+	\caption{Used Behaviour Tree}
+\end{figure}
+
 
 

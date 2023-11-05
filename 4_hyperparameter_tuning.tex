@@ -78,27 +78,56 @@ Each run will be executed 5 times to get rid of randomness and to make the resul
 
 \begin{figure}[!h]
 	\centering
-\begin{tabular}{ |l||c|c|c|c|  }
+\begin{tabular}{ |l|c||c|c|c|c|  }
 	\hline
-	\multicolumn{5}{|c|}{ Comparison of Population Size} \\
+	\multicolumn{6}{|c|}{Comparison of Population Size - mean(standard deviation)} \\
 	\hline
-	Settings & 32 & 48 & 64 & 96\\
+	Settings & Code & 32 & 48 & 64 & 96\\
 	\hline
-	C: 0.6, M: 0.01, TS: 2   	& 3056(2955) & 1000(1000) & 1000(1000) & 1000(1000)\\
-	C: 0.6, M: 0.01, TS: 4		& 3112(2981) & 1000(1000) & 1000(1000) & 1000(1000)\\
-	C: 0.6, M: 0.2, TS: 2 		& 3129(2839) & 1000(1000) & 1000(1000) & 1000(1000)\\
-	C: 0.6, M: 0.2, TS: 4    	& 3056(2962) & 1000(1000) & 1000(1000) & 1000(1000)\\
-	C: 0.8, M: 0.01, TS: 2   	& 3073(2918) & 1000(1000) & 1000(1000) & 1000(1000)\\
-	C: 0.8, M: 0.01, TS: 4		& 3052(2880) & 1000(1000) & 1000(1000) & 1000(1000)\\
-	C: 0.8, M: 0.2, TS: 2 		& 3137(2899) & 1000(1000) & 1000(1000) & 1000(1000)\\
-	C: 0.8, M: 0.2, TS: 4    	& 3005(3164) & 1000(1000) & 1000(1000) & 1000(1000)\\
+	C: 0.6, M: 0.01, TS: 2   	& A & 3051 (74) & 3016 (85) & 2851(132) & 2871 (57)\\
+	C: 0.6, M: 0.01, TS: 4		& B & 3111 (79) & 3021(110) & 3079(103) & 2937(129)\\
+	C: 0.6, M: 0.2, TS: 2 		& C & 3062(128) & 3010 (55) & 3002 (76) & 2831(110)\\
+	C: 0.6, M: 0.2, TS: 4    	& D & \cellcolor{green}3020 (44) & 2967 (37) & 2891(181) & 2850 (90)\\
+	C: 0.8, M: 0.01, TS: 2   	& E & 3063(105) & \cellcolor{green}2892(222) & 2971(108) & 2916(158)\\
+	C: 0.8, M: 0.01, TS: 4		& F & 3052(109) & 3049 (96) & 3054 (68) & 2897(117)\\
+	C: 0.8, M: 0.2, TS: 2 		& G & 3099(127) & 2940(111) & 2959 (96) & 2869(131)\\
+	C: 0.8, M: 0.2, TS: 4    	& H & 3058 (49) & 3005 (84) & \cellcolor{green}2794(173) & \cellcolor{green}2809(105)\\
 	\hline
 \end{tabular}
 \caption{List Settings per Population Size}
 \end{figure}
-sfd
-Here is a scatterplot of the best settings per Population Size:
-\todo{Insert BoxPlot}
+
+
+The next figure shows the results plotted. The red dot is the mean, the blue dots are the individual repetitions.
+\begin{figure}[H] 
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{simulations/population/plots/32} 
+	\end{minipage}%%
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{simulations/population/plots/48} 
+	\end{minipage}
+	
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{simulations/population/plots/64} 
+	\end{minipage}%% 
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{simulations/population/plots/96} 
+	\end{minipage}
+	\caption{Population size comparison}
+\end{figure}
+
+Using the best results per population results in this plot:
+\begin{figure}[H] 
+	\includegraphics[width=1\linewidth]{simulations/population/plots/merged}
+	\caption{Best results per population} 
+\end{figure}
+
+
+A high spread can be seen when looking at small population sizes. Considering these findings, a population size of 96 was chosen. While such a high value will result in a performance impact, it is important to keep the variation low.
 
 
 \section{Tuning other parameter using Taguchi orthogonal array}
@@ -113,7 +142,7 @@ Testing over all combinations is not feasable. Using combinatorial testing, we w
 
 \subsection{Taguchi Design}
 
-This is an extensive explaination of taguchi with all pros and cons.
+This is an extensive explanation of taguchi with all pros and cons.
 
 
 
@@ -528,7 +557,7 @@ The resulting main-effect charts can be seen here:
 
 
 
-Similaly, the interactions are calculated like this:
+Similarly, the interactions are calculated like this:
 \todo{Insert example calculation of interaction}
 
 

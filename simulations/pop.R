@@ -12,7 +12,7 @@ best_settings <- data.frame()
 
 # load all pops
 pop_32 = read.csv(here('MastersThesis/simulations/population/32.csv'))[,0:30]
-pop_48 = read.csv(here('MastersThesis/simulations/population/32.csv'))[,0:30]
+pop_48 = read.csv(here('MastersThesis/simulations/population/48.csv'))[,0:30]
 pop_64 = read.csv(here('MastersThesis/simulations/population/64.csv'))[,0:30]
 pop_96 = read.csv(here('MastersThesis/simulations/population/96.csv'))[,0:30]
 
@@ -44,6 +44,21 @@ mean_values <- colMeans(transposed_results)
 best_setting <- which.min(mean_values)
 best_settings <- data.frame(POP32 = transposed_results[, best_setting])
 std_32 <- std_col_calc(transposed_results)
+print(mean_values)
+
+# Plot
+matplot(1:ncol(transposed_results), t(transposed_results), type = 'p', pch = 16, col = 'blue',
+        xlab = 'Hyperparameter Settings', ylab = 'Cost',
+        main = 'Results: Popultation 32', xaxt = "n")
+
+points(1:ncol(transposed_results), mean_values, pch = 19, col = 'red')
+abline(h = mean_values[best_setting], col = 'grey', lty = 2)
+
+# Customize the x-axis labels
+axis(1, at = 1:ncol(transposed_results), labels = colnames(transposed_results), las = 1)
+
+# Rotate x-axis labels for better readability
+par(las = 1)
 
 # Plot
 matplot(1:ncol(transposed_results), t(transposed_results), type = 'p', pch = 16, col = 'blue',
@@ -83,6 +98,7 @@ mean_values <- colMeans(transposed_results)
 best_setting <- which.min(mean_values)
 best_settings$POP48 <- transposed_results[, best_setting]
 std_48 <- std_col_calc(transposed_results)
+print(mean_values)
 
 # Plot
 matplot(1:ncol(transposed_results), t(transposed_results), type = 'p', pch = 16, col = 'blue',
@@ -121,6 +137,7 @@ mean_values <- colMeans(transposed_results)
 best_setting <- which.min(mean_values)
 best_settings$POP64 <- transposed_results[, best_setting]
 std_64 <- std_col_calc(transposed_results)
+print(mean_values)
 
 
 # Plot
@@ -160,6 +177,7 @@ mean_values <- colMeans(transposed_results)
 best_setting <- which.min(mean_values)
 best_settings$POP96 <- transposed_results[, best_setting]
 std_96 <- std_col_calc(transposed_results)
+print(mean_values)
 
 # Plot
 matplot(1:ncol(transposed_results), t(transposed_results), type = 'p', pch = 16, col = 'blue',

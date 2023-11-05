@@ -1,6 +1,7 @@
 library(here)
 library(ggplot2)
-
+library(tidyr)
+library(xtable)
 
 # Settings
 num_of_gen = 30
@@ -168,5 +169,6 @@ anova <- aov(results ~ factor(A) + factor(B) + factor(C) + factor(D) * factor(E)
 summary(anova) # Use only this table, combined with pooled factors (Residuals can be also called All other/error (this is done in "A Primer ..."))
 
 
-
-
+x <- xtable(taguchi.results)
+digits(x) <- 0
+print(x)
