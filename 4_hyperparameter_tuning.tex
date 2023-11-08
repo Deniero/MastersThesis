@@ -98,32 +98,11 @@ Each run will be executed 5 times to get rid of randomness and to make the resul
 \end{figure}
 
 
-The next figure shows the results plotted. The red dot is the mean, the blue dots are the individual repetitions.
+In figure \ref{figure:population:results}, the results per population are plotted. The line is corresponds to the mean, while the bars show the spread (min to max) of all 5 repetitions.
 \begin{figure}[H] 
-	\begin{minipage}[b]{0.5\linewidth}
-		\centering
-		\includegraphics[width=1\linewidth]{simulations/population/plots/32} 
-	\end{minipage}%%
-	\begin{minipage}[b]{0.5\linewidth}
-		\centering
-		\includegraphics[width=1\linewidth]{simulations/population/plots/48} 
-	\end{minipage}
-	
-	\begin{minipage}[b]{0.5\linewidth}
-		\centering
-		\includegraphics[width=1\linewidth]{simulations/population/plots/64} 
-	\end{minipage}%% 
-	\begin{minipage}[b]{0.5\linewidth}
-		\centering
-		\includegraphics[width=1\linewidth]{simulations/population/plots/96} 
-	\end{minipage}
-	\caption{Population size comparison}
-\end{figure}
-
-Using the best results per population results in this plot:
-\begin{figure}[H] 
-	\includegraphics[width=1\linewidth]{simulations/population/plots/merged}
-	\caption{Best results per population} 
+	\label{figure:population:results}
+	\includegraphics[width=1\linewidth]{simulations/population/plots/comparison}
+	\caption{results per population}
 \end{figure}
 
 
@@ -148,7 +127,35 @@ In a factorial designs, each possible combination of factor levels needs to be t
 Various improvements to Design of experiment have been but forward by Dr. Genichi Taguchi, such as reducing the influence of uncontrollable (noise) factors on processes and products and reducing variability. Some of these methods evolve around Signal-to-noise (S/N) analysis and utilizing cost functions to "express predicted improvements from DOE results in terms of expected cost saving" (\cite{roy_primer_1990}). This master thesis will not discuss all of this proposed considerations, for more detail \cite{roy_primer_1990} as well as \cite{yang_design_2009} is highly recommended.
 
 This masters thesis will mainly utilizes Taguchis orthogonal arrays (OAs), "which represent the smallest fractional factorials and are used for most common experiment designs." (\cite{roy_primer_1990}).
+Taguchis proposed various different orthogonal arrays which need to be selected based on the individual needs. Each row of these arrays stands for 1 trial condition (i.e factor level combination of individual experiment), while the columns represent the factors.
 
+\todo{Definition orthogonal array}
+
+Using these orthogonal arrays instead of full factorial experiments will lead to needing a much smaller amount of simulation runs (in our case only 16 compared to 1024), while the latter "might not provide appreciably more useful information" \cite{roy_primer_1990}.
+
+
+\todo{cons of taguchi arrays: no higher level interactions}
+
+When choosing a suitable taguchi ortogonal arrays, we need to take various factors into account, which can make the process tricky. According to \cite{yang_design_2009}, we will have to follow a three step procedure:
+
+\begin{enumerate}
+	\item Calculate the total degree of freedom (DOF). 
+	\item Following two rules, standard orthogonal array should be selected:
+	\begin{enumerate}
+		\item Total DOF need to be smaller than the number of runs provided by the orthogonal array.
+		\item All required factor level combinations need to be accommodated by the orthogonal array.
+	\end{enumerate}
+	
+	\item Factors have to be assigned using these rules: 
+	\begin{enumerate}
+		\item In case the factor level does not fit into the orthogonal array, methods such as column merging and dummy level can be used to modify the original array.
+		\item Using the linear graph and interaction table, interactions can be defined. 
+		\item In case some columns are not assigned, its possible to keep these columns empty.
+	\end{enumerate}
+\end{enumerate}
+
+
+For this genetic algorithm, 7 factors (3 Factors of Level 4 and 4 Factors of Level 2) have been selected. Which factors to choose and with which level was done based on experience gained on section \ref{chap:hyperparameter_tuning:population}. In table \ref{table:hyperparameter_tuning:settings_to_level}, every factor with correspondig levels has been listed,
 
 \begin{figure}[H]
 	\centering
@@ -169,30 +176,12 @@ This masters thesis will mainly utilizes Taguchis orthogonal arrays (OAs), "whic
 \caption{List of Hyperparamters (Factors) matched to a Code and defined settings (Levels)}
 \end{figure}
 
-This means, that we want to have 3 Factors of Level 4 and 4 Factors of Level 2. If the researcher is interested in possible interactions, taguchi allows this, at the cost of DOF.
-An interaction between Chromosome Type and Gene Type might be interesting, and will thus be investigated. Using the power of hindsight, we know, that a second two factor interaction is possible within our chosen array, thus we will have a look at the interaction between Tournament Size and IndMutationPropability.
-We now need to find a suitable Taguchi Orthogonal array.
 
-According to \cite{yang_design_2009}, we will have to follow a three step procedure:
-
-\begin{enumerate}
-	\item Calculate the total degree of freedom (DOF). 
-	\item Following two rules, standard orthogonal array should be selected:
-	\begin{enumerate}
-			\item Total DOF need to be smaller than the number of runs provided by the orthogonal array.
-			\item All required factor level combinations need to be accommodated by the orthogonal array.
-	\end{enumerate}
-
-	\item Factors have to be assigned using these rules: 
-	\begin{enumerate}
-		\item In case the factor level does not fit into the orthogonal array, methods such as column merging and dummy level can be used to modify the original array.
-		\item Using the linear graph and interaction table, interactions can be defined. 
-		\item In case some columns are not assigned, its possible to keep these columns empty.
-	\end{enumerate}
-\end{enumerate}
+Using this table, we will now find the best standart orthogonal array in section \ref{chap:hyperparameter_tuning:selection_orthogonal_array}. Before doing so, it is important to state, that taguchi  allows to test for possible (pre determined) two-level interactions (\cite{yang_design_2009}). Analysing interactions comes at a cost of Degrees of freedom. If we look at the table, an interaction between ChromosomeType and GeneType might be of interest. Using the power of hindsight, we know, that a second two factor interaction is possible within our chosen array, thus we will have a look at the interaction between Tournament Size and IndMutationPropability.
 
 
 \subsection{Selection of a suitable standart orthogonal array}
+\label{chap:hyperparameter_tuning:selection_orthogonal_array}
 The total degree of freedom can be quickly calculated using the rules provided by \cite{yang_design_2009}:
 
 \begin{enumerate}
@@ -201,7 +190,8 @@ The total degree of freedom can be quickly calculated using the rules provided b
 	\item Two-factor interactions use this equation to calculate DOF: $(n_{factor1} - 1)(n_{factor2} - 1)$ where $n$ = number of levels.
 \end{enumerate}
 
-This leads to the following calulation when using table \ref{table:hyperparameter_tuning:settings_to_level}:
+
+This leads to the following calculation for the needed 3 Factors of Level 4 and 4 Factors of Level 2 as well as the two interactions between ChromosomeType-GeneType and TournamentSize-IndMutationProp:
 
 \begin{equation} \label{DOF}
 	\begin{split}
@@ -210,7 +200,7 @@ This leads to the following calulation when using table \ref{table:hyperparamete
 	\end{split}
 \end{equation}
 
-An $L_{16}$ array seems suitable to accommodate the required 13 DOF
+A $L_{16}$ array seems suitable to accommodate the required 13 DOF, which can be seen in \ref{table:hyperparameter_tuning:L16_orhtogonal_array}.
 
 
 \begin{figure}[H]
@@ -238,6 +228,7 @@ An $L_{16}$ array seems suitable to accommodate the required 13 DOF
 	16 & 2 & 2 & 1 & 2 & 1 & 1 & 2 & 2 & 1 & 1 & 2 & 1 & 2 & 2 & 1\\
 	\hline
 \end{tabular}
+\label{table:hyperparameter_tuning:L16_orhtogonal_array}
 \caption{ $L_{16}(2^{15})$ Taguchi ortohogonal array taken from \cite{roy_primer_1990}}
 \end{figure}
 
@@ -290,7 +281,7 @@ For this, either an interaction table or linear graphs of this $L_{16}$ array ca
 \end{figure}
 
 
-
+\todo{Explain Column mergin and Interactions from graph}
 A, B and C are both 4 level factors. An interaction between DE is might be possible. As we still have some unused space in the graph, we will also look at the interaction of FG. This will then look like this:
 
 
