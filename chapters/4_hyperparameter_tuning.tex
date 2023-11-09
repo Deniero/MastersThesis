@@ -102,7 +102,7 @@ In figure \ref{figure:population:results}, the results per population are plotte
 \begin{figure}[H] 
 	\label{figure:population:results}
 	\includegraphics[width=1\linewidth]{simulations/population/plots/comparison}
-	\caption{results per population}
+	\caption{mean and error bars per population}
 \end{figure}
 
 
@@ -177,7 +177,7 @@ For this genetic algorithm, 7 factors (3 Factors of Level 4 and 4 Factors of Lev
 \end{figure}
 
 
-Using this table, we will now find the best standart orthogonal array in section \ref{chap:hyperparameter_tuning:selection_orthogonal_array}. Before doing so, it is important to state, that taguchi  allows to test for possible (pre determined) two-level interactions (\cite{yang_design_2009}). Analysing interactions comes at a cost of Degrees of freedom. If we look at the table, an interaction between ChromosomeType and GeneType might be of interest. Using the power of hindsight, we know, that a second two factor interaction is possible within our chosen array, thus we will have a look at the interaction between Tournament Size and IndMutationPropability.
+Using this table, we will now find the best standart orthogonal array in section \ref{chap:hyperparameter_tuning:selection_orthogonal_array}. Before doing so, it is important to state, that taguchi allows to test for possible (pre determined) two-level interactions (\cite{yang_design_2009}). Analysing interactions comes at a cost of Degrees of freedom. If we look at the table, an interaction between ChromosomeType and GeneType might be of interest. Using the power of hindsight, we know, that a second two factor interaction is possible within our chosen array, thus we will have a look at the interaction between Tournament Size and IndMutationPropability.
 
 
 \subsection{Selection of a suitable standart orthogonal array}
@@ -234,7 +234,9 @@ A $L_{16}$ array seems suitable to accommodate the required 13 DOF, which can be
 
 
 This graph now needs to be fitted to the needed factors. 4 Level Factors need more space which will be generated using column merging, while interactions need to be assigned as well.
-For this, either an interaction table or linear graphs of this $L_{16}$ array can be used. The linear graph approach is straight forward and will be selected. While there are multiple linear graphs for $L_{16}$ array, the following graph has the best fit for the requirements from table \ref{table:hyperparameter_tuning:settings_to_level}.
+For this, either an interaction table or linear graphs of this $L_{16}$ array can be used (\cite{roy_primer_1990}, \cite{nazandanacioglu_taguchi_2005}). 
+The linear graph approach is straight forward and will be selected. While there are multiple linear graphs for $L_{16}$ array, the following graph has the best fit for the requirements from table \ref{table:hyperparameter_tuning:settings_to_level}.
+
 
 \begin{figure}[H]
 	\centering
@@ -281,8 +283,30 @@ For this, either an interaction table or linear graphs of this $L_{16}$ array ca
 \end{figure}
 
 
-\todo{Explain Column mergin and Interactions from graph}
-A, B and C are both 4 level factors. An interaction between DE is might be possible. As we still have some unused space in the graph, we will also look at the interaction of FG. This will then look like this:
+In a taguchi linear graph, the nodes as well as the ?Lines? both represent collumns in the orthogonal array. An interaction between to columns that are represented as nodes "comes out to" to the connecting line column \cite{taguchi_taguchis_2005}. This is usefull for both analyzing interactions between columns as well as combining (mergin) interacting columns in case a higher factor is needed.
+
+\paragraph{Column Merging}
+A, B and C are both 4 level factors. The currently selected orthogonal only fits 2 level factors. \todo{Go over notes from paper and explain this}
+
+
+\begin{figure}[H]
+	\centering
+	\begin{tabular}{ |ccccccc|  }
+		\hline
+		\multicolumn{3}{|c}{ OLD COLUMN } & & & & NEW COLUMN \\
+		\hline
+		& 1 & 1 & & -> & & 1\\
+		& 1 & 2 & & -> & & 2\\
+		& 2 & 1 & & -> & & 3\\
+		& 2 & 2 & & -> & & 4\\
+		\hline
+	\end{tabular}
+	\caption{Rules taken from \cite{roy_primer_1990}}
+	\label{table:hyperparameter_tuning:merging_rules}
+\end{figure}
+
+\paragraph{Assigning Interactions}
+An interaction between DE is might be possible. As we still have some unused space in the graph, we will also look at the interaction of FG. \todo{Go over notes from paper and explain this}
 
 
 \begin{figure}[H]
@@ -345,22 +369,7 @@ A, B and C are both 4 level factors. An interaction between DE is might be possi
 \end{figure}
 
 
-Combining columns 1 2 3 to A, 4 8 12 to B and 5 10 15 to C can be done using these rules:
-
-\begin{figure}[H]
-	\centering
-	\begin{tabular}{ |ccccccc|  }
-		\hline
-		\multicolumn{3}{|c}{ OLD COLUMN } & & & & NEW COLUMN \\
-		\hline
-		& 1 & 1 & & -> & & 1\\
-		& 1 & 2 & & -> & & 2\\
-		& 2 & 1 & & -> & & 3\\
-		& 2 & 2 & & -> & & 4\\
-		\hline
-	\end{tabular}
-	\caption{Rules taken from \cite{roy_primer_1990}}
-\end{figure}
+Combining columns 1 2 3 to A, 4 8 12 to B and 5 10 15 to C using rules defined by table \ref{table:hyperparameter_tuning:merging_rules} is done in \ref{table:hyperparameter_tuning:merging_columns}.
 
 \begin{figure}[H]
 	\centering
@@ -387,9 +396,11 @@ Combining columns 1 2 3 to A, 4 8 12 to B and 5 10 15 to C can be done using the
 		\hline
 	\end{tabular}
 	\caption{Building 4 Level columns from 2 Level columns}
+	\label{table:hyperparameter_tuning:merging_columns}
 \end{figure}
 
-After removing the old and inserting the new columns in the table and transcoding 7 to D, 9 to E, 14 to DE, 6 to F, 11 to G and 13 to FG, we have the following table:
+Removing the old and inserting the new columns in the table and transcoding 7 to D, 9 to E, 14 to DE, 6 to F, 11 to G and 13 to FG results in the final table \ref{table:hyperparameter_tuning:final_taguchi}.
+This A-G combinations table will subsequently be used as settings for simulations.
 
 \begin{figure}[H]
 	\centering
@@ -416,6 +427,7 @@ After removing the old and inserting the new columns in the table and transcodin
 		\hline
 	\end{tabular}
 	\caption{Final version of used Taguchi orthogonal array}
+	\label{table:hyperparameter_tuning:final_taguchi}
 \end{figure}
 
 

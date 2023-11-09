@@ -6,11 +6,11 @@ library(xtable)
 
 setwd("C:/Users/u19i96/Documents/MastersThesis/simulations")
 
-
-raw_csv_results.32 = read.csv('population/32.csv')[,0:30]
-raw_csv_results.64 = read.csv('population/64.csv')[,0:30]
-
 num_of_gen = 30
+
+raw_csv_results.32 = read.csv('population/32.csv')[,0:num_of_gen]
+raw_csv_results.64 = read.csv('population/64.csv')[,0:num_of_gen]
+
 res_col_names <- c("min_0", "min_1", "min_2", "min_3", "min_4")
 res_row_size <- 8
 
@@ -76,6 +76,7 @@ main_effects["level"] <- lapply(main_effects["level"] , factor)
 theme_set(theme_light())
 plot.main_effects <- ggplot(main_effects, aes(x=level, y=main_effect, group=factor_name)) + 
   geom_line(size=1.0, color="#457b9d") +
+  scale_x_discrete(expand = c(0.1, 0.1)) +
   facet_wrap(~factor_name, scales = "free", ncol = 4) +
   labs(x = "", y = "")
 
@@ -109,9 +110,10 @@ interaction_effects <- rbind(get_interaction_effect("D", "E"), get_interaction_e
 plot.interaction_effects <- ggplot(interaction_effects, aes(x=factor_2_level, y=interaction_effect, group=factor_1_level, color=factor_1_level)) + 
   geom_line(size=1.0) +
   facet_wrap(~interaction, scales = "free", ncol = 2) +
+  scale_x_discrete(expand = c(0.1, 0.1)) +
   labs(x = "", y = "", color = "Interactions")
 print(plot.interaction_effects)
-ggsave("taguchi/plots/interaction_effects.jpg", plot = plot.interaction_effects, width = 18, height = 8, units = "cm", dpi = 600)
+ggsave("taguchi/plots/interaction_effects.jpg", plot = plot.interaction_effects, width = 18, height = 6, units = "cm", dpi = 600)
 
 
 # ANOVA

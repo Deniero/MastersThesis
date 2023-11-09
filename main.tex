@@ -244,7 +244,7 @@
 \cleardoublepage
 \phantomsection
 \addcontentsline{toc}{chapter}{Abstract}
-\include{abstract}              %% Abstract
+\include{chapters/0_abstract}              %% Abstract
 
 
 \tableofcontents                %% this produces the table of contents - you might have guessed :-)
@@ -263,16 +263,17 @@
 % \input{example-style-chapter}   %% remove this line to get rid of the style chapter
 
 %% include tex file chapters:
-\include{1_introduction}
-\include{2_foundations}
-\include{3_implementation}
-\include{4_hyperparameter_tuning}
-\include{5_evaluation}
-\include{6_conclusion}
+\include{chapters/1_introduction}
+\include{chapters/2_foundations}
+\include{chapters/3_implementation}
+\include{chapters/4_hyperparameter_tuning}
+\include{chapters/5_evaluation}
+\include{chapters/6_conclusion}
 
+\backmatter
 \appendix                       %% closes main document, appendix follows until end; only available in book-classes
 \addpart*{Appendix}             %% adding Appendix to tableofcontents
-
+\include{chapters/7_appendix}
 \printbibliography              %% remove, if using BibTeX instead of biblatex
 % \include{further_ressources}  %% this is a suggestion: you have to create this file on demand
 
