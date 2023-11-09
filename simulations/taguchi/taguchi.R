@@ -1,4 +1,3 @@
-library(here)
 library(ggplot2)
 library(tidyr)
 library(xtable)
@@ -6,8 +5,8 @@ library(xtable)
 # Settings
 num_of_gen = 30
 
-taguchi_results_part_1_data = read.csv(here('MastersThesis/simulations/population/32.csv'))[,0:30]
-taguchi_results_part_2_data = read.csv(here('MastersThesis/simulations/population/64.csv'))[,0:30]
+taguchi_results_part_1_data = read.csv('population/32.csv')[,0:30]
+taguchi_results_part_2_data = read.csv('population/64.csv')[,0:30]
 
 
 taguchi.results = taguchi_results_part_1_data[0, ]
