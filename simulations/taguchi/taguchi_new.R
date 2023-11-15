@@ -34,6 +34,7 @@ calc_effects <- function (factor_array, results) {
 }
 
 
+
 get_test_of_interaction <- function (combined_res_factor, interaction_factor_1, interaction_factor_2) {
   interaction <- combined_res_factor[, c(interaction_factor_1, interaction_factor_2, res_col_names)] %>%
     group_by(across(all_of(c(interaction_factor_1, interaction_factor_2)))) %>%
@@ -69,7 +70,7 @@ raw_0708 = read.csv('taguchi/results/0708.csv')[,0:res_column_size]
 raw_0910 = read.csv('taguchi/results/0910.csv')[,0:res_column_size]
 raw_1112 = read.csv('taguchi/results/1112.csv')[,0:res_column_size]
 raw_1314 = read.csv('taguchi/results/1314.csv')[,0:res_column_size]
-raw_1516 = read.csv('taguchi/results/0102.csv')[,0:res_column_size]
+raw_1516 = read.csv('taguchi/results/1516.csv')[,0:res_column_size]
 
 
 parse_csv_tag_data <- function(raw_csv_results) {
@@ -90,7 +91,7 @@ tag.res <- rbind(parse_csv_tag_data(raw_0102), parse_csv_tag_data(raw_0304),
                  parse_csv_tag_data(raw_0910), parse_csv_tag_data(raw_1112),
                  parse_csv_tag_data(raw_1314), parse_csv_tag_data(raw_1516))
 
-
+mean_of_results <- mean(as.matrix(tag.res), na.rm = TRUE)
 
 # define taguchi array
 tag.factor_array <- data.frame(
@@ -109,6 +110,11 @@ tag.interaction_array <- data.frame(
 )
 tag.res.factor <- cbind(tag.factor_array, tag.res)
 
+# print Table
+x <- xtable(tag.res)
+digits(x) <- 0
+print(x)
+
 
 #### main effects ####
 main_effects <- calc_effects(tag.factor_array, tag.res)
@@ -122,6 +128,12 @@ plot.main_effects <- ggplot(main_effects, aes(x=level, y=effect, group=factor_na
 print(plot.main_effects)
 ggsave("taguchi/plots/main_effects.jpg", plot = plot.main_effects, width = 18, height = 10, units = "cm", dpi = 600)
 
+# calc optimum performance without interaction DE:
+main_effects.best_effects <- main_effects %>%
+  group_by(factor_name) %>%
+  summarize(min_effect = min(effect))
+print("Predicted Optiumum performance without interaction DE")
+print(sum(main_effects.best_effects$min_effect) - (mean_of_results * nrow(main_effects.best_effects)) + mean_of_results)
 
 
 #### interaction effects ####
@@ -139,13 +151,27 @@ ggsave("taguchi/plots/interaction_effects.jpg", plot = plot.interaction_effects,
 # Calc Test of interaction
 test_of_interaction <- rbind(get_test_of_interaction(tag.res.factor, "D", "E"), get_test_of_interaction(tag.res.factor, "F", "G"))
 
+# TODO: define chart like in primer page 158(164)
 plot.test_of_interaction <- ggplot(test_of_interaction, aes(x=factor_2_level, y=interaction_effect, group=factor_1_level, color=factor_1_level)) + 
   geom_line(linewidth=1.0) +
   facet_wrap(~interaction, scales = "free", ncol = 2) +
   scale_x_discrete(expand = c(0.1, 0.1)) +
-  labs(x = "", y = "", color = "Interactions")
+  labs(x = "Factor 1", y = "", color = "Interactions")
 print(plot.test_of_interaction)
 ggsave("taguchi/plots/test_of_interaction.jpg", plot = plot.test_of_interaction, width = 18, height = 6, units = "cm", dpi = 600)
+
+
+# calc Predicted Optiumum performance with interaction DE
+combined_effects = rbind(main_effects, interaction_effects)
+
+combined_effects_filtered <- combined_effects %>%
+  filter(factor_name != "E" | level != 2) %>% filter(factor_name != "FG")
+
+combined_effects.best_effects <- combined_effects_filtered %>%
+  group_by(factor_name) %>%
+  summarize(min_effect = min(effect))
+print("Predicted Optiumum performance with interaction DE")
+print(sum(combined_effects.best_effects$min_effect) - (mean_of_results * nrow(combined_effects.best_effects)) + mean_of_results)
 
 
 #### ANOVA ####
@@ -154,14 +180,39 @@ tag.res.factor.melted<-melt(tag.res.factor, id = c(names(tag.factor_array)), mea
 
 anova <- aov(value ~ A + B + C + D * E + F * G, data = tag.res.factor.melted)
 summary(anova)
-# TODO: Pool unimportant Factors
+# TODO: Pool unimportant Factors -> find interactions
 anova <- aov(value ~ A + B + C + D * E + F * G, data = tag.res.factor.melted)
 summary(anova) # Use only this table, combined with pooled factors (Residuals can be also called All other/error (this is done in "A Primer ..."))
 
+LM <- lm(value ~ A + B + C + D * E + F * G, data = tag.res.factor.melted)
+summary(LM)
 
 
-#### More stuff ####
-# print Table
-x <- xtable(tag.res)
-digits(x) <- 0
-print(x)
+percentage_contribution = anova %>% broom::tidy() %>% mutate(percentage_contribution = sumsq/sum(sumsq) * 100)
+percentage_contribution["Factors"] <- lapply(percentage_contribution["term"] , factor)
+
+
+plot.percentage_contribution <- ggplot(percentage_contribution, aes(y = reorder(Factors, percentage_contribution), x=percentage_contribution)) + 
+  geom_bar(stat = "identity") +
+  labs(x = "Percentage Contribution", y = "Factors")
+
+print(plot.percentage_contribution)
+ggsave("taguchi/plots/percentage_contribution.jpg", plot = plot.percentage_contribution, width = 18, height = 6, units = "cm", dpi = 600)
+
+
+
+#### S/N ####
+combined <- cbind(tag.factor_array, tag.res)
+combined$msd <- apply(combined[,res_col_names], 1, function(row) sum(row^2) / length(row))
+combined$s_n <- apply(combined, 1, function(row) -10 * log10(as.numeric(row[c('msd')])))
+
+
+anova <- aov(s_n ~ A + B + C + D * E + F + G, data = combined)
+summary(anova)
+
+LM <- lm(s_n ~ A + B + C + D * E + F + G, data = combined)
+
+test <- aov(LM)
+summary(test)
+summary(LM)
+# did not result in good performance and was not further investigated.

@@ -485,32 +485,30 @@ This now can be used for running all the needed testcases (the interaction colum
 
 \begin{figure}[H]
 	\centering
-	\begin{tabular}{ |c||c|c|c|c|c|c|c|c|  }
+	\begin{tabular}{ rrrrrrrrr  }
 		\hline
 		NO.& rep1 & rep2 & rep3 & rep4 & rep5 & rep6 & rep7 & rep8\\
 		\hline
-		1  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		2  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		3  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		4  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		5  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		6  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		7  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		8  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		9  & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		10 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		11 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		12 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		13 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		14 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		15 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
-		16 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000 & 1000\\
+		1 & 3124 & 3110 & 3025 & 3077 & 3068 & 2925 & 3106 & 3105 \\ 
+		2 & 2694 & 2980 & 3025 & 2996 & 3037 & 2921 & 3068 & 2900 \\ 
+		3 & 2638 & 2711 & 2624 & 2856 & 2623 & 2832 & 2904 & 2778 \\ 
+		4 & 2735 & 2805 & 2851 & 2965 & 2876 & 2703 & 2848 & 2858 \\ 
+		5 & 3074 & 2955 & 3045 & 3080 & 3120 & 2971 & 2895 & 2798 \\ 
+		6 & 2974 & 2979 & 2929 & 2941 & 2952 & 2936 & 3139 & 2953 \\ 
+		7 & 3108 & 3099 & 3049 & 3020 & 3092 & 3057 & 3090 & 2895 \\ 
+		8 & 2840 & 2931 & 2921 & 2921 & 2957 & 2997 & 2889 & 2895 \\ 
+		9 & 3007 & 2995 & 2983 & 3009 & 2847 & 2996 & 2734 & 2927 \\ 
+		10 & 2916 & 2828 & 3013 & 2787 & 2818 & 2926 & 3034 & 2822 \\ 
+		11 & 3007 & 2879 & 3090 & 3033 & 2906 & 2981 & 3109 & 3104 \\ 
+		12 & 2946 & 3016 & 2790 & 2917 & 2904 & 2983 & 2898 & 2606 \\ 
+		13 & 2378 & 2712 & 2906 & 2800 & 2912 & 2795 & 2860 & 2834 \\ 
+		14 & 2895 & 2760 & 2750 & 2849 & 2542 & 2997 & 2965 & 2991 \\ 
+		15 & 2842 & 3065 & 3050 & 2779 & 2862 & 2923 & 2955 & 2892 \\ 
+		16 & 3065 & 2834 & 2643 & 3056 & 3051 & 3011 & 2828 & 2963 \\ 
 		\hline
 	\end{tabular}
 	\caption{List of results}
 \end{figure}
-
-
 
 
 
@@ -647,6 +645,24 @@ This will result in the following table:
 	\caption{ANOVA results}
 \end{figure}
 
+
+
+We can also look at the percentage contribution of each factor, using the formular gathered by \cite{yang_design_2009}:
+
+\begin{equation} \label{SS_T}
+	\begin{split}
+		SS_T & = SS_A + SS_B + SS_C + ... + SS_error
+	\end{split}
+\end{equation}
+
+\begin{equation} \label{SS_T}
+	\begin{split}
+		contribution_A = SS_A / SS_T * 100
+	\end{split}
+\end{equation}
+
+\todo{Import already generated chart}
+
 \paragraph{Best factor level selection and optimal performance level prediction (Take from yang\_design\_2009, so reformulate)}
 
 "Further analysis for the significance of this influence is made possible by the ANOVA table in Table 5-16(b), which shows that the interaction A × C (column 3) is 5.26\%, compared to the individual main effects of butter (B) 64.76\% and flour (D) 18.4\%, and so on."\cite{roy_primer_1990}.
@@ -663,11 +679,30 @@ This means, that If an interaction exist, we
 "The performance at the optimum condition is estimated only from the significant factors. This practice keeps the predicted performance conservative. Therefore, the pooled factors are not included in the estimate."\cite{roy_primer_1990}
 
 
-TODO: Maybe calculate confidence interval?? - Page 174 in \cite{roy_primer_1990}
 
 
 
+If we only look at main effects, we would select:
+A4, B4, C3, D2, E2, F2, G1
+However we select A4, B4, C3, D2, E1, F2, G1 because of important interaction DE. E on the other hand is not significant.
 
+We can also optimum performance when 1. using only main effects or 2. using main effects with applied interaction. Folrumar provided by \cite{roy_primer_1990}.
+
+\todo{Better bars}
+\begin{equation} \label{optimum_perf_main_effect}
+	\begin{split}
+		Y_{opt} &= \bar{T} + (\bar{A_4} - \bar{T}) + (\bar{B_4} - \bar{T}) + (\bar{C_3} - \bar{T}) + (\bar{D_2} - \bar{T}) + (\bar{E_2} - \bar{T})  + (\bar{F_2} - \bar{T}) + (\bar{G_1} - \bar{T}) \\
+			&= 2693.984
+	\end{split}
+\end{equation}
+
+
+\begin{equation} \label{optimum_perf_included_interaction}
+	\begin{split}
+		Y_{opt} &= \bar{T} + (\bar{A_4} - \bar{T}) + (\bar{B_4} - \bar{T}) + (\bar{C_3} - \bar{T}) + (\bar{D_2} - \bar{T}) + (\bar{E_1} - \bar{T})  + ([\bar{DxE}]_2 - \bar{T})  + (\bar{F_2} - \bar{T}) + (\bar{G_1} - \bar{T}) \\
+		&= 2686.547
+	\end{split}
+\end{equation}
 
 
 
@@ -687,3 +722,16 @@ TODO: Somehow argument, that having less variablity is only to an extend importa
 
 
 "On the other hand, for set A, the spread around its average is smaller, but the average itself is quite far from the target. Which one of the two is better? Based on average value, the product shown by observation B appears to be better. Based on consistency, product A is better. How can one credit A for less variation? How does one compare the distances of the averages from the target? Surely, comparing the averages is one method. Use of the S/N ratio offers an objective way to look at the two characteristics together."\cite{roy_primer_1990}
+
+
+
+Not usefull for our purposes... Because df is reduced, run anova without interactions (or maybe without bad main effects). Fazit: S N was tried, however resulting anova showed that no factor was significant. Thus is was not further investigated.
+
+"Effect of S/N Ratio on the Analysis Use of the S/N ratio of the results, instead of the average values, introduces some minor changes in the analysis. 
+1. Degrees of freedom of the entire experiment is reduced. DOF with S/N ratio = number of trial conditions - 1 (that is, number of repetitions is reduced to 1). 
+Recall that the DOF in the case of the standard analysis is: DOF = (number of trials × number of repetitions) - 1 The S/N ratio calculation is based on data from all observations of a trial condition. 
+The set of S/N ratios can then be considered as trial results without repetitions.
+Hence the DOF, in the case of S/N, is the number of trials - 1. 
+The rest of the analysis follows the standard procedure."\cite{roy_primer_1990}
+
+
