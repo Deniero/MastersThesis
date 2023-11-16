@@ -53,20 +53,43 @@ The Behavior Tree will controll the ego vehicle
 	\centering
 	\begin{tikzpicture}
 		% Define 1 2 3
-		\node (NodeStart) at (0,0) {0};
-		\node (Sequence1) at (1,0) {->};
+		\node[draw, circle] (NodeStart) at (0,0) {0};
+		\node[draw, circle] (Sequence1) at (1,0) {->};
 		\draw[->] (NodeStart) -- (Sequence1);
 		
-		\node (Action1) at (4,2) {setJunctionSelection(Step)};
-		\node (Selector1) at (4,-2) {?};
+		\node (Action1) at (3,1) {setJunctionSelection};
+		\node[draw, circle] (OR1) at (3,-1) {?};
 		\draw[->] (Sequence1) -- (Action1);
-		\draw[->] (Sequence1) -- (Selector1);
+		\draw[->] (Sequence1) -- (OR1);
 
-
+		\node (Action21) at (6,2) {NoObstacle};
+		\node (Action22) at (6,0) {ObstacleNotSlower};
+		\node (Action23) at (6,-2) {ObstacleWillResolve};
+		\node[draw, circle] (OR2) at (6,-4) {?};
+		\draw[->] (OR1) -- (Action21);
+		\draw[->] (OR1) -- (Action22);
+		\draw[->] (OR1) -- (Action23);
+		\draw[->] (OR1) -- (OR2);
+		
+		\node[draw, circle] (Sequence31) at (9,-2) {->};
+		\node[draw, circle] (Sequence32) at (9,-6) {->};
+		\draw[->] (OR2) -- (Sequence31);
+		\draw[->] (OR2) -- (Sequence32);
+		
+		\node (Action41) at (12,-1) {LaneChangePossible(left)};
+		\node (Action42) at (12,-3) {SetLaneChange(left)};
+		\node (Action43) at (12,-5) {LaneChangePossible(right)};
+		\node (Action44) at (12,-7) {SetLaneChange(right)};
+		\draw[->] (Sequence31) -- (Action41);
+		\draw[->] (Sequence31) -- (Action42);
+		\draw[->] (Sequence32) -- (Action43);
+		\draw[->] (Sequence32) -- (Action44);
+		
 		
 	\end{tikzpicture}
 	\caption{Used Behaviour Tree}
 \end{figure}
+
 
 
 

@@ -36,41 +36,12 @@ Other paper also find a relatively high mutation rate useful. \cite{almanee_scen
 
 \cite{srinivas_genetic_1994} state, that for a higher population, cross : 0.6, mut: 0.001 and pop: 100 is a good starting point, while a lower population needs higher crossover and mutation rates like this cross: 0.9, mut: 0.01, pop: 30
 
-These next three paper use ANOVA analysis to come a conclusion. \cite{fazal_estimating_2005} recommend:
-Migration direction: Forward
-Population size: 50 
-Fitness scaling function: Rank
-Selection function: Tournament
-Elite count: 5
-Crossover fraction: 0.5
-Crossover function: Scattered
 
+\cite{fazal_estimating_2005} recommends a population size of 50, a scattered crossover function with a crossover probability of 0.5. The used selection function was tournament selection. Elite count was set to 5.
 
-\cite{dao_maximising_2016} suggests these values after anova:
-Migdirection: forwards
-pop size: 200
-fitness scaling: rank
-selection: roulette
-elite count: 1
-Crossover prop: 0.7
-MutationFunc: Gaussian
-Crossover FUnc: two point
-hybrid function: none
+\cite{dao_maximising_2016} suggests a population size of 200, two point crossover with a crossover probability of 0.7. A Gausian Mutation Function as well as roulette selection and elite count set to 1.
 
-
-\cite{assistant_professor_amity_university_jaipur_rajasthan_india_parameter_2019} use these values after anova:
-Direction: Forward
-Pop: 200 
-Fitness Scaling Function: linar Shift
-selection: Roulette 
-elite count: 10 
-Crossover: 0.4 
-Mutation: Constraint Dependent 
-Crossover function: Heuristi
-Hybrid Function: None
-
-
-
+A population size of 200 and roulette selection is used by \cite{assistant_professor_amity_university_jaipur_rajasthan_india_parameter_2019}. Further, the elite count is set to10. A heuristic crossover function with a crossover probability of 0.4 is also used.
 
 \subsection{results}
 This now leads to a difficult decision in choosing the right parameters. Based on the extensive research, we will compare population size of 32, 48, 64 and 96. We will compare the different crossover rates: 0.8 and 0.6. For mutation, 0.01 and 0.2 will be discussed. Further we will use tournament selection with 2 and 4.
@@ -131,6 +102,8 @@ A full factorial design will test over all possible combinations of the manually
 
 \subsection{Taguchi Design}
 Various improvements to Design of experiment have been but forward by Dr. Genichi Taguchi, such as reducing the influence of uncontrollable (noise) factors on processes and products and reducing variability. Some of these methods evolve around Signal-to-noise (S/N) analysis and utilizing cost functions to "express predicted improvements from DOE results in terms of expected cost saving" (\cite{roy_primer_1990}). This master thesis will not discuss all of Taguchi's proposed considerations, for more detail \cite{roy_primer_1990} as well as \cite{yang_design_2009} is highly recommended.
+
+Using a Taguchi design for evaluating the best hyperparamter has been successfully performed by \cite{dao_maximising_2016} as well as \cite{assistant_professor_amity_university_jaipur_rajasthan_india_parameter_2019}. 
 
 \enquote{ There are many similarities between “regular” experimental design and Taguchi's experimental design. However, in a Taguchi experiment, only the main effects and two-factor interactions are considered. Higher-order interactions are assumed to be nonexistent. In addition, experimenters are asked to identify which interactions might be significant before conducting the experiment, through their knowledge of the subject matter.} (\cite{yang_design_2009})
 
@@ -196,7 +169,7 @@ In table \ref{table:hyperparameter_tuning:settings_to_level}, every factor with 
 \end{figure}
 
 
-Using this table, we will now find the best standart orthogonal array in section \ref{chap:hyperparameter_tuning:selection_orthogonal_array}. Before doing so, it is important to state, that Taguchi allows to test for possible (pre determined) two-level interactions (\cite{yang_design_2009}). Analysing interactions comes at a cost of Degrees of freedom. If we look at the table, an interaction between ChromosomeType and GeneType might be of interest. Using the power of hindsight, we know, that a second two factor interaction is possible within our chosen array, thus we will have a look at the interaction between Tournament Size and IndMutationPropability as well.
+Using this table, we will now find the best standard orthogonal array in section \ref{chap:hyperparameter_tuning:selection_orthogonal_array}. Before doing so, it is important to state, that Taguchi allows to test for possible (pre determined) two-level interactions (\cite{yang_design_2009}). Analysing interactions comes at a cost of Degrees of freedom. If we look at the table, an interaction between ChromosomeType and GeneType might be of interest. Using the power of hindsight, we know, that a second two factor interaction is possible within our chosen array, thus we will have a look at the interaction between Tournament Size and IndMutationPropability as well.
 
 
 \subsection{Selection of a suitable standart orthogonal array}
@@ -307,17 +280,11 @@ The linear graph approach is straight forward and will be selected. While there 
 In a Taguchi linear graph, the nodes as well as the ?Lines? both represent collumns in the orthogonal array. An interaction between to columns that are represented as nodes "comes out to" to the connecting line column \cite{taguchi_taguchis_2005}. This is useful for both analysing interactions between columns as well as combining (merging) interacting columns in case a higher factor is needed.
 
 \paragraph{Column Merging}
-A, B and C are both 4 level factors. The currently selected orthogonal only fits 2 level factors. Using column merging, it is possible to extend columns to fit into the given requirements.
+A, B and C are both 4 level factors. The currently selected orthogonal only fits 2 level factors. Using column merging, it is possible to extend columns to accomodate higher order levels. 
 
-"A four-level column is easily prepared from three two-level columns that are part of an interacting group of columns."\cite{roy_primer_1990}
+As calculated in \ref{DOF}, a four-level column requires three degrees of freedom, thus three two-level columns need to be merged. For column merging, it is required, that the to be merged columns are part of an interaction group (\cite{yang_design_2009}).
 
-"Steps 1. From the linear graph for L8, select a set of three interacting columns (Figure 5-9). Example: columns 1, 2, and 3. 2. Select any two columns. Suppose 1 and 2 are selected. 3. Combine the two columns row by row, by following the rules of Table 5-19, to get a combined column such as shown in Table 5-17. Replace the original columns 1, 2, and 3 by the new column that has just been prepared."\cite{roy_primer_1990}
-
-"The first three columns of an L8 can be combined to produce a four-level column following the procedure previously described. Step 1. Start with an original L8 and select a set of three interacting columns, say 1, 2, and 3. Step 2. Ignore column 3 (Table 5-21). Step 3. Combine column 1 and 2 into a new column. Follow the procedure as shown by Tables 5-22 and 5-23. Step 4. Assign the four-level factor to this new column and the others to the remaining original two-level columns, as shown in Tables 5-24 and 5-25."\cite{roy_primer_1990}
-
-
-"The column merging method merges several low-level columns into a high-level column."\cite{yang_design_2009}
-
+So, 3 interaction 2-level columns need to first be selected. One column is discarded, the remain two columns need to be merged using the rules in tabular \ref{table:hyperparameter_tuning:merging_rules}.
 
 \begin{figure}[H]
 	\centering
@@ -335,12 +302,17 @@ A, B and C are both 4 level factors. The currently selected orthogonal only fits
 	\label{table:hyperparameter_tuning:merging_rules}
 \end{figure}
 
+The four-level factor can then be assigned to this newly generated column. Because three four-level factors are needed for the current experiment, nine two-level columns need to be merged in total.
+
 \paragraph{Assigning Interactions}
-An interaction between DE is might be possible. As we still have some unused space in the graph, we will also look at the interaction of FG. \todo{Go over notes from paper and explain this}
+Interactions between two-level factors can be assigned using the linear graph as well. Here, select two connected nodes. The column describing their connection will subsequently contain the interaction (\cite{taguchi_taguchis_2005}).
+
+An interaction between ChromosomeType and GeneType seems possible, thus D and E will be assigned to connected nodes in the linear graph. As we still have some unused space in the graph, we will also look at the interaction of TournamentSize and IndMutationProp (F and G). The resulting graph can be seen in \ref{figure:hyperparameter_tuning:linear_graph_assigned}.
 
 
 \begin{figure}[H]
 	\centering
+	\label{figure:hyperparameter_tuning:linear_graph_assigned}
 \begin{tikzpicture}
 	% Define 1 2 3
 	\node (Node2) at (0,0) {2};
@@ -430,7 +402,7 @@ Combining columns 1 2 3 to A, 4 8 12 to B and 5 10 15 to C using rules defined b
 \end{figure}
 
 Removing the old and inserting the new columns in the table and transcoding 7 to D, 9 to E, 14 to DE, 6 to F, 11 to G and 13 to FG results in the final table \ref{table:hyperparameter_tuning:final_taguchi}.
-This A-G combinations table will subsequently be used as settings for simulations.
+This combinations table will subsequently be used as settings for the simulation runs.
 
 \begin{figure}[H]
 	\centering
@@ -463,48 +435,20 @@ This A-G combinations table will subsequently be used as settings for simulation
 
 \subsection{Analysing the results}
 \label{chap:hyperparameter_tuning:analysis_of_results}
-This now can be used for running all the needed testcases (the interaction columns can be ignored until the evaluation). Simply exchange all levels in the table with the corresponding setting from table \ref{table:hyperparameter_tuning:settings_to_level}. We will repeat every setting 8 times. These are the results:
+Table \ref{table:hyperparameter_tuning:final_taguchi} can now can be used for running all the needed testcases (the interaction columns can be ignored until the evaluation). Transcoding all factors and levels to get the corresponding setting can be done using in the table from \ref{table:hyperparameter_tuning:settings_to_level}. We will repeat every setting 8 times to reduce randomness and gain information about variance. 
+Running the Genetic Algorithm using these 16 different settings each repeated 8 times took 10 days on the two previously described workstations\todo{ref to section}.
 
+The results are found in the appendix at \ref{table:appendix:hyperparameter_tuning:final_taguchi}.
 
-\begin{figure}[H]
-	\centering
-	\begin{tabular}{ rrrrrrrrr }
-		\hline
-		NO.& rep1 & rep2 & rep3 & rep4 & rep5 & rep6 & rep7 & rep8\\
-		\hline
-		1 & 3124 & 3110 & 3025 & 3077 & 3068 & 2925 & 3106 & 3105 \\ 
-		2 & 2694 & 2980 & 3025 & 2996 & 3037 & 2921 & 3068 & 2900 \\ 
-		3 & 2638 & 2711 & 2624 & 2856 & 2623 & 2832 & 2904 & 2778 \\ 
-		4 & 2735 & 2805 & 2851 & 2965 & 2876 & 2703 & 2848 & 2858 \\ 
-		5 & 3074 & 2955 & 3045 & 3080 & 3120 & 2971 & 2895 & 2798 \\ 
-		6 & 2974 & 2979 & 2929 & 2941 & 2952 & 2936 & 3139 & 2953 \\ 
-		7 & 3108 & 3099 & 3049 & 3020 & 3092 & 3057 & 3090 & 2895 \\ 
-		8 & 2840 & 2931 & 2921 & 2921 & 2957 & 2997 & 2889 & 2895 \\ 
-		9 & 3007 & 2995 & 2983 & 3009 & 2847 & 2996 & 2734 & 2927 \\ 
-		10 & 2916 & 2828 & 3013 & 2787 & 2818 & 2926 & 3034 & 2822 \\ 
-		11 & 3007 & 2879 & 3090 & 3033 & 2906 & 2981 & 3109 & 3104 \\ 
-		12 & 2946 & 3016 & 2790 & 2917 & 2904 & 2983 & 2898 & 2606 \\ 
-		13 & 2378 & 2712 & 2906 & 2800 & 2912 & 2795 & 2860 & 2834 \\ 
-		14 & 2895 & 2760 & 2750 & 2849 & 2542 & 2997 & 2965 & 2991 \\ 
-		15 & 2842 & 3065 & 3050 & 2779 & 2862 & 2923 & 2955 & 2892 \\ 
-		16 & 3065 & 2834 & 2643 & 3056 & 3051 & 3011 & 2828 & 2963 \\ 
-		\hline
-	\end{tabular}
-	\caption{List of results}
-\end{figure}
+\subsubsection{Main-effects and interaction chart}
+Identifying the optimal conditions is done by analyzing the main effects per factor. Using them, it is possible to predict the factors, that lead to the best result \cite{roy_primer_1990}.
 
+\cite{yang_design_2009} explains them well: 
+\enquote{The main-effects chart is a plot of average responses at different levels of a factor versus the factor levels}
 
+So, for every factor, sum up the mean of all results per level, then divide by the number of runs per level.
 
-\subsubsection{Main-effects and interaction chart}\todo{Main-effects or main-effect}
-Identifing the optimal conditions is done by analyzing the main effects per factor. Using them, it is possible to predict the factors, that lead to the best result \cite{roy_primer_1990}.
-
-
-According to \cite{yang_design_2009}, "The main-effects chart is a plot of average responses at different levels of a factor versus the factor levels" and the calculation" of main-effect charts and iteration charts are the same as those of classical experimental data analysis".
-
-For every factor, sum up the mean of the results per level, then divide by the number of runs per level. This is the calculation for D:
-\todo{Insert calculation for d}
-
-\todo{Explain interactiona an main effects using example from results}
+\todo{Example for D}
 
 The resulting main-effect charts can be seen here:
 \begin{figure}[H] 
@@ -514,50 +458,24 @@ The resulting main-effect charts can be seen here:
 \end{figure}
 
 
+In case there is no interaction, the optimal setting is easily determined by using the main effects chart. Go over every factor in the chart and use the best level (in case of this experiment, the level with the lowest cost value). If interactions exist, they might have an influence on the best settings and need to be investigated (\cite{yang_design_2009}).
 
-Similarly, the interactions are calculated like this:
-\todo{Insert example calculation of interaction}
+To investigate previously defined interactions, a test of interactions can be used. Their calculation is similar to calculating main effects.
 
+\todo{Example for DE}
 
-"To determine whether the interaction is present, a proper interpretation of the results is necessary. The general approach is to separate the influence of an interacting member from the influences of the others. In this example, A × C and B × C are the interactions with C common to both."\cite{roy_primer_1990}.
-
-
-\todo{Probably remove interaction effects chart, keep test of interaction}
-The resulting interaction charts can be seen here:
-\begin{figure}[H] 
-	\label{figure:taguchi:interaction_effects}
-	\includegraphics[width=1\linewidth]{simulations/taguchi/plots/interaction_effects}
-	\caption{Interactions Effects}
-\end{figure}
-
-
-"The steps involved are described below. The A1C1 is first found from the results that contain both A1 and C1. Note that A1C1 is not the same as the average value in level 1 of Table 5-16(a) for interaction A × C assigned to column 3 of Table 5-13. This value is (A × C)1. In this analysis, interaction columns, that is, columns 3 and 6, are not used. Instead, the columns of Table 5-13 that represent the individual factors are used. Examination of column 1 shows that A1 is contained in rows (trial runs) 1, 2, 3, and 4, but C1 is in trial runs 1, 2, 5, and 6. Comparing the two, the rows that contain both A1 and C1 are 1 and 2. Therefore, A1C1 comes from the results of trial runs 1 and 2."\cite{roy_primer_1990}.
-
-
-In order the see, if interactions are existing, we need a Test of interactions.
 \begin{figure}[H] 
 	\label{figure:taguchi:test_of_interaction}
 	\includegraphics[width=1\linewidth]{simulations/taguchi/plots/test_of_interaction}
 	\caption{Test of interactions}
 \end{figure}
 
-"Figure 5-2(a) shows an interaction between the two factors because the lines cross. Figure 5-2(b) shows no interaction because the lines are parallel. If the lines are not parallel, the factors may interact, albeit weakly. .... the input for this interaction plot comes from the experimental results, and the degree of presence of interaction is calculated as the magnitude of the angle between the lines" \cite{roy_primer_1990}.
-
-
-
-
-
-"if there is no interaction, the optimal setting can be determined by looking at one factor at a time. If there are interactions, then we have to look at the interaction chart. For the problem above, since AB interaction is significant, we have to find optimal by studying the AB interaction. From the interaction chart, if the vibration level is “the smaller, the better,” then A at low level and B at high level will give the lowest possible vibrations."\cite{yang_design_2009}
-
-
+If lines cross, an interaction between the two factors exists. The more parallel the lines are, the less likely an interaction. Magnitude of the angle between the lines corresponds to the degree of interaction presence, according to \cite{roy_primer_1990}.
 
 \subsubsection{ANOVA}
-Due to our number of repetitions, the number of DOF increases according to the following equation (taken from \cite{roy_primer_1990}):
+Before choosing the best settings, ANOVA analysis (analysis of variance) should be performend on the results. Among other things, this will provide information on the magnitude of contribution of each main effects and interactions. The calculation of ANOVA is the same as for a classical design of experiment, according to \cite{yang_design_2009}.
 
-"There is actually no difference between analysis of variance of classical DOE and Taguchi DOE."\cite{yang_design_2009}
-
-
-"Identify which main effects and interactions have significant effects on variation of data."\cite{yang_design_2009}
+\todo{Summary after reading "Introduction into R"}
 
 "In analysis of variance, mean squares are used in the F test to see if the corresponding effect is statistically significant."\cite{yang_design_2009}
 "F ratio is a better measure for relative performance"\cite{yang_design_2009}
@@ -566,8 +484,8 @@ Due to our number of repetitions, the number of DOF increases according to the f
 
 "The variance ratio, commonly called the F statistic, is the ratio of variance due to the effect of a factor and variance due to the error term. (The F statistic is named after Sir Ronald A. Fisher.) This ratio is used to measure the significance of the factor under investigation with respect to the variance of all of the factors included in the error term. The F value obtained in the analysis is compared with a value from standard F-tables for a given statistical level of significance." \cite{roy_primer_1990}.
 
-"Because the partial experiment is only a selected set of the full factorial combinations, the analysis of the partial experiment must include an analysis of confidence to qualify the results. Fortunately, there is a standard statistical technique called analysis of variance (ANOVA) that is routinely used to provide a measure of confidence. The technique does not directly analyze the data but rather determines the variability (variance) of the data. Confidence is measured from the variance"\cite{roy_primer_1990}
 
+Due to our number of repetitions, the number of DOF increases according to the following equation (taken from \cite{roy_primer_1990}):
 \begin{equation} \label{full DOF}
 	\begin{split}
 		DOF & = totalNumberOfResults - 1 \\
@@ -577,29 +495,12 @@ Due to our number of repetitions, the number of DOF increases according to the f
 \end{equation}
 
 
-
-Calculating ANOVA can be done using R: \todo{Cite book from Gabriel}
+Calculating ANOVA can be done using R:
 \begin{lstlisting}[language=R]
 	# pivot the results, so that the table has 8 times the rows
 	taguchi.combined_pivoted <- taguchi.combined %>% pivot_longer(cols = starts_with("min_"), values_to = "results")
 	
 	# run anova analysis
-	anova <- aov(results ~ factor(A) + factor(B) + factor(C) + factor(D) * factor(E) + factor(F) * factor(G), data = taguchi.combined_pivoted)
-	summary(anova)
-\end{lstlisting}
-
-"The process of disregarding an individual factor’s contribution and then subsequently adjusting the contributions of the other factors is known as pooling. Generally, only factors that are believed to be insignificant are pooled. Whether a factor is significant or not is found by the test of significance." \cite{roy_primer_1990}
-
-"Procedures for Pooling When the contribution of a factor is small, as for factor B in the above example, the sum of squares for that factor is combined with the error, Se. This process of disregarding the contribution of a selected factor and subsequently adjusting the contributions of the other factor is known as pooling. Pooling is usually accomplished by starting with the smallest sum of squares and continuing with the ones having successively larger effects. Pooling is recommended when a factor is determined to be insignificant by performing a test of significance against the error term at a desired confidence level. A general guideline for when to pool is obtained by comparing the error DOF with the total factor DOF. Taguchi recommends pooling factors until the error DOF is approximately half the total DOF of the experiment ([9], pp. 293-295). Approaching the matter technically, one could test for significance and pool all factor influences below the 90\% confidence level"\cite{roy_primer_1990}
-
-"No matter the effect on the results, insignificant factors should always be pooled."\cite{roy_primer_1990}
-
-"Note that as small factor effects are pooled, the percentage contributions and the confidence level of the remaining factors decrease (PC = 5.71 versus PC = 6.02). By pooling, the error term is increased and, in comparison, the other factors appear less influential. The greater the number of factors pooled, the worse the unpooled factor effects look. Then we must consider why column effects are pooled."\cite{roy_primer_1990}
-
-"A sure way to determine if a factor or interaction effect should be pooled is to perform a test of significance (1 – confidence level). But what level of confidence do you work with? No clear guidelines are established. Generally, factors are pooled if they do not pass the test of significance at the confidence level assumed for the experiment. A factor is considered significant if its experimental F-ratio exceeds the standard table value at a confidence level. A common practice is to subjectively assume a confidence level between 85\% and 99\%, with 90\% or 95\% being a popular selection. Consider factor C in Example 6-5, which has 5.7\% influence (19.267 F-ratio). When tested for significance, this factor shows more than 99\% confidence level and thus should not be pooled."\cite{roy_primer_1990}
-
-After pooling, we can run anova again:
-\begin{lstlisting}[language=R]
 	anova <- aov(results ~ factor(A) + factor(B) + factor(C) + factor(D) * factor(E) + factor(F) * factor(G), data = taguchi.combined_pivoted)
 	summary(anova)
 \end{lstlisting}
@@ -630,11 +531,11 @@ This will result in the following table:
 
 
 
-We can also look at the percentage contribution of each factor, using the formular gathered by \cite{yang_design_2009}:
+We can also look at the percentage contribution of each factor, using the formula gathered by \cite{yang_design_2009}:
 
 \begin{equation} \label{SS_T}
 	\begin{split}
-		SS_T & = SS_A + SS_B + SS_C + ... + SS_error
+		SS_T & = SS_A + SS_B + SS_C + ... + SS_{error}
 	\end{split}
 \end{equation}
 
@@ -644,14 +545,15 @@ We can also look at the percentage contribution of each factor, using the formul
 	\end{split}
 \end{equation}
 
-
+The percentage contribution is plotted in \ref{figure:taguchi:percentage_contribution}
 \begin{figure}[H] 
 	\label{figure:taguchi:percentage_contribution}
 	\includegraphics[width=1\linewidth]{simulations/taguchi/plots/percentage_contribution}
 	\caption{Percentage Contribution}
 \end{figure}
 
-\paragraph{Best factor level selection and optimal performance level prediction (Take from yang\_design\_2009, so reformulate)}
+\subsubsection{Selection of optimal setting}
+
 
 "Further analysis for the significance of this influence is made possible by the ANOVA table in Table 5-16(b), which shows that the interaction A × C (column 3) is 5.26\%, compared to the individual main effects of butter (B) 64.76\% and flour (D) 18.4\%, and so on."\cite{roy_primer_1990}.
 
@@ -667,13 +569,12 @@ This means, that If an interaction exist, we
 "The performance at the optimum condition is estimated only from the significant factors. This practice keeps the predicted performance conservative. Therefore, the pooled factors are not included in the estimate."\cite{roy_primer_1990}
 
 
-
-
-
 If we only look at main effects, we would select:
 A4, B4, C3, D2, E2, F2, G1
 However we select A4, B4, C3, D2, E1, F2, G1 because of important interaction DE. E on the other hand is not significant.
 
+
+\paragraph{Optimum performance calculation}
 We can also optimum performance when 1. using only main effects or 2. using main effects with applied interaction. Folrumar provided by \cite{roy_primer_1990}.
 
 \todo{Better bars}
