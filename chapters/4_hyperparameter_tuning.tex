@@ -80,18 +80,18 @@ Each run will be executed 5 times to get rid of randomness and to make the resul
 	\centering
 \begin{tabular}{ |l|c||c|c|c|c|  }
 	\hline
-	\multicolumn{6}{|c|}{Comparison of Population Size - mean(standard deviation)} \\
+	\multicolumn{6}{|c|}{Comparison of Population Size - mean} \\
 	\hline
 	Settings & Code & 32 & 48 & 64 & 96\\
 	\hline
-	C: 0.6, M: 0.01, TS: 2   	& A & 3051 (74) & 3016 (85) & 2851(132) & 2871 (57)\\
-	C: 0.6, M: 0.01, TS: 4		& B & 3111 (79) & 3021(110) & 3079(103) & 2937(129)\\
-	C: 0.6, M: 0.2, TS: 2 		& C & 3062(128) & 3010 (55) & 3002 (76) & 2831(110)\\
-	C: 0.6, M: 0.2, TS: 4    	& D & \cellcolor{green}3020 (44) & 2967 (37) & 2891(181) & 2850 (90)\\
-	C: 0.8, M: 0.01, TS: 2   	& E & 3063(105) & \cellcolor{green}2892(222) & 2971(108) & 2916(158)\\
-	C: 0.8, M: 0.01, TS: 4		& F & 3052(109) & 3049 (96) & 3054 (68) & 2897(117)\\
-	C: 0.8, M: 0.2, TS: 2 		& G & 3099(127) & 2940(111) & 2959 (96) & 2869(131)\\
-	C: 0.8, M: 0.2, TS: 4    	& H & 3058 (49) & 3005 (84) & \cellcolor{green}2794(173) & \cellcolor{green}2809(105)\\
+	C: 0.6, M: 0.01, TS: 2   	& A & 3051 & 3016 & 2851 & 2871\\
+	C: 0.6, M: 0.01, TS: 4		& B & 3111 & 3021 & 3079 & 2937\\
+	C: 0.6, M: 0.2, TS: 2 		& C & 3062 & 3010 & 3002 & 2831\\
+	C: 0.6, M: 0.2, TS: 4    	& D & 3020 & 2967 & 2891 & 2850\\
+	C: 0.8, M: 0.01, TS: 2   	& E & 3063 & 2892 & 2971 & 2916\\
+	C: 0.8, M: 0.01, TS: 4		& F & 3052 & 3049 & 3054 & 2897\\
+	C: 0.8, M: 0.2, TS: 2 		& G & 3099 & 2940 & 2959 & 2869\\
+	C: 0.8, M: 0.2, TS: 4    	& H & 3058 & 3005 & 2794 & 2809\\
 	\hline
 \end{tabular}
 \caption{List Settings per Population Size}
@@ -112,67 +112,49 @@ A high spread can be seen when looking at small population sizes. Considering th
 \section{Design of Experiment}
 \label{chap:hyperparameter_tuning:other_parameter}
 
-"Design of experiments is also called statistically designed experiments. The purpose of the experiment and data analysis is to find the causeand-effect relationship between the output and experimental factors in a process."\cite{yang_design_2009}
-
-"In a DOE project, each experimental factor will be changed at least once; that is, each factor will have at least two settings."\cite{yang_design_2009}
-
-"If the range of variable is too small, then we may miss lots of useful information. If the range is too large, then the extreme values might give infeasible experimental runs."\cite{yang_design_2009}
-
-
-
-"
-DOE data analysis can identify significant and insignificant factors by using analysis of variance.
-Ranking of relative importance of factor effects and interactions. Analysis of variance (ANOVA) can identify the relative importance of each factor by giving a numerical score.
-DOE data analysis can also provide graphical presentations of the mathematical relationship between experimental factors and output, in the form of main-effects charts and interaction charts.
-"\cite{yang_design_2009}
+Following the conclusion from the previous section \ref{chap:hyperparameter_tuning:population}, a population size of 96 will be used. Executing one run for 30 generations currently takes around 3:50 hours. Although two different workstations were available, the time required to execute the needed number of runs for these automated tests would exceed the available time budged. This is without considering a minimum required number of repetitions to remove randomness in the results.
 
 In order to tune the hyperparameter of the genetic algorithm, various different strategies can be used. Using automated hyperparamter tuning approaches like "Grid Search", "Bayesian Optimization, "Simmulated Annealing or "Hyperband" might lead to good results with minimal effort (tuning hyperparameter of these search algorithms is still needed), however they require a high number of runs, which is not feasable.\todo{find references} 
 
-Following the conclusion from the previous section \ref{chap:hyperparameter_tuning:population}, a population size of 96 will be used. Executing one run for 30 generations currently takes around 3:50 hours. Although two different workstations were available, the time required to execute the needed number of runs for these automated tests would exceed the available time budged. This is without considering a minimum required number of repetitions to remove randomness in the results.
+A different approach called "design of experiment" (DOE), also known as statistically designed experiments. DOE tries to find the causeand-effect relationship between the factors and the output of experiments.
+It uses factorial design where each experiment has factors, of which each consists of at least two settings, with the actual number of settings being called "levels" (\cite{yang_design_2009}). Design of experiment needs manual expertise to define which factors are possibly of importance and which settings each factor should have, this is a drawback compared to automatic hyperparameter tuning.
 
-A different approach called "design of experiment" (DOE), also known as factorial design (\cite{roy_primer_1990}). Each design of experiment has factors, of which each consists of at least two settings, with the actual number of settings being called "levels" (\cite{yang_design_2009}). Design of experiment needs manual expertise to define which factors are possibly of importance and which settings each factor should have, this is a drawback compared to automatic hyperparameter tuning. Afterwards, main effects and interactions can be calculated to find the best settings per factor. Using ANOVA (Analysis of Variance) it is possible to identify the significance of each main effect and interaction. More details on these analysis tools will be provided in section \ref{chap:hyperparameter_tuning:analysis_of_results}.
+\enquote{If the range of variable is too small, then we may miss lots of useful information. If the range is too large, then the extreme values might give infeasible experimental runs.} (\cite{yang_design_2009})
 
-"Most industrial experiments involve two or more experimental factors. In this case, factorial designs are the most frequently used designs. By a factorial design, we mean that all combinations of factor levels will be tested in the experiment."\cite{yang_design_2009}
+Afterwards, main effects and interactions can be calculated to find the best settings per factor. It provides a graphical representation of these relationship by using interaction as well as main-effects charts.
+Using ANOVA (Analysis of Variance) it is possible to identify the significance of each factor and interaction, which enables the ranking of these factors. More details on these analysis tools will be provided in section \ref{chap:hyperparameter_tuning:analysis_of_results}.
 
+A full factorial design will test over all possible combinations of the manually selected factor levels. Looking at the proposed factors in table \ref{table:hyperparameter_tuning:settings_to_level}, we would require 1024 runs \todo{generated by minitab (or https://datatab.net/statistics-calculator/design-of-experiments)}, which not not feasible performance wise. A full factorial design has the drawback, that as the number if factors k gets increased, the number of needed experimental runs increases exponentially, thus resulting in lengthy experiments. \cite{yang_design_2009} state, that most of the results obtained by testing over all combinations are only used for estimating higher-order interactions, which are in most cases insignificant.
 
-In a factorial designs, each possible combination of factor levels needs to be tested. Looking at the proposed factors in table \ref{table:hyperparameter_tuning:settings_to_level}, we would require 1024 runs \todo{generated by minitab (or https://datatab.net/statistics-calculator/design-of-experiments)}.
-
-"Techniques such as fractional (or partial) factorial experiments are used to simplify the experiment. Fractional factorial experiments investigate only a fraction of all possible combinations. This approach saves considerable time and money but requires rigorous mathematical treatment, both in the design of the experiment and in the analysis of the results." \cite{roy_primer_1990} \todo{Is this really the case? What about combinatorial testing? }
+\enquote{Techniques such as fractional (or partial) factorial experiments are used to simplify the experiment. Fractional factorial experiments investigate only a fraction of all possible combinations. This approach saves considerable time and money but requires rigorous mathematical treatment, both in the design of the experiment and in the analysis of the results. (\cite{roy_primer_1990})}
 
 
 \subsection{Taguchi Design}
-Various improvements to Design of experiment have been but forward by Dr. Genichi Taguchi, such as reducing the influence of uncontrollable (noise) factors on processes and products and reducing variability. Some of these methods evolve around Signal-to-noise (S/N) analysis and utilizing cost functions to "express predicted improvements from DOE results in terms of expected cost saving" (\cite{roy_primer_1990}). This master thesis will not discuss all of this proposed considerations, for more detail \cite{roy_primer_1990} as well as \cite{yang_design_2009} is highly recommended.
+Various improvements to Design of experiment have been but forward by Dr. Genichi Taguchi, such as reducing the influence of uncontrollable (noise) factors on processes and products and reducing variability. Some of these methods evolve around Signal-to-noise (S/N) analysis and utilizing cost functions to "express predicted improvements from DOE results in terms of expected cost saving" (\cite{roy_primer_1990}). This master thesis will not discuss all of Taguchi's proposed considerations, for more detail \cite{roy_primer_1990} as well as \cite{yang_design_2009} is highly recommended.
 
-"
-There are many similarities between “regular” experimental design and Taguchi’s experimental design. However, in a Taguchi experiment, only the main effects and two-factor interactions are considered. Higher-order interactions are assumed to be nonexistent. In addition, experimenters are asked to identify which interactions might be significant before conducting the experiment, through their knowledge of the subject matter.
-"\cite{yang_design_2009}
-
+\enquote{ There are many similarities between “regular” experimental design and Taguchi's experimental design. However, in a Taguchi experiment, only the main effects and two-factor interactions are considered. Higher-order interactions are assumed to be nonexistent. In addition, experimenters are asked to identify which interactions might be significant before conducting the experiment, through their knowledge of the subject matter.} (\cite{yang_design_2009})
 
 This masters thesis will mainly utilizes Taguchis orthogonal arrays (OAs), "which represent the smallest fractional factorials and are used for most common experiment designs." (\cite{roy_primer_1990}). This means, that only a fraction of combinations needs to be tested which drastically improves performance. Each row of these matrices contains the factors of one experiment, while the columns correspond the factors \cite{li_taguchi_2021}. 
 
-"Taguchis proposed various different orthogonal arrays which need to be selected based on the individual needs."  \cite{li_taguchi_2021}.
-
-An othogonal array has multiple properties
-\todo{Definition orthogonal array}
-
+Different orthogonal arrays have been proposed by Taguchi. The researcher has the responsibility to select an array based on the individual needs (\cite{li_taguchi_2021}).
 Using these orthogonal arrays instead of full factorial experiments will lead to needing a much smaller amount of simulation runs (in our case only 16 compared to 1024), while the latter "might not provide appreciably more useful information" \cite{roy_primer_1990}.
 
 
-"Generally speaking, OA experiments work well when there is minimal interaction among factors; that is, the factor influences on the measured quality objectives are independent of each other and are linear. In other words, when the outcome is directly proportional to the linear combination of individual factor main effects, OA design identifies the optimum condition and estimates performance at this condition accurately. If, however, the factors interact with each other and influence the outcome, there is still a good chance that the optimum condition will be identified accurately, but the estimate of performance at the optimum can be significantly off. The degree of inaccuracy in performance estimates will depend on the degree of complexity of interactions among all the factors."\cite{roy_primer_1990}.
-
-\todo{cons of taguchi arrays: no higher level interactions, Levels are treated as being discrete}
-
-"During many years of applications of factorial design, people have found that higher-order interaction effects (i.e., interaction effects involving three or more factors) are very seldom significant. In most experimental case studies, only some main effects and two-factor interactions are significant."\cite{yang_design_2009}
-
-"In summary, for full factorial experiments, as the number of factors k increases, the number of runs will increase at an exponential rate that leads to extremely lengthy and costly experiments. On the other hand, as k increases, most of data obtained in the full factorial are used to estimate higher-order interactions, which are most likely to be insignificant."\cite{yang_design_2009}
-
-"The values of the factors should be as far away from either side of the current working condition as possible."\cite{roy_primer_1990}.
-
-"After these two steps, the total degrees of freedom of the experimental factors should be determined in the Taguchi experimental design. The degrees of freedom are the relative amount of data needed in order to estimate all the effects to be studied."\cite{yang_design_2009}
+An orthogonal array has multiple properties:
+\todo{Definition orthogonal array}
 
 
-Taguchis proposed various different orthogonal arrays which need to be selected based on the individual needs.
-When choosing a suitable taguchi ortogonal arrays, we need to take various factors into account, which can make the process tricky. According to \cite{yang_design_2009}, we will have to follow a three step procedure:
+
+As has been stated, probably the biggest drawback of using Taguchi orthogonal arrays is on the one hand to increased manual labour and on the other hand the fact, that higher order interactions ignored.
+
+\cite{roy_primer_1990} explains why this might not be a big problem:
+\enquote{Generally speaking, OA experiments work well when there is minimal interaction among factors; that is, the factor influences on the measured quality objectives are independent of each other and are linear. In other words, when the outcome is directly proportional to the linear combination of individual factor main effects, OA design identifies the optimum condition and estimates performance at this condition accurately. If, however, the factors interact with each other and influence the outcome, there is still a good chance that the optimum condition will be identified accurately, but the estimate of performance at the optimum can be significantly off. The degree of inaccuracy in performance estimates will depend on the degree of complexity of interactions among all the factors.}
+
+This is complimented by \cite{yang_design_2009}, who states, that:
+\enquote{During many years of applications of factorial design, people have found that higher-order interaction effects (i.e., interaction effects involving three or more factors) are very seldom significant. In most experimental case studies, only some main effects and two-factor interactions are significant.}
+
+\paragraph{Selection of orthogonal array}
+When choosing a suitable Taguchi orthogonal array, we need to take various factors into account, which can make the process tricky. According to \cite{yang_design_2009}, we will have to follow a three step procedure:
 
 \begin{enumerate}
 	\item Calculate the total degree of freedom (DOF). 
@@ -191,7 +173,8 @@ When choosing a suitable taguchi ortogonal arrays, we need to take various facto
 \end{enumerate}
 
 
-For this genetic algorithm, 7 factors (3 Factors of Level 4 and 4 Factors of Level 2) have been selected. Which factors to choose and with which level was done based on experience gained on section \ref{chap:hyperparameter_tuning:population}. In table \ref{table:hyperparameter_tuning:settings_to_level}, every factor with correspondig levels has been listed,
+For this genetic algorithm, 7 factors (3 Factors of Level 4 and 4 Factors of Level 2) have been selected. Which factors to choose and with which level was done based on experience gained on section \ref{chap:hyperparameter_tuning:population}. When selecting levels, it is important to have them "as far away from either side of the current working condition as possible."(\cite{roy_primer_1990})
+In table \ref{table:hyperparameter_tuning:settings_to_level}, every factor with corresponding levels has been listed,
 
 \begin{figure}[H]
 	\centering
@@ -213,7 +196,7 @@ For this genetic algorithm, 7 factors (3 Factors of Level 4 and 4 Factors of Lev
 \end{figure}
 
 
-Using this table, we will now find the best standart orthogonal array in section \ref{chap:hyperparameter_tuning:selection_orthogonal_array}. Before doing so, it is important to state, that taguchi allows to test for possible (pre determined) two-level interactions (\cite{yang_design_2009}). Analysing interactions comes at a cost of Degrees of freedom. If we look at the table, an interaction between ChromosomeType and GeneType might be of interest. Using the power of hindsight, we know, that a second two factor interaction is possible within our chosen array, thus we will have a look at the interaction between Tournament Size and IndMutationPropability.
+Using this table, we will now find the best standart orthogonal array in section \ref{chap:hyperparameter_tuning:selection_orthogonal_array}. Before doing so, it is important to state, that Taguchi allows to test for possible (pre determined) two-level interactions (\cite{yang_design_2009}). Analysing interactions comes at a cost of Degrees of freedom. If we look at the table, an interaction between ChromosomeType and GeneType might be of interest. Using the power of hindsight, we know, that a second two factor interaction is possible within our chosen array, thus we will have a look at the interaction between Tournament Size and IndMutationPropability as well.
 
 
 \subsection{Selection of a suitable standart orthogonal array}
@@ -269,14 +252,14 @@ A $L_{16}$ array seems suitable to accommodate the required 13 DOF, which can be
 \end{figure}
 
 
-This graph now needs to be fitted to the needed factors. 4 Level Factors need more space which will be generated using column merging, while interactions need to be assigned as well.
-For this, either an interaction table or linear graphs of this $L_{16}$ array can be used (\cite{roy_primer_1990}, \cite{nazandanacioglu_taguchi_2005}). 
-The linear graph approach is straight forward and will be selected. While there are multiple linear graphs for $L_{16}$ array, the following graph has the best fit for the requirements from table \ref{table:hyperparameter_tuning:settings_to_level}. If no graph with the perfect fit is found, theses graphs can be modified as well, as described by \cite{nazandanacioglu_taguchi_2005}
-
+This graph now needs to be fitted and modified to accommodate the needed factors. 4 Level Factors need additional space which will be generated using column merging, while interactions will need to be assigned as well.
+For this, either an interaction table or linear graphs of the $L_{16}$ array can be used (\cite{nazandanacioglu_taguchi_2005}). 
+The linear graph approach is straight forward and will be selected. While there are multiple linear graphs for $L_{16}$ array, \ref{figure:hyperparameter_tuning:linear_graph} describes the graph which best fits the requirements from table \ref{table:hyperparameter_tuning:settings_to_level}. If no graph with the perfect fit is found, theses graphs can be modified as well, using rules described by \cite{nazandanacioglu_taguchi_2005}.
 
 "In each of Taguchi’s orthogonal arrays, there are one or more accompanying linear graphs. A linear graph is used to illustrate the interaction relationships in the orthogonal array."\cite{yang_design_2009}
 
 \begin{figure}[H]
+	\label{figure:hyperparameter_tuning:linear_graph}
 	\centering
 \begin{tikzpicture}
 	% Define 1 2 3
@@ -321,7 +304,7 @@ The linear graph approach is straight forward and will be selected. While there 
 \end{figure}
 
 
-In a taguchi linear graph, the nodes as well as the ?Lines? both represent collumns in the orthogonal array. An interaction between to columns that are represented as nodes "comes out to" to the connecting line column \cite{taguchi_taguchis_2005}. This is usefull for both analyzing interactions between columns as well as combining (mergin) interacting columns in case a higher factor is needed.
+In a Taguchi linear graph, the nodes as well as the ?Lines? both represent collumns in the orthogonal array. An interaction between to columns that are represented as nodes "comes out to" to the connecting line column \cite{taguchi_taguchis_2005}. This is useful for both analysing interactions between columns as well as combining (merging) interacting columns in case a higher factor is needed.
 
 \paragraph{Column Merging}
 A, B and C are both 4 level factors. The currently selected orthogonal only fits 2 level factors. Using column merging, it is possible to extend columns to fit into the given requirements.
@@ -485,7 +468,7 @@ This now can be used for running all the needed testcases (the interaction colum
 
 \begin{figure}[H]
 	\centering
-	\begin{tabular}{ rrrrrrrrr  }
+	\begin{tabular}{ rrrrrrrrr }
 		\hline
 		NO.& rep1 & rep2 & rep3 & rep4 & rep5 & rep6 & rep7 & rep8\\
 		\hline
@@ -539,7 +522,7 @@ Similarly, the interactions are calculated like this:
 "To determine whether the interaction is present, a proper interpretation of the results is necessary. The general approach is to separate the influence of an interacting member from the influences of the others. In this example, A × C and B × C are the interactions with C common to both."\cite{roy_primer_1990}.
 
 
-
+\todo{Probably remove interaction effects chart, keep test of interaction}
 The resulting interaction charts can be seen here:
 \begin{figure}[H] 
 	\label{figure:taguchi:interaction_effects}
@@ -661,7 +644,12 @@ We can also look at the percentage contribution of each factor, using the formul
 	\end{split}
 \end{equation}
 
-\todo{Import already generated chart}
+
+\begin{figure}[H] 
+	\label{figure:taguchi:percentage_contribution}
+	\includegraphics[width=1\linewidth]{simulations/taguchi/plots/percentage_contribution}
+	\caption{Percentage Contribution}
+\end{figure}
 
 \paragraph{Best factor level selection and optimal performance level prediction (Take from yang\_design\_2009, so reformulate)}
 

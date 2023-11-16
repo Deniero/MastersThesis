@@ -63,6 +63,7 @@ res_col_names <- c("min_0", "min_1", "min_2", "min_3", "min_4", "min_5", "min_6"
 
 
 #### load data ####
+# Possible to import dataset from ~/MastersThesis/simulations/taguchi/results/dataset.RData
 raw_0102 = read.csv('taguchi/results/0102.csv')[,0:res_column_size]
 raw_0304 = read.csv('taguchi/results/0304.csv')[,0:res_column_size]
 raw_0506 = read.csv('taguchi/results/0506.csv')[,0:res_column_size]
@@ -180,9 +181,6 @@ tag.res.factor.melted<-melt(tag.res.factor, id = c(names(tag.factor_array)), mea
 
 anova <- aov(value ~ A + B + C + D * E + F * G, data = tag.res.factor.melted)
 summary(anova)
-# TODO: Pool unimportant Factors -> find interactions
-anova <- aov(value ~ A + B + C + D * E + F * G, data = tag.res.factor.melted)
-summary(anova) # Use only this table, combined with pooled factors (Residuals can be also called All other/error (this is done in "A Primer ..."))
 
 LM <- lm(value ~ A + B + C + D * E + F * G, data = tag.res.factor.melted)
 summary(LM)
@@ -193,11 +191,11 @@ percentage_contribution["Factors"] <- lapply(percentage_contribution["term"] , f
 
 
 plot.percentage_contribution <- ggplot(percentage_contribution, aes(y = reorder(Factors, percentage_contribution), x=percentage_contribution)) + 
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", fill="#457b9d") +
   labs(x = "Percentage Contribution", y = "Factors")
 
 print(plot.percentage_contribution)
-ggsave("taguchi/plots/percentage_contribution.jpg", plot = plot.percentage_contribution, width = 18, height = 6, units = "cm", dpi = 600)
+ggsave("taguchi/plots/percentage_contribution.jpg", plot = plot.percentage_contribution, width = 12, height = 8, units = "cm", dpi = 600)
 
 
 
@@ -211,8 +209,5 @@ anova <- aov(s_n ~ A + B + C + D * E + F + G, data = combined)
 summary(anova)
 
 LM <- lm(s_n ~ A + B + C + D * E + F + G, data = combined)
-
-test <- aov(LM)
-summary(test)
 summary(LM)
 # did not result in good performance and was not further investigated.
