@@ -68,9 +68,9 @@ selected_repetitions = c("min_2", "min_3", "min_8")
 melted_generations<-melt(sim_1.opt_min[, c("gen", selected_repetitions)], 
                          id = c("gen"), 
                          measured = selected_repetitions)
-
+levels(melted_generations$variable) <- c("Rep 1", "Rep 2", "Rep 3")
 plot.line <- ggplot(melted_generations, aes(gen, value, color=variable)) + geom_line()  +
-  labs(x = "Generations", y = "Cost")
+  labs(x = "Generations", y = "Cost", color = "Repetitions")
 print(plot.line)
-ggsave("evaluation/plots/ga_no_elite.jpg", plot = plot.line, width = 12, height = 8, units = "cm", dpi = 600)
+ggsave("evaluation/plots/ga_no_elite.jpg", plot = plot.line, width = 12, height = 6, units = "cm", dpi = 600)
 

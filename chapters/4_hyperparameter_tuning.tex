@@ -521,6 +521,8 @@ Calculating ANOVA can be done simply be done using R, which will result in table
 
 A, C, F and G have a relatively high F value, which suggests high influence on the model. \todo{explain using R book}
 
+The Multiple R-squared:  0.4275,	Adjusted R-squared:  0.3509 ... both are bad.
+
 
 We can also look at the percentage contribution of each factor, using the formula gathered by \cite{yang_design_2009}:
 
@@ -536,7 +538,7 @@ We can also look at the percentage contribution of each factor, using the formul
 	\end{split}
 \end{equation}
 
-The percentage contribution is plotted in \ref{figure:taguchi:percentage_contribution}
+The percentage contribution is plotted in \ref{figure:taguchi:percentage_contribution} (Sum of all factor contributions == Multiple R-squared in theory)
 \begin{figure}[ht] 
 	\label{figure:taguchi:percentage_contribution}
 	\includegraphics[width=1\linewidth]{simulations/taguchi/plots/percentage_contribution}

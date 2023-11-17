@@ -157,7 +157,7 @@ plot.test_of_interaction <- ggplot(test_of_interaction, aes(x=factor_2_level, y=
   geom_line(linewidth=1.0) +
   facet_wrap(~interaction, scales = "free", ncol = 2) +
   scale_x_discrete(expand = c(0.1, 0.1)) +
-  labs(x = "Factor 1", y = "", color = "Interactions")
+  labs(x = "Factor 2", y = "", color = "Factor 1")
 print(plot.test_of_interaction)
 ggsave("taguchi/plots/test_of_interaction.jpg", plot = plot.test_of_interaction, width = 18, height = 6, units = "cm", dpi = 600)
 
@@ -195,10 +195,10 @@ percentage_contribution["Factors"] <- lapply(percentage_contribution["term"] , f
 
 plot.percentage_contribution <- ggplot(percentage_contribution, aes(y = reorder(Factors, percentage_contribution), x=percentage_contribution)) + 
   geom_bar(stat = "identity", fill="#457b9d") +
-  labs(x = "Percentage Contribution", y = "Factors")
+  labs(x = "", y = "Factors")
 
 print(plot.percentage_contribution)
-ggsave("taguchi/plots/percentage_contribution.jpg", plot = plot.percentage_contribution, width = 12, height = 8, units = "cm", dpi = 600)
+ggsave("taguchi/plots/percentage_contribution.jpg", plot = plot.percentage_contribution, width = 12, height = 6, units = "cm", dpi = 600)
 
 
 
