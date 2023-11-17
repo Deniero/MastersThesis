@@ -181,6 +181,9 @@ tag.res.factor.melted<-melt(tag.res.factor, id = c(names(tag.factor_array)), mea
 
 anova <- aov(value ~ A + B + C + D * E + F * G, data = tag.res.factor.melted)
 summary(anova)
+x <- xtable(anova)
+print(x)
+
 
 LM <- lm(value ~ A + B + C + D * E + F * G, data = tag.res.factor.melted)
 summary(LM)
@@ -207,7 +210,8 @@ combined$s_n <- apply(combined, 1, function(row) -10 * log10(as.numeric(row[c('m
 
 anova <- aov(s_n ~ A + B + C + D * E + F + G, data = combined)
 summary(anova)
-
+x <- xtable(anova)
+print(x)
 LM <- lm(s_n ~ A + B + C + D * E + F + G, data = combined)
 summary(LM)
 # did not result in good performance and was not further investigated.
