@@ -6,7 +6,11 @@ In this chapter, we will incrementally move to an optimized Genetic Algorithm
 No Free Lunch Theorem:
 The best hyperparameter settings of a Genetic Algorithm are very problem specific. \cite{kacprzyk_parameter_2007}, \cite{dao_maximising_2016} \todo{More ref}
 
-\section{Start Scenario}
+\section{Map and Starting Scenario}
+The map is Town10 from Carla. It was chosen, because 1. its roads are self contained, 2. its not too big, yet still complex and 3. its supported by Carla and thus visualization looks better.
+
+The Starting Scenario defines the number and type of all actors as well as their position. It needs to be created manually.
+Changing the scenario will have a great impact on the Genetic Algorithms performance. For time and complexity reasons, it was thus decided to first stick with one scenario and do all hyperparameter testing there. And finally test the performance for a handfull different scenarios.
 
 \section{Population}
 \label{chap:hyperparameter_tuning:population}

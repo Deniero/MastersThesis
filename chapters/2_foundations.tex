@@ -11,11 +11,18 @@ We will have a look at its History and then discussing the most important parame
 
 The task of the Genetic Algorithm is to search for sequences of actions that will result in the most interesting Scenarios according to its cost function.
 
-\todo{Usage of GA}
+Genes are the building blocks of a GA
 
+\todo{Usage of GA}
+\todo{dejong talks about dynamic param and why its not good}
 \subsection{History}
 The GA was invented by....
 
+
+\subsection{Encoding}
+\label{chap:foundation:ga:encoding}
+Binary, Hex, ....
+\todo{cite what makes an encoding good: eg. simplicity,...}
 
 \subsection{Different Hyperparameter}
 Hyperparamter have a huge influence on the performance of a Genetic Algorihm. They have an impact on the "convergin" ...
@@ -67,59 +74,6 @@ While the aim of the GA is to find the most optimal solution, considering the va
 
 
 
-\section{Traffic Manager}
-The Genetic Algorithm will control the simulation of a custom developed Traffic Manager. This Traffic Manager was developed closely to fit the needs of the Genetic Algorithm. 
-It, however is not part of this Thesis and will thus will only get a brief introduction. 
-In general, it will simulate traffic starting from a predefined scenarios where the positions and types of Vehicles and Pedestrians are given (i.e. actors). It also allows for an Interface for aplying actions on all actors in the simulation, which will be discussed in section \ref{implementation:action_interface}.
 
-A simulation consists of multiple NPCs and exactly one EGO vehicle. While the NPCs are only controlled by the Traffic Manager (and dadurch also by its action interface), the ego vehicle can be either partly or even completly controlled by an ADAS/AD Function. This function can then be tested inside the simulation on errors.
-
-
-\subsection{Action Interface}
-\label{implementation:action_interface}
-To interface with the Traffic Manager, actions have to be used. An action will request a certain behaviour from an actor. If no action is set, the actor will behave in a normal manner inside the simulation. An action can be set to at any timestep (for this thesis, the simulation is running with 100 Hz) for any actor. Pedestrians and vehicles however have different actions.
-
-The following list are now all actions provided by the traffic manager that were available for the genetic algorithm at the time of this master thesis.
-\begin{itemize}
-	\item JunctionSelection
-	\begin{itemize}
-		\item Parameters: Vehicle ID: int, Junction\_selection\_angle: float
-		\item Angle is set in radiant. Default value is 0. Vehicles will chose which direction to take at a junction based on this angle.
-	\end{itemize}
-	\item LaneChange
-	\begin{itemize}
-		\item Parameters: Vehicle ID: int, ...
-		\item Initiates a LaneChange based on its given parameters.
-	\end{itemize}
-	\item AbortLaneChange
-	\begin{itemize}
-		\item Parameters: Vehicle ID: int, ...
-		\item If a LaneChange is currently happening, it will get aborted.
-	\end{itemize}
-	\item ModifyTargetVelocity
-	\begin{itemize}
-		\item Parameters: Vehicle ID: int, ...
-		\item Modifies the interal Target Velocity of the Traffic Manager by a percentage. If it is for example 0, the vehicle will stop.
-	\end{itemize}
-	\item TurnHeading
-	\begin{itemize}
-		\item Parameters: Pedestrian ID: int, ...
-		\item The pedestrian will turn 180 degrees and walk in the oposite direction
-	\end{itemize}
-	\item CrossRoad
-	\begin{itemize}
-		\item Parameters: Pedestrian ID: int, ...
-		\item The pedestrian will cross the road immediately.
-	\end{itemize}
-	\item CrossAtCrosswalk
-	\begin{itemize}
-		\item Parameters: Pedestrian ID: int, ...
-		\item The pedestrian will cross the road at the next crosswalk.
-	\end{itemize}
-\end{itemize}
-
-
-\subsection{Graphics}
-During the simulation, usually no graphics engine is used in order to save performance. In order to visualize the results, two options can be chosen. The more lightweight Esmini, as well as Carla, which is using Unreal Engine to render realistic graphics.
 
 
