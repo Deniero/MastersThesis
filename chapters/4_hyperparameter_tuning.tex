@@ -632,21 +632,26 @@ Although the optimal hyperparameter setting will be discussed in chapter \ref{ch
 
 \begin{figure}[ht] 
 	\label{figure:no_elite}
-	\includegraphics[width=1\linewidth]{simulations/evaluation/plots/ga_no_elite}
+	\includegraphics[width=1\linewidth]{simulations/evaluation/plots/ga_no_elite_generations}
 	\caption{Genetic Algorithm without Elite}
 \end{figure}
 
 The lines show that setbacks in the optimal cost between two generations happens frequenctly. In order to mitigate this problem, it was decided to implement elite selection with a size of 2. This means, that per generation, the two best individuals are copied into the next generation without modifications, which makes worse performance between generations not possible. It is important to note, that the two best individuals can still be selected by tournament selection for modification, its just that a copy of them is saved. Figure \ref{figure:no_with_elite} shows the effect of these changes.
 
 \begin{figure}[ht] 
-	\label{figure:no_with_elite}
-	\includegraphics[width=1\linewidth]{simulations/evaluation/plots/ga_no_elite}
-	\caption{Genetic Algorithm without Elite}
+	\label{figure:with_elite}
+	\includegraphics[width=1\linewidth]{simulations/evaluation/plots/ga_elite_generations}
+	\caption{Genetic Algorithm with Elite}
 \end{figure}
 
 
-Comparing the 10 repetitions also provides a clear picture in figure \todo{insert boxplot}. It is thus concluded that the slightly modified version of the optimized Ga now using Elite of 2 will be used for chapter \ref{chap:evaluation}.
+Comparing the 10 repetitions also provides a clear picture in figure \ref{figure:elite_comparison}. It is thus concluded that the slightly modified version of the optimized Ga now using Elite of 2 will be used for chapter \ref{chap:evaluation}.
 
+\begin{figure}[ht] 
+	\label{figure:elite_comparison}
+	\includegraphics[width=1\linewidth]{simulations/evaluation/plots/elite_vs_no_elite}
+	\caption{Comparison Elite vs No Elite}
+\end{figure}
 
 
 

@@ -29,12 +29,12 @@ res_column_size = 45
 res_col_names <- c("min_0", "min_1", "min_2", "min_3", "min_4", "min_5", "min_6", "min_7", "min_8", "min_9")
 
 
-
-##### load data #####
+##### Sim 1 #####
+# load data #
 sim_1.opt_min = read.csv('evaluation/results/sim_1_tag.csv')[,0:res_column_size]
-sim_1.def_min = read.csv('evaluation/results/sim_1_tag.csv')[,0:res_column_size]
-sim_1.rand = read.csv('evaluation/results/random_test.csv')
-threshold <- quantile(sim_1.rand$results, 0.5)
+sim_1.def_min = read.csv('evaluation/results/sim_1_tag_no_elite.csv')[,0:res_column_size]
+sim_1.rand = read.csv('evaluation/results/sim_1_random.csv')
+threshold <- quantile(sim_1.rand$results, 0.2)
 sim_1.rand_best <- subset(sim_1.rand, sim_1.rand$results <= threshold)
 sim_1.rand_t <- data.frame(t(sim_1.rand_best))
 
@@ -49,7 +49,7 @@ sim_1.res$simulation <- c("Optimized", "Default", "Random")
 sim_1.res["simulation"] <- lapply(sim_1.res["simulation"] , factor)
 
 
-#### plot data ####
+# plot data #
 sim_1.res_column_names <- colnames(sim_1.res)
 sim_1.res_column_names <- sim_1.res_column_names[sim_1.res_column_names != "simulation"]
 melted<-melt(sim_1.res, id = c("simulation"), measured = sim_1.res_column_names)
@@ -61,16 +61,5 @@ plot.bp <- ggplot(melted, aes(simulation, value)) +
   geom_point(color="#457b9d")  +
   labs(x = "", y = "Cost")
 print(plot.bp)
-ggsave("evaluation/plots/sim_1_box_plot.jpg", plot = plot.bp, width = 12, height = 8, units = "cm", dpi = 600)
-
-
-selected_repetitions = c("min_2", "min_3", "min_8")
-melted_generations<-melt(sim_1.opt_min[, c("gen", selected_repetitions)], 
-                         id = c("gen"), 
-                         measured = selected_repetitions)
-levels(melted_generations$variable) <- c("Rep 1", "Rep 2", "Rep 3")
-plot.line <- ggplot(melted_generations, aes(gen, value, color=variable)) + geom_line()  +
-  labs(x = "Generations", y = "Cost", color = "Repetitions")
-print(plot.line)
-ggsave("evaluation/plots/ga_no_elite.jpg", plot = plot.line, width = 12, height = 6, units = "cm", dpi = 600)
+ggsave("evaluation/plots/sim_1_comparsion.jpg", plot = plot.bp, width = 12, height = 8, units = "cm", dpi = 600)
 

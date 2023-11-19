@@ -186,6 +186,31 @@
 \usepackage{float}		% for using [H] in figures
 \usepackage{amsmath}
 \usepackage{listings}
+
+% Define colors for syntax highlighting
+\definecolor{mygreen}{RGB}{0,128,0}
+\definecolor{mylightgray}{RGB}{240,240,240}  % Light grey background color
+\definecolor{mymauve}{RGB}{128,0,128}
+\definecolor{mygray}{RGB}{169,169,169}
+% Set up the lstlisting environment
+\lstset{
+	language=Python,
+	basicstyle=\ttfamily\small,  % Font and size
+	commentstyle=\color{mygreen}, % Comment color
+	keywordstyle=\color{blue},    % Keyword color
+	numberstyle=\color{mygray}, % Line numbers style
+	stringstyle=\color{mymauve},  % String color
+	tabsize=4,  % Tab size
+	breaklines=true,  % Automatic line breaking
+	showstringspaces=false,  % Don't underline spaces in strings
+	numbers=left,  % Display line numbers on the left
+	numbersep=5pt,  % Distance between line numbers and code
+	frame=none,  % No frame
+	backgroundcolor=\color{mylightgray},  % Background color
+	captionpos=b,  % Position of the caption
+	extendedchars=true,  % Allow extended ASCII characters
+	literate={ö}{{\"o}}1 {ä}{{\"a}}1 {ü}{{\"u}}1, % Special characters
+}
 	
 %% ========================================================================
 %%%% MISC self-defined commands and settings
