@@ -61,5 +61,5 @@ plot.bp <- ggplot(melted, aes(simulation, value)) +
   geom_point(color="#457b9d")  +
   labs(x = "", y = "Cost")
 print(plot.bp)
-ggsave("evaluation/plots/sim_1_comparsion.jpg", plot = plot.bp, width = 12, height = 8, units = "cm", dpi = 600)
+ggsave("evaluation/plots/sim_1_comparison.jpg", plot = plot.bp, width = 12, height = 8, units = "cm", dpi = 600)
 
