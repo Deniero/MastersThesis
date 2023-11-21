@@ -47,6 +47,14 @@ Other paper also find a relatively high mutation rate useful. \cite{almanee_scen
 
 A population size of 200 and roulette selection is used by \cite{assistant_professor_amity_university_jaipur_rajasthan_india_parameter_2019}. Further, the elite count is set to10. A heuristic crossover function with a crossover probability of 0.4 is also used.
 
+
+TODO: \cite{jinghui_zhong_comparison_2005}  set the range as "We set the value of POPSIZE as 50, 100, 150, 200, 250, the value of PXOVER as 0.1, 0.3, 0.5, 0.7, 0.9, and the value of PMUTATION as 0.05, 0.1, 0.15, 0.2, 0.25."
+
+"
+DeJong believes that EAs pre-tuned with default parameter values for particular problem classes will continue providing better performance than EAs that attempt to dynamically adapt too many control parameters for specific problems. So, even after 30+ years of research, the question of best settings for EA and GA control parameters has no widely agreed answer.
+"\cite{mills_determining_2015}
+
+
 \subsection{results}
 This now leads to a difficult decision in choosing the right parameters. Based on the extensive research, we will compare population size of 32, 48, 64 and 96. We will compare the different crossover rates: 0.8 and 0.6. For mutation, 0.01 and 0.2 will be discussed. Further we will use tournament selection with 2 and 4.
 Each run will be executed 5 times to get rid of randomness and to make the results more robuts. We will run each simulation for 40 Generations.
@@ -89,7 +97,7 @@ A high spread can be seen when looking at small population sizes. Considering th
 
 Following the conclusion from the previous section \ref{chap:hyperparameter_tuning:population}, a population size of 96 will be used. Executing one run for 30 generations currently takes around 3:50 hours. Although two different workstations were available, the time required to execute the needed number of runs for these automated tests would exceed the available time budged. This is without considering a minimum required number of repetitions to remove randomness in the results.
 
-In order to tune the hyperparameter of the genetic algorithm, various different strategies can be used. Using automated hyperparamter tuning approaches like "Grid Search", "Bayesian Optimization, "Simmulated Annealing or "Hyperband" might lead to good results with minimal effort (tuning hyperparameter of these search algorithms is still needed), however they require a high number of runs, which is not feasable.\todo{find references} 
+In order to tune the hyperparameter of the genetic algorithm, various different strategies can be used. Using automated hyperparamter tuning approaches like "Grid Search", "Bayesian Optimization, "Simmulated Annealing or "Hyperband" might lead to good results with minimal effort (tuning hyperparameter of these search algorithms is still needed), however they require a high number of runs, which is not feasable. Even a higher level GA can be used\todo{find references} 
 
 A different approach called "design of experiment" (DOE), also known as statistically designed experiments. DOE tries to find the causeand-effect relationship between the factors and the output of experiments.
 It uses factorial design where each experiment has factors, of which each consists of at least two settings, with the actual number of settings being called "levels" (\cite{yang_design_2009}). Design of experiment needs manual expertise to define which factors are possibly of importance and which settings each factor should have, this is a drawback compared to automatic hyperparameter tuning.
@@ -107,6 +115,8 @@ A full factorial design will test over all possible combinations of the manually
 \subsection{Taguchi Design}
 Various improvements to Design of experiment have been but forward by Dr. Genichi Taguchi, such as reducing the influence of uncontrollable (noise) factors on processes and products and reducing variability. Some of these methods evolve around Signal-to-noise (S/N) analysis and utilizing cost functions to "express predicted improvements from DOE results in terms of expected cost saving" (\cite{roy_primer_1990}). This master thesis will not discuss all of Taguchi's proposed considerations, for more detail \cite{roy_primer_1990} as well as \cite{yang_design_2009} is highly recommended.
 
+\todo{Find examples of Papers that use taguchi for ga}
+
 Using a Taguchi design for evaluating the best hyperparamter has been successfully performed by \cite{dao_maximising_2016} as well as \cite{assistant_professor_amity_university_jaipur_rajasthan_india_parameter_2019}. 
 
 \enquote{ There are many similarities between “regular” experimental design and Taguchi's experimental design. However, in a Taguchi experiment, only the main effects and two-factor interactions are considered. Higher-order interactions are assumed to be nonexistent. In addition, experimenters are asked to identify which interactions might be significant before conducting the experiment, through their knowledge of the subject matter.} (\cite{yang_design_2009})
@@ -119,6 +129,12 @@ Using these orthogonal arrays instead of full factorial experiments will lead to
 
 An orthogonal array has multiple properties:
 \todo{Definition orthogonal array}
+"
+OFF and OLH experiment designs sample a full factorial design space in a balanced and orthogonal fashion. Balance ensures good effect estimates by reducing an estimator’s bias and variability. Orthogonality ensures good estimates of two-term interactions. Balance is achieved by ensuring that each level of every factor occurs an equal number of times in the selected sample. Orthogonality is achieved by ensuring that each pair of levels occurs an equal number of times across all experiment parameters in the selected sample. OFF and OLH designs exhibit good space-spanning properties, which aid screening, sensitivity, and comparative analyses. On the other hand, highly fractionated OFF or OLH designs can have poor space-filling properties, which are necessary for optimization analyses.
+
+"\cite{mills_determining_2015}
+
+
 
 
 

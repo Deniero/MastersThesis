@@ -32,7 +32,7 @@ res_col_names <- c("min_0", "min_1", "min_2", "min_3", "min_4", "min_5", "min_6"
 ##### Sim 1 #####
 # load data #
 sim_1.opt_min = read.csv('evaluation/results/sim_1_tag.csv')[,0:res_column_size]
-sim_1.def_min = read.csv('evaluation/results/sim_1_tag_no_elite.csv')[,0:res_column_size]
+sim_1.def_min = read.csv('evaluation/results/sim_1_default.csv')[,0:res_column_size]
 sim_1.rand = read.csv('evaluation/results/sim_1_random.csv')
 threshold <- quantile(sim_1.rand$results, 0.2)
 sim_1.rand_best <- subset(sim_1.rand, sim_1.rand$results <= threshold)
