@@ -3,197 +3,71 @@
 
 \section{Genetic Algorithm}
 \label{chap:foundation:genetic_algorithm}
-Genetic Algorithms are a popular search algorithm that utilizes the principle of Darwin. They have been used successfully in various areas.
-Some of their strengths are ....
-However we will also look at shortcomings, which mainly evolve around performance.
-\todo{Define a vocabulary}
-We will have a look at its History and then discussing the most important parameters.
-
-The task of the Genetic Algorithm is to search for sequences of actions that will result in the most interesting Scenarios according to its cost function.
-
-Genes are the building blocks of a GA
-
-\todo{Usage of GA}
-\todo{dejong talks about dynamic param and why its not good}
-
-"
-From a general perspective, GA application requires, besides transforming the test problem into a search problem (representation), the definition of a method to distinguish better from worse solutions (fitness function) and to choose appropriate parameter settings. These parameters are often referred to as strategy or control parameters, where one has to specify, for instance, the population size, selection mechanism (roulette wheel, tournament, rank-based, etc.), crossover-type and probability, and mutation-type and probability. The choice of all these parameters might significantly impact the performance of a search algorithm. In the worst case, an “unfortunate” parameter setting might make it impossible to solve the problem at hand.23 While there is empirical data available to support the choice of appropriate default parameters for a specific problem to be solved,24 it has been formally proven in the “No Free Lunch” (NFL) theorem that there is not one optimal parameter setting for all possible search problems.25
-"\cite{klampfl_using_nodate}
-
-"
-For instance, in a GA, one may want to decrease the probability of crossover and mutation over time to avoid too high reproductive variation hindering convergence to local optima. However, in that case, one would need to set new parameters that define how much and how often each probability is decreased. Research has not yet concluded if one technique has a clear advantage over the other.
-"\cite{klampfl_using_nodate}
 
 
 
-"
-As an intelligent search optimization technique, genetic algorithm (GA) is an important approach for non-deterministic polynomial (NP-hard) and complex nature optimization problems.
-
-The most attractive feature of GA is that it has the ability to explore the search space with the help of the entire population of individuals [2].
-"\cite{hussain_trade-off_2020}
-
-"
-
-A very common issue about GA is premature convergence to find the optimal solution of a problem. This is strongly linked to the loss of population diversity. If it is very low then a very quick convergence will be observed by GA; otherwise, time-consuming and may cause wastage of computational resources. Hence, there is essential to find a trade-off between exploration (i.e., exploring the new areas of search space) and exploitation (i.e., using already detected points to search the optimum). Therefore, the performance of the GA highly depends on its genetic operators, in general.
-
- The balance between exploration and exploitation can be adjusted either by selection pressure in a selection approach or by the recombination operators with adjustment of their probabilities.
-"\cite{hussain_trade-off_2020}
 
 
 
-"
-Genetic algorithms are global optimization techniques that avoid many of the shortcomings exhibited by local search techniques on difficult search spaces.
+\paragraph{General}
+Pioneered by John Holland (1974) \todo{Find paper}, Genetic Algorithms (GAs) imitate natural selection and the Darwinian principle called "survival of the fittest". Genetic Algorithms search the solution space using a population of individuals. Each individual contains one chromosome, which serves as a candidate solution. Using genetic operations, the individuals mate among themselves and mutate independently. Which individual is chosen depends on a fitness function, which defines the search problem. Individuals that do poorly on the given problem die out, while "strong" individuals propagate.
+Genetic Algorithms iteratively (each iteration is call "generation") optimize by manipulating a population of potential solutions (\cite{srinivas_genetic_1994}).
+Chromosomes consist of individual genes, which form a solution to the search problem. Over generations using genetic operations, gene values and position will be optimized, resulting in interativly better solutions (\cite{srinivas_genetic_1994}).
+This masters thesis will utilize generational genetic algorithms, where each generation, the entire population is replaces. Contrary to that, steady state genetic algorithms only replace a small fraction of the population at a time (\cite{srinivas_genetic_1994}).
 
-A GA is an iterative procedure which maintains a con- stant-size population P(t) of candidate solutions. During each iteration step, called a generation, the structures in the current population are evaluated, and, on the basis of those evaluations, a new population of candidate solutions is formed (see Fig. 3.)
-
-
-The power of GA's derives largely from their ability to exploit efficiently this vast amount of accumulating knowledge by means of relatively simple selection mechanisms [17].
-"\cite{grefenstette_optimization_1986}
-
-"
-Termination ofthe GA may be triggered by finding an acceptable approximate solution, vel adaptive system model. by fixing the total number of structure evaluations, or some other application dependent criterion.
-"\cite{grefenstette_optimization_1986}
+Genetic algorithms are a subclass of evolutionary algorithms (\cite{mills_determining_2015}).
 
 
-"
-GA's consistently outperform both gradient techniques and various forms of random search on more difficult (and more common) problems, such as optimizations involving discontinuous, noisy, high-dimensional, and multimodal objective functions.
-"\cite{grefenstette_optimization_1986}
+\paragraph{Pros}
+This search method on the basis of biological principles allows trough its population for a global and dispersed search which avoids various shortcommings of local search techniques (\cite{grefenstette_optimization_1986}). Especially on difficult search spaces with lots of local optima, a genetic alogorithm is less prone to get stuck on a substandard solution (\cite{katoch_review_2021}, \cite{xia_genetic_2019}, \cite{majumdar_genetic_2015}). Genetic Algorithms offer advantages for complex optimization and non-deterministic polynomial (NP-hard) problems (\cite{hussain_trade-off_2020}).
+
+\enquote{GAs can find good solutions within a large, ill-defined search space, and can be readily adapted to a wide variety of search problems (Mitchell, 1998)} (\cite{mills_determining_2015})
+
+\cite{grefenstette_optimization_1986} further emphasis its ability to outperform gradient techniques on difficult problems such as "as optimizations involving discontinuous, noisy, high-dimensional, and multimodal objective functions." Adding, that base Genetic Algorithms their effectiveness on their "ability to exploit efficiently this vast amount of accumulating knowledge by means of relatively simple selection mechanisms".
+
+\enquote{The most attractive feature of GA is that it has the ability to explore the search space with the help of the entire population of individuals.} (\cite{hussain_trade-off_2020})
 
 
-"
-GAs can find good solutions within a large, ill-defined search space, and can be readily adapted to a wide variety of search problems (Mitchell, 1998).
-"\cite{mills_determining_2015}
+Further advantages are the "high implicit parallelism", which makes genetic algorithms "numerically very efficient" (\cite{marsili_libelli_adaptive_2000}).
 
-"
-Genetic algorithm search methods are rooted in the mechanisms of evolution and natural genetics. The interest in heuristic search algorithms with underpinnings in natural and physical processes began as early as the 1970s,when Holland’ first proposed genetic algorithms
-"\cite{srinivas_genetic_1994}
+\enquote{The power and simplicity of GA make it popular for even largescale optimization problems. The main advantage of GA is that it does not require neither mathematical expression of response surfaces nor any derivative or gradient information} (\cite{boyabatli_parameter_2004})
 
 
-"
-In nature. individuals best suited to competition for scanty resources survive. Adapting to a changing environment is essential for the survival of individualsof each species. While the various features that uniquely characterize an individual determine its survival capacity. the features in turn are determined by the individual’s genetic content. Specifically, each feature is controlled by a basic unit called a gene. The sets of genes controlling features form the chromosomes, the “keys” to the survival of the individual in a competitive environment.
-"\cite{srinivas_genetic_1994}
-
-"
-Genetic algorithms manipulate a population of potential solutions to an optimization (or search) problem. Specifically, they operate on encoded representations of the solutions, equivalent to the genetic material of individuals in nature, and not directly on the solutions themselves
-"\cite{srinivas_genetic_1994}
-
-"
-Each solution is associated with a fitness vulue that reflects how good it is, compared with other solutions in the population. The higher the fitness value of an individual, the higher its chances of survival and reproduction and the larger its representation in the subsequent generation. Recombination of genetic material in genetic algorithms is simulated through a crossover mechanism that exchanges portions between strings. Another operation, called mutation, causes sporadic and random alteration of the bits of strings. Mutation too has a direct analogy from nature and plays the role of regenerating lost genetic material.
-"\cite{srinivas_genetic_1994}
-
-
-"
-Simulated annealing, genetic algorithms, and evolutionary strategies are similar in their use of a probabilistic search mechanism directed toward decreasing cost or increasing payoff. These three methods have a high probability of locating the global solution optimally in a multimodal search landscape. (A multimodal cost function has several locally optimal solutions as well.)
-"\cite{srinivas_genetic_1994}
-
-"
-The principal difference between genetic algorithms and evolutionary strategies is that genetic algorithms rely on crossover, a mechanism of probabilistic and useful exchange of information among solutions, to locate better solutions, while evolutionary strategies use mutation as the primary search mechanism.
-"\cite{srinivas_genetic_1994}
-
-
-"
-Genetic algorithm (GA) is one of the optimization methods that has received increasing attention in recent decades. Its popularity is attributed to the independence of functional derivatives, and the capability to solve both discrete and continuous optimization problems and to avoid getting trapped in the local optima that inevitably appear in many practical optimization problems.
-"\cite{xia_genetic_2019}
-
-
-"
-Prof. Holland (1974) from the University of Michigan developed the ideas and concepts GA based on the principles of Genetics and Natural Selection “survival of the fittest” and many authors have refined his initial approach. Genetic algorithms imitate the evolutionary process of species and natural selection by a computer program. A very important point to note that GA searches the solution space by maintaining a population of potential solutions and is less likely to get trapped at a local optimum. Each individual in the population is referred as a chromosome. The genetic information of the chromosome is encoded using an appropriate method (Eg. Binary Encoding, Hexadecimal Encoding, Tree, etc.), representing a solution to the given problem. These chromosomes then evolve through successiv iterations, called generations and subsequently follows certain steps. The details are explained through the flow chart shown in Figure 1
-"\cite{majumdar_genetic_2015}
-
-
-"
-GAs are a subclass of evolutionary algorithms (EAs). EAs comprise a collection of heuristic methods that use techniques, such as mutation, recombination, and selection (inspired by genetics and biological evolution) to search for optimal solutions to difficult problems.
-"\cite{mills_determining_2015}
-
-"
-Single-solution based metaheuristic algorithms utilize single candidate solution and improve this solution by using local search. However, the solution obtained from single-solution based metaheuristics may stuckinlocaloptima[112]. The well-known single-solution based metaheuristics are
-simulated annealing, tabu search (TS), microcanonical annealing (MA), and guided local search (GLS). Population-based metaheuristics utilizes multiple candidate solutions during the search process. These metaheuristics maintain the diversity in population and avoid the solutions are being stuck in local optima. Some of well-known population-based metaheuristic algorithms are genetic algorithm (GA) [135], particle swarm optimization (PSO) [101], ant colony optimization (ACO) [47], spotted hyena optimizer (SHO) [41], emperor penguin optimizer (EPO) [42], and seagull optimization (SOA) [43].
-"\cite{katoch_review_2021}
-"
-GA mimics the Darwinian theory of survival of fittest in nature. GA was proposed by J.H. Holland in 1992.
-"\cite{katoch_review_2021}
-
-"
-The basic elements of GA are chromosome representation, fitness selection, and biological-inspired operators. Holland also introduced a novel element namely, Inversion that is generally used in implementations of GA [77]. Typically, the chromosomes take the binary string format. In chromosomes, each locus (specific position on chromosome) has two possible alleles (variant forms of genes) - 0 and 1. Chromosomes are considered as points in the solution space. These are processed using genetic operators by iteratively replacing its population. The fitness function is used to assign a value for all the chromosomes in the population [136]. The biological-inspired operators are selection, mutation, and crossover. In selection, the chromosomes are selected on the basis of its fitness value for further processing. In crossover operator, a random locus is chosen and it changes the subsequences between chromosomes to create off-springs. In mutation, some bits of the chromosomes will be randomly flipped on the basis of probability [77,135,136]. T
-"\cite{katoch_review_2021}
-
-"
-Genetic algorithm (GA) is an optimization algorithm that is inspired from the natural selection. It is a population based search algorithm, which utilizes the concept of survival of fittest [135].
-"\cite{katoch_review_2021}
-
-"
-The procedure of GA is as follows. A population (Y)ofn chromosomes are initialized randomly. The fitness of each chromosome in Y is computed. Two chromosomes say C1 and C2 are selected from the population Y according to the fitness value. The single-point crossover operator with crossover probability (Cp) is applied on C1 and C2 to produce an offspring say O. Thereafter, uniform mutation operator is applied on produced offspring (O) with mutation probability (Mp) to generate O'. The new offspring O' is placed in new population. The selection, crossover, and mutation operations will be repeated on current population until the new population is complete.
-"\cite{katoch_review_2021}
-
-
-"
-Real-coded GAs (RGAs) have been widely used in various real-life applications. The representation of chromosomes is closely associated with real-life problems. The main advantages of RGAs are robust, efficient, and accurate. However, RGAs suffer from premature convergence. Researchers are working on RGAs to improve their performance. Most of RGAs are developed by modifying the crossover, mutation and selection operators.
-"\cite{katoch_review_2021}
-
-"
-Genetic Algorithms !GAs) represent a highly efcient search procedure for the determination of global extrema of multivariable functions, imitating the patterns of genetic reproduction in living organisms. GAs work by successive modi®cations of a collection !often referred to as population) of parameter combinations in the search space, using a binary coded representation termed chromosome. The initial set of chromosomes evolves through a number of operators !selection, crossover, mutation) so that subsequent generations produce more and more chromosomes in the neighborhood of the optimum, de®ned through a given ugure of merit, or tness. Genetic Algorithms were ®rst introduced by Goldberg !1989) and Holland !1992) and differ from conventional search algorithms in the following aspects:
-"\cite{marsili_libelli_adaptive_2000}
-
-"
-- GAs work with a coding of the parameters, not the parameters themselves; 
-- GAs search using a population of points, not a single one, thus thoroughly cover the search region and avoid being trapped into local extrema; 
-- GAs use probabilistic, not deterministic, transition rules to alter the initial population through subsequent generations; 
-- GAs have a high implicit parallelism, making them numerically very efficient; 
-- Like all derivative-free search methods, GAs use only point-wise evaluation, thus are very insensitive to discontinuities and irregularities in the fitness function.
-"\cite{marsili_libelli_adaptive_2000}
-
-"
-The optimization procedure starts from a population of randomly chosen chromosomes and generates successive populations applying the operators of reproduction, mutation and crossover !Goldberg, 1989; Davis, 1990; Holland, 1992).
-"\cite{marsili_libelli_adaptive_2000}
-
-
-"
-John Holland pioneered genetic algorithms by simulating evolution of the nature. During the past forty years, genetic algorithms have been applied in many fields such as pattern recognition, robotics, artificial life, experts system, electronic and electrical field, cellular automata, etc [1]-[7]. By using the genetic algorithms to solve a problem, we first present the candidate solutions as a sequence of values, and define an evaluation function to evaluate the candidate solutions. An artificial genetic system uses concepts like population and generation to simulate the natural genetic system. One population consists of a certain number of individuals which serve as candidate solutions. New generation of population is created by genetic operations such as selection, crossover and mutation in iteration. According to the Darwinian principles of survival, which is called “the survival of the fittest”, the excellent individuals have far more chances to adapt themselves to the environment and survive, while the inferior ones die out [8]. The survivals reproduce new individuals with better genes which make the new generation more endurable to the nature. Similarly, the GAs(Genetic Algorithms) use this process of reproduction as a basic genetic operation for the algorithms. Currently there are several selection strategies, such as roulette wheel, tournament selection, rank-based selection and deterministic sampling.
-"\cite{jinghui_zhong_comparison_2005}
-
-
-"
-The SGA uses the steps as below: Step1. Encode the given problems in gene strings. Step2. Create an initial population consists of a certain number of individuals. Step3. Perform sub-steps as follows until the termination condition is satisfied: (a)Evaluate the fitness value of each individual in the population. (b)Create a new population by three genetic operations as follows: ¾ According to the fitness value, individuals are chosen with a probability. Replicate the selected ones to form a new population. ¾ Create two new individuals by two parents who are selected probabilistically from the population and recombine them at the crossover point. ¾ Create a new individual by mutating an existing individual with the probabilistically selected. Step4. When the process ceases, we can find a solution from the result of the genetic algorithm.
-"\cite{jinghui_zhong_comparison_2005}
-
-
-"
-Genetic algorithm (GA) is one of the optimization methods that has received increasing attention in recent decades (Mitra et al.;Kalayci et al.). Its popularity is attributed to the independence of functional derivatives, and the capability to solve both discrete and continuous optimization problems and to avoid getting trapped in the local optima that inevitably appear in many practical optimization problems (Javadi et al).
-"
-
+\paragraph{Basic Structure}
+At its core, a genetic algorithm uses a list of simple evolution inspired functions. A basic genetic algorithm can be seen here, according to \cite{srinivas_genetic_1994}. \todo{Probably ref Holland or Dejong}
 
 \begin{lstlisting}[language=C, tabsize=4]
-simple_genetic_algorithm() 
-{
-	initialize_population();
-	evaluate_population();
-	for(int i = 0; i < num_of_generations; i++) 
+	simple_genetic_algorithm() 
 	{
-		select_individuals_for_next_population();
-		perform_crossover();
-		perform_mutation();
+		initialize_population();
 		evaluate_population();
+		for(int i = 0; i < num_of_generations; i++) 
+		{
+			select_individuals_for_next_population();
+			perform_crossover();
+			perform_mutation();
+			evaluate_population();
+		}
 	}
-}
 \end{lstlisting}
-\cite{srinivas_genetic_1994}
 
 
-"
-Each iteration of the simple GA creates an entirely new population from an existing population. GASthat replace the entire population are called generational GAS.GAS that replace only a small fraction of strings at a time are called steady-state GAS
-"\cite{srinivas_genetic_1994}
+First, the population is initialized randomly and its individuals are subsequently evaluated using the fitness function. The following steps are now repeated until some stopping criteum is triggered (\cite{grefenstette_optimization_1986}) (in this case, it is just a maximum on the number of generations).
+The individuals are chosen using a selection operation, which takes their fitness value under consideration. Next, under some crossover probabilty, the selected individals mate, producing new offspring. This surfs the purpose of exchanging information between the chromosomes as genes. Futher, a handfull of indivduals (selected using a mutation probabilty) get mutated, which adds small variations to the chromomsomes, thus adding new variation to the population.
+Finally the new population gets evaluated.
 
-"
-Genetic algorithmsare particularly attractive because instead of a naive “search and select” mechanism they use crossover to exchange information among existing solutions to locate better solutions.
-"\cite{srinivas_genetic_1994}
 
-"
-GAs are search algorithms based on the mechanics of natural selection and natural genetics. In natural genetics, the presence/absence of genes and their order in the chromosome decide the characteristic features of individuals of a population. The different traits are passed on from one generation to the next through different biological processes, which operate on the genetic structure. By this process of genetic change and survival of the fittest, a population well adapted to the environment results. Similarly, in GA, a finite-length string coding is used to describe the parameter values of each solution for the search problem under consideration. Each string corresponds to an individual, and every individual acquires its power in the survival process in terms of its fitness value. Higher the fitness values, better the individuals performance in the evolution process. A fixed number of individuals correspond to a generation. GA is an iterative algorithm such that in every generation, first parents are selected depending on their fitness values, and then by some genetic operators the strings of children are produced. With their calculated fitness values, the new generation is obtained. And this procedure is repeated until some stopping criterion is met.
-"\cite{boyabatli_parameter_2004}
+\paragraph{Problems}
+According to \cite{hussain_trade-off_2020}, genetic algorithms suffer from an exploration vs exploitation dilemma. If the algorithm converges too quickly to a solution, most of the search space might not have yet been explored, thus increasing the probability of getting stuck at only a local optimum.
+In contrast to that, a low convergence rate will be time consimung and result in wasted compuational resources.
 
-"
-The power and simplicity of GA make it popular for even largescale optimization problems. The main advantage of GA is that it does not require neither mathematical expression of response surfaces nor any derivative or gradient information
-"\cite{boyabatli_parameter_2004}
+\enquote{Finding a balance between exploration and exploitation has been a difficult-to-achieve goal from the beginning.} (\cite{kacprzyk_parameter_2007})
+
+Genetic algorithms also require an application specific encoding of genes, which requires time and domain specific knowledge. Due to know real consus on the "best parameter settings" (see section \ref{chap:hyperparameter_tuning}, their optimal selection proves to be difficult.
+
+
+
+
 \subsection{Encoding}
 \label{chap:foundation:ga:encoding}
 Binary, Hex, ....
@@ -235,6 +109,18 @@ For my testing, using a generation size of 40 was almost always sufficient, and 
 \subsubsection{Population}
 Pop size will set the number of Individuals of a GA per Generation. The higher the pop size, the bigger the less change of premature converging. 
 It will however also lead to a longer convergin time.
+
+
+"
+From my perspective the parent population size m can be viewed as a measure of the degree of parallel search that an EA supports, since the parent population is the basis for generating new search points.
+"\cite{kacprzyk_parameter_2007}
+
+"
+By contrast, more complex, multi-peaked landscapes may require populations of 100s or even 1000s of parents in order to have some reasonable chance of finding globally optimal solutions
+"\cite{kacprzyk_parameter_2007}
+
+
+
 
 "
 As Srinivas and Patnaik explained in their survey on GAs,24 increasing the population size also increases the diversity of individuals, which reduces the chances that the search converges to a local optimum. However, if the population size is too large, converging to optimal regions takes longer than required. Considering a fixed time budget for testing, as is the case for this study, with increasing population size also, the impact of genetic search is increasingly fading as fewer optimization steps can be performed between generations.
@@ -285,6 +171,14 @@ Selection defines how which individuals are allowed to mate and move into the ne
 tournament was chosen to be used for this works because of this paper (and also because of pros and cons list)
 
 Other ideas are evolve around having a flexible selection system debending on fitness \todo{cite paper}
+
+"
+It is quite clear that the more “elitist” a selection algorithm is, the more an EA behaves like a local search procedure (i.e, a hill-climber, a “greedy” algorithm) and is less likely to converge to a global optimum.
+
+"
+If selection is too strong, convergence to a local optimum is highly likely.
+"\cite{kacprzyk_parameter_2007}
+
 
 "
 GA is one of those algorithms whose performance is highly affected by the choice of selection operator. Without this mechanism, GA is only simple random sampling giving different results in each generation. Hence, we can say that the selection operator is the backbone of the GA process.
@@ -412,6 +306,9 @@ Crossover is the mating process.
 "
 The higher the crossover rate, the more quickly new structures are introduced into the population. If the crossover rate is too high, high-performance structures are discarded faster than selection can produce improvements. If the crossover rate is too low, the search may stagnate due to the lower exploration rate.
 "\cite{grefenstette_optimization_1986}
+"
+Real-coded GAs (RGAs) have been widely used in various real-life applications. The representation of chromosomes is closely associated with real-life problems. The main advantages of RGAs are robust, efficient, and accurate. However, RGAs suffer from premature convergence. Researchers are working on RGAs to improve their performance. Most of RGAs are developed by modifying the crossover, mutation and selection operators.
+"\cite{katoch_review_2021}
 
 
 "
@@ -500,12 +397,19 @@ A related issue is theinterplay between the population size and the type of cros
 Increasing the crossover probability increases recombination of building blocks, but it also increases the disruption of good strings.
 "\cite{srinivas_genetic_1994}
 
+"
+If reproductive variation is too strong, the result is undirected random search
+"\cite{kacprzyk_parameter_2007}
+
+
 \subsubsection{Mutation}
 Mutation is responsible for introducing new information into the gene pool.
 
 "
 Setting the mutation probability too high may transform the search procedure into random testing, but it also helps to introduce new gene material, which promotes the exploration of new input space regions.
 "\cite{klampfl_using_nodate}
+
+
 
 "
 Mutation is a secondary search operator which increases the variability of the population.
@@ -584,6 +488,24 @@ In 2007, DeJong took a broader view, considering what was known with respect to 
 Parameter settings optimal in the earlier stages of the search typically become inefficient during the later stages. Similarly, encodings become too coarse as the search progresses, and the fraction of the search space that the GA focuses its search on becomes progressivelysmaller. To overcome these drawbacks, several dynamic and adaptive strategiesfor varying the control parameters and encodings have been proposed. One strategy exponentially decreases mutation rates with increasing numbers of generations, to gradually decrease the search rate and disruption of strings as the population converges in the search space. Another approach considers dynamically modifying the rates at whichthe various genetic operators are used, based on their performance. Each operator is evaluated for the fitness values of strings it generates in subsequent generations. Very often, after a large fraction of the population has converged (the strings have become homogeneous), crossover becomes ineffective in searching for better strings. Typically, low mutation rates (0.001 to 0.01) are inadequate for continuing exploration. In such a situation, a dynamic approach for varying mutation rates based on the Hamming distance between strings to be crossed can be useful. The mutation rate increasesas the Hamming distancebetween strings decreases. As the strings to be crossed resemble each other to a greater extent,the capacity of crossover to generate new strings decreases, but the increased mutation rate sustainsthe search.
 "\cite{srinivas_genetic_1994}
 
+
+"
+The purist might argue that inventing feedback control procedures for EAs is a good example of over-engineering an already sophisticated adaptive system.
+
+A better strategy is to take our inspiration from nature and design our EAs to be self-regulating. For example, individuals in the population might contain “regulatory genes” that control mutation and recombination mechanisms, and these regulatory genes would be subject to the same evolutionary processes as the rest of the genome.
+"\cite{kacprzyk_parameter_2007}
+
+"
+Perhaps the most interesting thing to note today, after more than 30 years of experimenting with dynamic parameter setting strategies, is that, with one exception, none of them are used routinely in every day practice. The one exception are the strategies used by the ES community for mutation step size adaptation.
+"\cite{kacprzyk_parameter_2007}
+
+"
+My own view is that there is not much to be gained in dynamically adapt- ing EA parameter settings when solving static optimization problems. The real payoff for dynamic parameter setting strategies is when the fitness land- scapes are themselves dynamic (see, for example, [4], [5], or [32]).
+"\cite{kacprzyk_parameter_2007}
+
+"
+For instance, in a GA, one may want to decrease the probability of crossover and mutation over time to avoid too high reproductive variation hindering convergence to local optima. However, in that case, one would need to set new parameters that define how much and how often each probability is decreased. Research has not yet concluded if one technique has a clear advantage over the other.
+"\cite{klampfl_using_nodate}
 
 \subsubsection{Other}
 \paragraph{Diversity}

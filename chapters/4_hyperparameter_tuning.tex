@@ -2,9 +2,28 @@
 \label{chap:hyperparameter_tuning}
 In this chapter, we will incrementally move to an optimized Genetic Algorithm
 
+"
+changing the population size, the type and amount of reproductive variation, etc. could significantly change the behavior of an EA on a particular fitness landscape and, conversely, appropriate parameter settings for one fitness landscape might be inappropriate for others.
+"\cite{kacprzyk_parameter_2007}
+
 \section{No Free Lunch Theorem}
 No Free Lunch Theorem:
 The best hyperparameter settings of a Genetic Algorithm are very problem specific. \cite{kacprzyk_parameter_2007}, \cite{dao_maximising_2016} \todo{More ref}
+
+"
+It has been shown in a variety of contexts including the areas of search, optimization, and machine learning that, unless adequate restrictions are placed on the the class of problems one is attempting to solve, there is no single algorithm that will outperform all other algorithms (see, for example, [83]).
+
+
+A more constructive interpretation of NFL results is that they present us with a challenge to define more carefully the classes of problems we are trying to solve and the algorithms we are developing to solve them.
+
+
+The No Free Lunch results place an obligation on the EA practitioner to understand something about the particular properties of the problems that (s)he is trying to solve that relate to particular choices of EA parameter settings. This poses a bit of a dilemma in that often an EA is being used precisely because of a lack of knowledge about the fitness landscapes being explored. As a consequence, the parameter setting strategy frequently adopted is a multiple run, human-in-the-loop approach in which various parameter settings are tried in an attempt to fine-tune an EA to a particular problem.
+"\cite{kacprzyk_parameter_2007}
+
+
+"
+While there is empirical data available to support the choice of appropriate default parameters for a specific problem to be solved,24 it has been formally proven in the “No Free Lunch” (NFL) theorem that there is not one optimal parameter setting for all possible search problems.25
+"\cite{klampfl_using_nodate}
 
 \section{Map and Starting Scenario}
 The map is Town10 from Carla. It was chosen, because 1. its roads are self contained, 2. its not too big, yet still complex and 3. its supported by Carla and thus visualization looks better.
@@ -25,6 +44,12 @@ Chosing the right selection method is complicated as well, as discuees by \cite{
 "One source of difficulty here is that selection pressure is not as easy to “parameterize” as population size. We have a number of families of selection procedures (e.g, tournament selection, truncation selection, fitness-proportional selection, etc.) to choose from and a considerable body of literature analyzing their differences (see, for example, [19] or [15]), but deciding which family to choose or even which member of a parameterized family is still quite difficult, particularly because of the interacting effects with population size [13]."
 
 Looking at the literature might lead to hyperparameters are used that at least sufficient enough, to get an idea which range for population size is suitable. We will now look at different concrete hyperparameter suggestions from the literature.
+
+"
+At the beginning of an EA run it is important to have sufficient parallelism to handle possible multi-modalities, while at the end of a run an EA is likely to have converged to a local area of the fitness landscape that is no more complex than Figure 1.
+
+As a consequence, most EAs used in practice today run with a fixed population size, the value of which may be based on existing off-line studies (e.g., [34]) or more likely via manual tuning over multiple runs.
+"\cite{kacprzyk_parameter_2007}
 
 \subsection{Suggested hyperparameter from the literature}
 \todo{Use best values also from : Using genetic algorithms for automating automated lane-keeping system testing}
@@ -99,6 +124,20 @@ Following the conclusion from the previous section \ref{chap:hyperparameter_tuni
 
 In order to tune the hyperparameter of the genetic algorithm, various different strategies can be used. Using automated hyperparamter tuning approaches like "Grid Search", "Bayesian Optimization, "Simmulated Annealing or "Hyperband" might lead to good results with minimal effort (tuning hyperparameter of these search algorithms is still needed), however they require a high number of runs, which is not feasable. Even a higher level GA can be used\todo{find references} 
 
+
+"
+it is not uncommon to automate this process with a simple, top-level “parameter sweep” procedure that systematically adjusts selected parameter values. However, unless care is taken, this can lead to a combinatorial explosion of parameter value combinations and require large amounts of computation time.
+"\cite{kacprzyk_parameter_2007}
+
+"
+The fitness landscapes defined by EA parameter tuning generally have the same unknown properties as the underlying problems that suggested the use of EAs in the first place! So, a natural consequence is the notion of a two-level EA, the top level of which is evolving the parameters of the lower level EA.
+"\cite{kacprzyk_parameter_2007}
+
+"
+My sense is that, for static optimization problems, it will to continue to be the case that particular types of EAs that have been pre-tuned for particular classes of problems will continue to outperform EAs that try to adapt too many things dynamically.
+"\cite{kacprzyk_parameter_2007}
+
+
 A different approach called "design of experiment" (DOE), also known as statistically designed experiments. DOE tries to find the causeand-effect relationship between the factors and the output of experiments.
 It uses factorial design where each experiment has factors, of which each consists of at least two settings, with the actual number of settings being called "levels" (\cite{yang_design_2009}). Design of experiment needs manual expertise to define which factors are possibly of importance and which settings each factor should have, this is a drawback compared to automatic hyperparameter tuning.
 
@@ -145,6 +184,9 @@ As has been stated, probably the biggest drawback of using Taguchi orthogonal ar
 
 This is complimented by \cite{yang_design_2009}, who states, that:
 \enquote{During many years of applications of factorial design, people have found that higher-order interaction effects (i.e., interaction effects involving three or more factors) are very seldom significant. In most experimental case studies, only some main effects and two-factor interactions are significant.}
+
+
+However, \cite{kacprzyk_parameter_2007} claim, that "tuning EA parameters can itself be a challenging task since EA parameters interact in highly non-linear ways." It remains to be seen in it is possible to use this method for optimizing parameters of a genetic algorithm.
 
 \paragraph{Selection of orthogonal array}
 When choosing a suitable Taguchi orthogonal array, we need to take various factors into account, which can make the process tricky. According to \cite{yang_design_2009}, we will have to follow a three step procedure:

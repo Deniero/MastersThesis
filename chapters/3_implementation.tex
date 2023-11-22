@@ -62,6 +62,7 @@ All these actions are accessed by the Genetic Algorithm and the Behavior tree. T
 
 
 \section{Genetic Algorithm}
+The task of the Genetic Algorithm is to search for sequences of actions that will result in the most interesting Scenarios according to its cost function.
 For implementing the Genetic Algorithm, DEAP\todo{cite} was chosen. It is a popular tool for academia \todo{cite 3 examples} and allows for high customacibility.
 As has been stated in section \ref{implementation:action_interface}, it has full access over setting actions for all NPCs. Using theses actions, it tries to optimize a cost function. This section aims to explain how the genetic algorithm was implemented and which different hyperparameters are variable. In chapter \ref{chap:hyperparameter_tuning}, the best hyperparameter combination will be generated, further analysis is done in \ref{chap:evaluation}.
 
