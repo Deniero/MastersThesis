@@ -112,6 +112,8 @@ In Appendix , the probabilty of an actions can be seen. In Appendix ... the prob
 
 These ranges were assigned based on intuition and trial and error. The encoding is visualized in \ref{figure:encoding:gene:int}.
 
+TODO: Due to the cliff problem, it was decided to not use binary representations for these integers. Due to the mutation choosing the integers randomly, it is not a problem that the variables are not really "continous".
+
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{figures/int_encoding}
 	\caption{Integer}
@@ -133,6 +135,8 @@ Figure \ref{figure:encoding:gene:dict} shows a visualization.
 \end{figure}
 
 \subsection{Cost Function}
+\todo{Suggestion florian: better explain cost values (e.g. 3500 means no emergency break...)}
+
 Cost function is a bit difficult, as we are only using internal values. No ADAS/AD system is tested and we thus have to work with what we got.
 This is the code of the cost function:
 

@@ -5,10 +5,6 @@
 \label{chap:foundation:genetic_algorithm}
 
 
-
-
-
-
 \paragraph{General}
 Pioneered by John Holland (1974) \todo{Find paper}, Genetic Algorithms (GAs) imitate natural selection and the Darwinian principle called "survival of the fittest". Genetic Algorithms search the solution space using a population of individuals. Each individual contains one chromosome, which serves as a candidate solution. Using genetic operations, the individuals mate among themselves and mutate independently. Which individual is chosen depends on a fitness function, which defines the search problem. Individuals that do poorly on the given problem die out, while "strong" individuals propagate.
 Genetic Algorithms iteratively (each iteration is call "generation") optimize by manipulating a population of potential solutions (\cite{srinivas_genetic_1994}).
@@ -65,145 +61,117 @@ In contrast to that, a low convergence rate will be time consimung and result in
 
 Genetic algorithms also require an application specific encoding of genes, which requires time and domain specific knowledge. Due to know real consus on the "best parameter settings" (see section \ref{chap:hyperparameter_tuning}, their optimal selection proves to be difficult.
 
+"
+Premature convergence is a common issue for GA. It can lead to the loss of alleles that makes it difficult to identify a gene [15]. Premature convergence states that the result will be suboptimal if the optimization problem coincides too early.
+"\cite{katoch_review_2021}
 
 
 
-\subsection{Encoding}
+\subsection{Genes}
 \label{chap:foundation:ga:encoding}
-Binary, Hex, ....
-\todo{cite what makes an encoding good: eg. simplicity,...}
 
-"
-Traditionally, binary encodings have been used because they are easy to implement and maximize the number of schemata processed. The crossover and mutation operators described in the previous sections are specific only to binary encodings. When alphabets other than [OJ] are used, the crossover and mutation operators must be tailored appropriately.
-"\cite{srinivas_genetic_1994}
+The encoding of the genes proved to be, besides the hyperparamter tuning, the main challenge of setting up a genetic algorithm pipeline.
+A simple and commonly used representation for genes is binary encoding. As suggested by its name, a gene can take the for as 0 or 1. Futher common encodings are octal and hexadecimal representations (\cite{srinivas_genetic_1994}, \cite{katoch_review_2021}).
 
-"
-Binary encoding is the commonly used encoding scheme. Each gene or chromosome is represented as a string of 1 or 0 [187].
-"\cite{katoch_review_2021}
+In case a custom encoding needs to be used, the genetic operation crossover and mutation have to be tailored accordingly. \cite{srinivas_genetic_1994} suggests, to use integer representations in case a optimization problem has real-valued continuous variables. Theses variables are linearly mapped to integers defined in a specific range. It is also possible to again represent these integers as binary encodings.
 
-"
-Binary encoding scheme is not appropriate for some engineering design problems due to epistasis and natural representation. In octal encoding scheme, the gene or chromosome is represented in the form of octal numbers (0–7). In hexadecimal encoding scheme, the gene or chromosome is represented in the form of hexadecimal numbers (0–9, A-F) [111,125,187]. T
-"\cite{katoch_review_2021}
+Various other encodings are available, often very problem specific. For example tree encodings allows for genes to represent programming functions, leading to a path of genetic algorithms called "genetic programming" (\cite{katoch_review_2021}).
 
-"
-In value encoding scheme, the gene or chromosome is represented using string of some values. These values can be real, integer number, or character [57]. This encoding scheme can be helpful in solving the problems in which more complicated values are used.
-"\cite{katoch_review_2021}
 
-"
-In tree encoding, the gene or chromosome is represented by a tree of functions or commands. These functions and commands can be related to any programming language. This is very much similar to the representation of repression in tree format [88]. This type of encoding is generally used in evolving programs or expressions.
-"\cite{katoch_review_2021}
-
-"
-A large number of optimization problems have real-valued continuous variables. A common method of encoding them uses their integer representation. Each variable is first linearly mapped to an integer defined in a specified range, and the integer is encoded using a fixed number of binary bits.
-"\cite{srinivas_genetic_1994}
-
-\todo{Use Controll Parameter instead of Hyperparams???}
-\subsection{Different Hyperparameter}
+\subsection{Control Parameter of a Genetic Algorithm}
 Hyperparamter have a huge influence on the performance of a Genetic Algorihm. They have an impact on the "convergin" ...
 It has been shown, that there is no universal hyperparamter set and that it needs to be optimized on a per "problem" basis.
 
 \subsubsection{Num of generations}
 The Number of Generation defines the duration of a GA. As long as the algorihtm has not converged, ....?
-For my testing, using a generation size of 40 was almost always sufficient, and will thus mostly be used.
+For my testing, using a generation size of 30 was almost always sufficient, and will thus mostly be used.
 
-\subsubsection{Population}
-Pop size will set the number of Individuals of a GA per Generation. The higher the pop size, the bigger the less change of premature converging. 
-It will however also lead to a longer convergin time.
+\subsubsection{Population Size}
+Controlling the Population Size, which defines the number of individuals per generation, has a direct impact on the performance of the genetic algorithm.
+Research seams to be in agreement, that a small population leads to less diverse individuals and might provide an insufficient sample size. This can lead to a premature convergence to a local optimum.
+Increasing the population size will allow the genetic algorithm to perform a more informed search. However computation time will suffer due to the larger number of individuals per generation as well as slower convergence to an optimum (\cite{grefenstette_optimization_1986}, \cite{katoch_review_2021}, \cite{kacprzyk_parameter_2007}).
+\cite{kacprzyk_parameter_2007} also suggest, that "complex, multi-peaked landscapes may require populations of 100s or even 1000s of parents in order to have some reasonable chance of finding globally optimal solutions"
+This Exploration-Exploitation problem is at the core of the Genetic Algorithm.
 
-
-"
-From my perspective the parent population size m can be viewed as a measure of the degree of parallel search that an EA supports, since the parent population is the basis for generating new search points.
-"\cite{kacprzyk_parameter_2007}
-
-"
-By contrast, more complex, multi-peaked landscapes may require populations of 100s or even 1000s of parents in order to have some reasonable chance of finding globally optimal solutions
-"\cite{kacprzyk_parameter_2007}
-
-
-
-
-"
-As Srinivas and Patnaik explained in their survey on GAs,24 increasing the population size also increases the diversity of individuals, which reduces the chances that the search converges to a local optimum. However, if the population size is too large, converging to optimal regions takes longer than required. Considering a fixed time budget for testing, as is the case for this study, with increasing population size also, the impact of genetic search is increasingly fading as fewer optimization steps can be performed between generations.
-"\cite{klampfl_using_nodate}
-
-
-
-"
-The initial population P(O) can be chosen heuristically or at random.
-"\cite{grefenstette_optimization_1986}
-
-"
-GA s generally do poorly with very small populations [22], because the population provides an insufficient sample size for most hyperplanes. A large population is more likely to contain representatives from a large number of hyperplanes. Hence, the GA's can perform a more informed search. As a result, a large population discourages premature convergence to suboptimal solutions. On the other hand, a large population requires more evaluations per generation, possibly resulting in an unacceptably slow rate of convergence.
-"\cite{grefenstette_optimization_1986}
-
-
-"
-Population: Population is a collection of individuals. Population specifies the options for the population size in GA. The two important aspects are the initial population generation and the population size.
-"\cite{majumdar_genetic_2015}
-
-
-"Initial population is always considered as an important factor for the performance of genetic algorithms. The size of population also affects the quality of solution [160]. The researchers argue that if a large population is considered, then the algorithm takes more computation time. However, the small population may lead to poor solution [155].
-"\cite{katoch_review_2021}
-
-"
-Premature convergence is a common issue for GA. It can lead to the loss of alleles that makes it difficult to identify a gene [15]. Premature convergence states that the result will be suboptimal if the optimization problem coincides too early.
-"\cite{katoch_review_2021}
-
-"
-higher selection pressure can decrease the population diversity that may lead to premature convergence [71].
-"\cite{katoch_review_2021}
-
-
-"
-The GA begins by generating a random population of individuals, where each individual consists of an appropriate length bit string representing values for every variable of a problem to be solved. The population size is a control parameter of the GA. The GA evaluates the fitness of many populations of individuals over time, where each population is called a generation. The population of individuals for generation n+1 is created through some transformation of individuals composing generation n.
-"\cite{mills_determining_2015}
-
-"
-DeJong also observes that larger population size increases parallelism, which aids in solving complex problems, but that there is diminishing return to increasing population size. He reports that choosing a selection method is difficult due to interactions with population size.
-"\cite{mills_determining_2015}
-
+Increasing population size will increase the degree if parallelism, as each individual represents one search point (\cite{mills_determining_2015}).
 
 
 \subsubsection{Selection}
-Selection defines how which individuals are allowed to mate and move into the next generation.
+The selection operator chooses two parents for crossover and mutation opteriation until the list offsprings has reached the desired population size. 
+The selection operator will favour individuals based on their fitness value, ensuring their increased representation from generation to generation (\cite{srinivas_genetic_1994}). Weak solutions thus will be discarded over time.
+Different selection methods like stochastic uniform remainder, random selection, rank selection, roulette wheel selection and tournament selection exist (\cite{majumdar_genetic_2015}). The choice of selection method highly affects the performance of the Genetic Algorithm (\cite{hussain_trade-off_2020}).
 
-\todo{pros and cons of roulette vs Tournament}
-tournament was chosen to be used for this works because of this paper (and also because of pros and cons list)
+The selection algorithm again needs to satisfy two requirements. On the one hand, high selection pressure will lead to decreased diversity in the population resulting in premature convergence (\cite{katoch_review_2021}). This results in the algorithm behaviong more like a local search method like a hill-climber or a “greedy” algorithm (\cite{kacprzyk_parameter_2007}).
+The initial low average fitness value of the population will in combination with a few good performing individuals will lead to them overtaking the population, drastically reducing diversity.
+On the other hand, a low selection pressure will struggle to converge at an optimum.
 
-Other ideas are evolve around having a flexible selection system debending on fitness \todo{cite paper}
+\cite{hussain_trade-off_2020} propose a selection method where initially a low selection pressure is applied, while increasing it to the end, arguing, that "trade-off between these two competing criteria, an adjustable selection pressure must desired".
+
+
+
+
+
+
+
 
 "
-It is quite clear that the more “elitist” a selection algorithm is, the more an EA behaves like a local search procedure (i.e, a hill-climber, a “greedy” algorithm) and is less likely to converge to a global optimum.
+The proportionate selection scheme allocates approximately equal numbers of offspring to all strings, thereby depleting the driving force that promotes better strings. Scaling mechanisms and rankbased selection schemes overcome these two problems.
+"\cite{srinivas_genetic_1994}
+
+
+
+ROULETTE
+
 
 "
-If selection is too strong, convergence to a local optimum is highly likely.
-"\cite{kacprzyk_parameter_2007}
-
-
+The first selection mechanism for GA was fitness proportional selection (FPS), which was introduced by Holland [1]. Now, it has become the most prevalent selection approach which used the concept of proportionality. It works as the fitness value of each individual in a population corresponds to the area of roulette wheel proportions. Then, an individual is marked by the roulette wheel pointer after it has spun. This operator gives individuals, a probability pi of being selected Eq. (1) that is directly proportionate to their fitness:
+However, the difficulty is encountered when a significant difference appears in the fitness values [14,17,18]. The scaling problem which is the major drawback of this scheme was first pointed out by Grefenstette [19]. It has happened when population evolves, the ratio between the variance and the fitness average becomes increasingly small. The selection pressure, therefore, drops as the population converges [7]. On the other hand, high selection pressure may lead to premature convergence to a sub-optimal solution.
+"\cite{hussain_trade-off_2020}
 "
-GA is one of those algorithms whose performance is highly affected by the choice of selection operator. Without this mechanism, GA is only simple random sampling giving different results in each generation. Hence, we can say that the selection operator is the backbone of the GA process.
-" \cite{hussain_trade-off_2020}
+Roulette wheel selection maps all the possible strings onto a wheel with a portion of the wheel allocated to them according to their fitness value. This wheel is then rotated randomly to select specific solutions that will participate in formation of the next generation [88]. However, it suffers from many problems such as errors introduced by its stochastic nature.
+"\cite{katoch_review_2021}
+"
+De Jong and Brindle modified the roulette wheel selection method to remove errors by introducing the concept of determinism in selection procedure. Rank selection is the modified form of Roulette wheel selection. It utilizes the ranks instead of fitness value. Ranks are given to them according to their fitness value so that each individual gets a chance of getting selected according to their ranks. Rank selection method reduces the chances of prematurely converging the solution to a local minima [88].
+"\cite{katoch_review_2021}
 
+
+TOURNAMENT
 "
 The tournament selection (TS) is also widely used as an alternative to FPS. In TS, first, randomly select the t (where t is the predefined tournament size) individuals from the population and then they compete against each other based on their fitness. An individual with higher fitness value is declared as a winner and selected for mating process. The selection pressure can be adjusted with change the tournament size [7]. Usually, the most used tournament size is 2 (binary tournament selection (BTS)), which is the simplest form of TS [21]. However, the larger tournament size can be used to enhance the competition among individuals, but it leads to loss of population diversity [22,23].
 "\cite{hussain_trade-off_2020}
 
 "
-The first selection mechanism for GA was fitness proportional selection (FPS), which was introduced by Holland [1]. Now, it has become the most prevalent selection approach which used the concept of proportionality. It works as the fitness value of each individual in a population corresponds to the area of roulette wheel proportions. Then, an individual is marked by the roulette wheel pointer after it has spun. This operator gives individuals, a probability pi of being selected Eq. (1) that is directly proportionate to their fitness:
-However, the difficulty is encountered when a significant difference appears in the fitness values [14,17,18]. The scaling problem which is the major drawback of this scheme was first pointed out by Grefenstette [19]. It has happened when population evolves, the ratio between the variance and the fitness average becomes increasingly small. The selection pressure, therefore, drops as the population converges [7]. On the other hand, high selection pressure may lead to premature convergence to a sub-optimal solution.
+Tournament selection technique was first proposed by Brindle in 1983. The individuals are selected according to their fitness values from a stochastic roulette wheel in pairs. After selection, the individuals with higher fitness value are added to the pool of next generation [88].
+"\cite{katoch_review_2021}
 
+"Qualitative analysis of the selection strategies is depicted, and the numerical experiments show that SGA with tournament selection strategy converges much faster than roulette wheel selection."
+\cite{jinghui_zhong_comparison_2005}
+"
 
+Roulette wheel selection is the most frequently used selection strategy.
+"\cite{jinghui_zhong_comparison_2005}
+"
+Tournament selection is also a selection strategy which selects individuals based on their fitness value. The basic idea of this strategy is to select the individual with the highest fitness value from a certain number of individuals in the population into the next generation. In the tournament selection, there is no arithmetical computation based on the fitness value, but only comparison between individuals by fitness value. The number of the individuals taking part in the tournament is called tournament size.
+"\cite{jinghui_zhong_comparison_2005}
+
+"
+1) Randomly select several individuals from the population to take part in the tournament. Choose the individual that has the highest fitness value from the individuals selected above by comparing the fitness value of each individual. Then the chosen one is copied into the next generation of the population. 2) Repeat step1 n times where n is the number of individuals of the population.
+"\cite{jinghui_zhong_comparison_2005}
+"
+From the results shown above, SGA using tournament selection always obtains the satisfied solutions with more times at earlier generations than roulette wheel selection. This indicates SGA based on tournament selection converges more quickly than roulette wheel selection.
+"\cite{jinghui_zhong_comparison_2005}
+
+OTHER
+"
 The most popular technique is the linear rank selection (LRS) scheme proposed by Baker [20]. It sorts the individuals in the sequence as worst to best according to the fitness and allocates them a survival probability proportional to their rank order. After this task, a sampling procedure (i.e., roulette wheel sampling) is used to select the individuals for mating process. In this way, the LRS can maintain a constant selection pressure throughout in the sampling process, because it introduces a uniform scaling across the population.
 The weakness of this scheme is that it can lead to slower convergence, because there is no significant difference between the best and other individuals. The selection probability of two consecutive chromosomes by the same amount is regardless of whether the gap between their fitness is larger or smaller [7].
+"\cite{hussain_trade-off_2020}
+"
 
 
 Another rank-based selection scheme is exponential ranking selection (ERS). It works similar as to LRS, except for the non-linear assignment of probabilities to the individuals.
 "\cite{hussain_trade-off_2020}
 
-
-"
-An ideal situation may exist, if the selection pressure is low at the early stage of the search to gives a free hand to an exploration of the solution space and enhance at the ending stage to help the algorithm for convergence [26]. Hence, to trade-off between these two competing criteria, an adjustable selection pressure must desired [7].
-"\cite{hussain_trade-off_2020}
 
 "
 The main contribution of this article is in the development of the proposed selection approach which reduces the weakness associated with FPS and LRS in the GA procedure. The proposed approach is based on the ranking scheme which splits the individuals after ranking and then assign them probabilities for selection. This will increase the competition among individuals to be selected for mating process to regulate the selection pressure.
@@ -220,30 +188,6 @@ In the proposed procedure, the individuals are ranked according to their fitness
 "\cite{hussain_trade-off_2020}
 
 
-"
-selection operator is a crucial strategy in GA, because it has a vital role in exploring the new areas of the search space and converges the algorithm
-"\cite{hussain_trade-off_2020}
-
-"
-Selection (Reproduction): Selection is the process of choosing two parents from the population for crossing. Some of the various selection methods are stochastic uniform, remainder, roulette wheel selection, random selection, rank selection, Figure 1 : Flowchart of Genetic Algorithm( GA) tournament selection, elitism etc.
-"\cite{majumdar_genetic_2015}
-
-
-
-"
-Roulette wheel selection maps all the possible strings onto a wheel with a portion of the wheel allocated to them according to their fitness value. This wheel is then rotated randomly to select specific solutions that will participate in formation of the next generation [88]. However, it suffers from many problems such as errors introduced by its stochastic nature.
-"\cite{katoch_review_2021}
-
-
-"
-De Jong and Brindle modified the roulette wheel selection method to remove errors by introducing the concept of determinism in selection procedure. Rank selection is the modified form of Roulette wheel selection. It utilizes the ranks instead of fitness value. Ranks are given to them according to their fitness value so that each individual gets a chance of getting selected according to their ranks. Rank selection method reduces the chances of prematurely converging the solution to a local minima [88].
-"\cite{katoch_review_2021}
-
-
-"
-Tournament selection technique was first proposed by Brindle in 1983. The individuals are selected according to their fitness values from a stochastic roulette wheel in pairs. After selection, the individuals with higher fitness value are added to the pool of next generation [88].
-"\cite{katoch_review_2021}
-
 
 "
 Stochastic universal sampling (SUS) is an extension to the existing roulette wheel selection method. It uses a random starting point in the list of individuals from a generation and selects the new individual at evenly spaced intervals [3]. It gives equal chance to all the individuals in getting selected for participating in crossover for the next generation. Although in case of Travelling Salesman Problem, SUS performs well but as the problem size increases, the traditional Roulette wheel selection performs relatively well [180].
@@ -255,152 +199,32 @@ Boltzmann selection is based on entropy and sampling methods, which are used in 
 
 
 "
-However, there is a possibility of information loss. It can be managed through elitism [175]. Elitism selection was proposed by K. D. Jong (1975) for improving the performance of Roulette wheel selection. It ensures the elitist individual in a generation is always propagated to the next generation. If the individual having the highest fitness value is not present in the next generation after normal selection procedure, then the elitist one is also included in the next generation automatically [88].
-"\cite{katoch_review_2021}
-
-
-"Qualitative analysis of the selection strategies is depicted, and the numerical experiments show that SGA with tournament selection strategy converges much faster than roulette wheel selection."
-\cite{jinghui_zhong_comparison_2005}
-
-"
-In the operation of selection, the selection of an individual is based on its fitness value. The better the fitness of the individual is, the larger the probability it is to be chosen. Without any changes, the selected one is replicated into the next generation of the population. In addition, individuals with poor fitness value may be selected because the genetic selection is probabilistic. To implement the operation of selection, strategies such as roulette wheel and tournament selection can be used. Different selection strategies affect the performance of the algorithm differently. Crossover is performed on two selected individuals at a time. With a probability, two individuals are chosen, and then the crossover point is selected randomly, and the pair of selected individuals undergoes the process of crossover.
-"\cite{jinghui_zhong_comparison_2005}
-
-"
-
-Roulette wheel selection is the most frequently used selection strategy.
-"\cite{jinghui_zhong_comparison_2005}
-
-
-"
-Tournament selection is also a selection strategy which selects individuals based on their fitness value. The basic idea of this strategy is to select the individual with the highest fitness value from a certain number of individuals in the population into the next generation. In the tournament selection, there is no arithmetical computation based on the fitness value, but only comparison between individuals by fitness value. The number of the individuals taking part in the tournament is called tournament size.
-"\cite{jinghui_zhong_comparison_2005}
-
-"
-1) Randomly select several individuals from the population to take part in the tournament. Choose the individual that has the highest fitness value from the individuals selected above by comparing the fitness value of each individual. Then the chosen one is copied into the next generation of the population. 2) Repeat step1 n times where n is the number of individuals of the population.
-"\cite{jinghui_zhong_comparison_2005}
-
-"
-From the results shown above, SGA using tournament selection always obtains the satisfied solutions with more times at earlier generations than roulette wheel selection. This indicates SGA based on tournament selection converges more quickly than roulette wheel selection.
-"\cite{jinghui_zhong_comparison_2005}
-
-"
-Selection.Selection models nature's survival-of-the-fittest mechanism. Fitter solutions survive while weaker ones perish. In the SGA, a fitter string receives a higher number of offspring and thus has a higher chance of surviving in the subsequent generation.
-"\cite{srinivas_genetic_1994}
-
-"
-Selection provides the favorable bias toward building blocks with higher fitness values and ensures that they increase in representation from generation to generation.
-"\cite{srinivas_genetic_1994}
-
-
-"
-In the initial generations of the CA,the population typically has a low average fitness value. The presence of a few strings with relatively high fitness values causes the proportionate selection scheme to allocate a large number of offspring to these “superstrings,” and they take over the population, causing prematureconvergence. A different problem arises in the later stages of the CAwhen the population has converged and the variance in string fitness values becomes small. The proportionate selection scheme allocates approximately equal numbers of offspring to all strings, thereby depleting the driving force that promotes better strings. Scaling mechanisms and rankbased selection schemes overcome these two problems.
-"\cite{srinivas_genetic_1994}
-
-"
 An alternate way to avoid the twin problems that plague proportional selection is rank-based selection, which uses a fitness value-based rank of strings to allocate offspring. The scaled fitness values typicallyvary linearly with the rank of the string. The absolute fitness value of the stringdoes not directlycontrol the number of its offspring. To associate each string with a uniquerank,this approach sortsthe stringsaccordingto their fitnessvalues,introducing the drawback of additional overhead in the GA computation. Another mechanism is tournament selection. For selection,a stringmust win a competition with a randomly selected set of strings. In a k-arytournament, the best of k stringsis selectedfor the next generation.
 "\cite{srinivas_genetic_1994}
 
+
+ELITE
+"
+However, there is a possibility of information loss. It can be managed through elitism [175]. Elitism selection was proposed by K. D. Jong (1975) for improving the performance of Roulette wheel selection. It ensures the elitist individual in a generation is always propagated to the next generation. If the individual having the highest fitness value is not present in the next generation after normal selection procedure, then the elitist one is also included in the next generation automatically [88].
+"\cite{katoch_review_2021}
+
 \subsubsection{Crossover}
-Crossover is the mating process.
-"
-The higher the crossover rate, the more quickly new structures are introduced into the population. If the crossover rate is too high, high-performance structures are discarded faster than selection can produce improvements. If the crossover rate is too low, the search may stagnate due to the lower exploration rate.
-"\cite{grefenstette_optimization_1986}
-"
-Real-coded GAs (RGAs) have been widely used in various real-life applications. The representation of chromosomes is closely associated with real-life problems. The main advantages of RGAs are robust, efficient, and accurate. However, RGAs suffer from premature convergence. Researchers are working on RGAs to improve their performance. Most of RGAs are developed by modifying the crossover, mutation and selection operators.
-"\cite{katoch_review_2021}
+The crossover operation serves as the mating process between two individuals (chosen from the population by the selection operation). Its resulting offspring has a combination of both parents genes. \cite{grefenstette_optimization_1986} higlights, that this "First, it provides new points for further testing within the hyperplanes already represented in the population." and "Second, crossover intro- duces representatives of new hyperplanes into the population". 
 
+Different types of crossovers can be chosen, the most simple approach being the single-point crossover. Here a randomly chosen point aloong the length of the chromosome is chosen. The two parents will swap their genetic information at this point, generating two new offsprings (\cite{katoch_review_2021}). Extenations are the two- or multipoint crossover operations, where chromosomes are divided by k segments, which will get exchanged. They eliminate a disadvantage of "the single-point crossover bias toward bits at the ends of strings." (\cite{srinivas_genetic_1994})
 
-"
-On the one hand, increasing the crossover probability also increases the recombination of gene strings, supporting exploration and exploitation. On the other hand, it also increases the disruption of individuals with good gene sequences, which can be a disadvantage.
-"\cite{klampfl_using_nodate}
+A second crossover opteration is the uniform crossover, here, based on a probability, it randomly decides to swap genes between the parents, independent of the exchange of other genes (\cite{katoch_review_2021}). 
 
-"
-Crossover serves two complementary search functions.
-First, it provides new points for further testing within the hyperplanes already represented in the population.
+enquote{To classify techniques, we can use the notions of positional and distributional biases. A crossover operator has positional bias if the probability that a bit is swapped depends on its position in the string. Distributional bias is related to the number of bits exchanged by the crossover operator. If the distribution of the number is nonuniform,the crossover operator has a distributional bias. Among the various crossover operators, single-point crossover exhibitsthe maximum positional bias and the least distributional bias. Uniform crossover, at the other end of the spectrum, has maximal distributional bias and minimal positional bias.} (\cite{srinivas_genetic_1994})
 
-Second, crossover intro- duces representatives of new hyperplanes into the popula- tion.
-"\cite{grefenstette_optimization_1986}
+According to \cite{srinivas_genetic_1994} the ignoring of the genes position results in a higher disruptiveness, which has potential drawbacks. However it will be more exporatory in homogeneous populations where k-point crossovers might struggle to explore. \cite{srinivas_genetic_1994} also suggests that uniform crossover is more usefull in small populations. Larger populations inherently are more diverse, makeing k-point crossover more suitable.
 
-"
-Crossover (Recombination): Crossover combines two individuals, or parents, to form a new individual, or child, for the next generation. Some of its types are scattered, single point crossover, two point crossover, intermediate, heuristic, arithmetic etc.
-"\cite{majumdar_genetic_2015}
+Other crossover operations are analyzed in paper \todo{Find good research paper, maybe \cite{katoch_review_2021}}. 
 
+Not only the crossover type has to be chosen, a crossover probility (or crossover rate) also needs definition. This value defines, how likely a single crossover operation is to be applied on the parent population. If no crossover will be applied, the parents will directly be used as children.
+The problem of choosing a crossover probability again comes back to the exploration/exploatation balance. Higher crossover rates will introduce new structures quickly into the population, however good structures might get disrupted. A low crossover rate will result in a low exploration, resulting in stagnation (\cite{grefenstette_optimization_1986}). 
 
-"
-Crossover. After selection comes crossover,SGA's crucial operation. Pairs of strings are picked at random from the population to be subjected to crossover. The SGA uses the simplest approach single-point crossover. Assuming that 1 is the string length, it randomly chooses a crossover point that can assume values in the range 1to 1- 1. The portions of the two strings beyond this crossover point are exchanged to form two new strings. The crossover point may assume any of the 1- 1possible values with equal probability. Further, crossover is not always effected. After choosing a pair of strings, the algorithm invokes crossover only if a randomly generated number in the range 0 to 1 is greater than pc, the crossover rate. (In GA literature, the term crossover rate is also usedto denote the probability of crossover.) Otherwise the strings remain unaltered. The value ofp,. lies in the range from 0 to 1. In a large population,p, gives the fraction of strings actually crossed.
-"\cite{srinivas_genetic_1994}
-
-"
-Crossover tends to conserve the genetic information present in the strings to be crossed. Thus, when the strings to be crossed are similar, its capacity to generate new building blocks diminishes.
-"\cite{srinivas_genetic_1994}
-
-"
-Crossover operators are used to generate the offspring by combining the genetic information of two or more parents.
-"\cite{katoch_review_2021}
-
-"
-In a single point crossover, a random crossover point is selected. The genetic information of two parents which is beyond that point will be swapped with each other [190]. Figure 3shows the genetic information after swapping. It replaced the tail array bits of both the parents to get the new offspring.
-"\cite{katoch_review_2021}
-
-"
-In a two point and k-point crossover, two or more random crossover points are selected and the genetic information of parents will be swapped as per the segments that have been created [190].
-"\cite{katoch_review_2021}
-
-"
-In a uniform crossover, parent cannot be decomposed into segments. The parent can be treated as each gene separately. We randomly decide whether we need to swap the gene with the same location of another chromosome [190].
-"\cite{katoch_review_2021}
-
-
-"
-Partially matched crossover (PMX) is the most frequently used crossover operator. It is an operator that performs better than most of the other crossover operators. The partially matched (mapped) crossover was proposed by D. Goldberg and R. Lingle [66]. Two parents are choose for mating. One parent donates some part of genetic material and the corresponding part of other parent participates in the child. Once this process is completed, the left out alleles are copied from the second parent [83].
-"\cite{katoch_review_2021}
-
-
-"
-Order crossover (OX) was proposed by Davis in 1985. OX copies one (or more) parts of parent to the offspring from the selected cut-points and fills the remaining space with values other than the ones included in the copied section.
-"\cite{katoch_review_2021}
-
-"
-If crossover is not considered during evolution, then the algorithm can result in local optima.
-"\cite{katoch_review_2021}
-
-"
-Crossover consists of splitting a chromosome pair at a random location with reciprocal exchange of the two halves, thus causing a mutual w of information between pairs.
-"\cite{marsili_libelli_adaptive_2000}
-
-"
-In the two-point crossover scheme, two crossover points are randomly chosen and segments of the stringsbetween them are exchanged. Two-point crossover eliminates the single-point crossover bias toward bits at the ends of strings.
-"\cite{srinivas_genetic_1994}
-
-"
-An extension of the two-point scheme, the multipoint crossover, treats each string as a ring of bits divided by k crossover points into k segments. One set of alternate segments is exchanged between the pair of strings to be crossed.
-"\cite{srinivas_genetic_1994}
-
-"
-Uniform crossover exchanges bits of a string rather than segments. At each string position, the bits are probabilistically exchanged with some fixed probability. The exchange of bits at one string position is independent of the exchange at other positions.
-"\cite{srinivas_genetic_1994}
-
-"
-To classify techniques,we can use the notions of positional and distributional biases. A crossover operator has positional bias if the probability that a bit is swapped depends on its position in the string. Distributional bias is related to the number of bits exchanged by the crossover operator. If the distribution of the number is nonuniform,the crossover operator has a distributional bias. Among the various crossover operators, single-point crossover exhibitsthe maximum positional bias and the least distributional bias. Uniform crossover, at the other end of the spectrum, has maximal distributional bias and minimal positional bias.
-"\cite{srinivas_genetic_1994}
-
-"
-At one end, uniform crossover swaps bits irrespectiveof their position, but its higher disruptive nature often becomes a drawback. Two-point and single-point crossover preserve schematabecause of their low disruption rates, but they become less exploratory when the population becomes homogeneous.
-"\cite{srinivas_genetic_1994}
-
-"
-A related issue is theinterplay between the population size and the type of crossover. Empirical evidence suggests that uniform crossover is more suitable for small populations, while for larger populations, the less disruptive two-point crossover is better. Uniform crossover’s disruptivenesshelps sustain a highly explorative search in small populations. The inherent diversity in larger populations reduces the need for exploration and makes two-point crossover more suitable.
-"\cite{srinivas_genetic_1994}
-
-"
-Increasing the crossover probability increases recombination of building blocks, but it also increases the disruption of good strings.
-"\cite{srinivas_genetic_1994}
-
-"
-If reproductive variation is too strong, the result is undirected random search
-"\cite{kacprzyk_parameter_2007}
-
+\enquote{If reproductive variation is too strong, the result is undirected random search.} (\cite{kacprzyk_parameter_2007})
 
 \subsubsection{Mutation}
 Mutation is responsible for introducing new information into the gene pool.
