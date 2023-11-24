@@ -200,6 +200,31 @@ plot.percentage_contribution <- ggplot(percentage_contribution, aes(y = reorder(
 print(plot.percentage_contribution)
 ggsave("taguchi/plots/percentage_contribution.jpg", plot = plot.percentage_contribution, width = 12, height = 6, units = "cm", dpi = 600)
 
+##### WORK in progress
+residuals_df <- data.frame(residuals = residuals(anova))
+studen_residuals_df <- data.frame(residuals = rstudent(anova))
+test3 <- ggplot(residuals_df, aes(sample = residuals)) +
+  geom_qq() +
+  geom_qq_line() +
+  ggtitle("QQ Plot of ANOVA Residuals")
+#print(test3)
+
+hist <- ggplot(residuals_df, aes(x = residuals)) +
+  geom_histogram(binwidth = 1, fill = "#457b9d", color = "black", alpha = 0.7) +
+  ggtitle("Histogram of ANOVA Residuals") +
+  xlab("Residuals")
+#print(hist)
+test3 <- ggplot(studen_residuals_df, aes(sample = residuals)) +
+  geom_qq() +
+  geom_qq_line() +
+  ggtitle("QQ Plot of ANOVA Student Residuals")
+#print(test3)
+
+hist <- ggplot(studen_residuals_df, aes(x = residuals)) +
+  geom_histogram(binwidth = 1, fill = "#457b9d", color = "black", alpha = 0.7) +
+  ggtitle("Histogram of ANOVA Student Residuals") +
+  xlab("Residuals")
+#print(hist)
 
 
 #### S/N ####

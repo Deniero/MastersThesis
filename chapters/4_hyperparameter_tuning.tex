@@ -12,9 +12,9 @@ In order to reduce the required number of tests, it was decided to only use one 
 
 \section{Population}
 \label{chap:hyperparameter_tuning:population}
-The number of Individuals is of high importance to a genetic algorithm, as has been explained in section \ref{chap:foundation:genetic_algorithm}. Especially considering the limed processing resources available, a suitable population size has to be found. On one hand, a population that is too low might result in less diverse runs of the genetic algorithm, on the other hand, if population is too high, the simulations will become too costly. Considering these points, the first step of the hyper parameter tuning was to find a suitable population size. In the next chapter \ref{chap:hyperparameter_tuning:other_parameter}, we will aim to improve the hyperparamter using a more robust approach.
+Setting a suitable population size is of high importance to a Genetic Algorithm, as has been explained in section \ref{chap:foundation:genetic_algorithm}, especially considering the limed processing resources available. On one hand, a population that is too small might result in less diverse runs of the genetic algorithm, on the other hand, if population is too high, the simulations will become too costly.
 
-In order to test for the best population size, the other hyperparameters have to be assumed using an educated guess. While reviewing the literature, trends of general settings for genetic algorithms can be found. However \cite{mills_determining_2015} highlight the inconsistencies between findings, stating to have "uncovered conflicting opinions and evidence regarding key GA control parameters". 
+In order to test for the best population size, other hyperparameters first have to be defined using an educated guess. While reviewing the literature, trends of general settings for genetic algorithms can be found. However \cite{mills_determining_2015} highlight the inconsistencies between findings, stating to have "uncovered conflicting opinions and evidence regarding key GA control parameters". 
 
 However \cite{grefenstette_optimization_1986} suggests, that "while it is possible to optimize GA control parameters, very good performance can be obtained with a range of GA control parameter settings." 
 This is also complimented by findings from \cite{kacprzyk_parameter_2007}: "The key insight from such studies is the robustness of EAs with respect to their parameter settings. Getting “in the ball park” is generally sufficient for good EA performance. Stated another way, the EA parameter “sweet spot” is reasonably large and easy to find [18]. As a consequence most EAs today come with a default set of static parameter values that have been found to be quite robust in practice."
@@ -73,12 +73,12 @@ Each run will be executed 5 times to get rid of randomness and to make the resul
 	\hline
 	C: 0.6, M: 0.01, TS: 2   	& A & 3051 & 3016 & 2851 & 2871\\
 	C: 0.6, M: 0.01, TS: 4		& B & 3111 & 3021 & 3079 & 2937\\
-	C: 0.6, M: 0.2, TS: 2 		& C & 3062 & 3010 & 3002 & 2831\\
-	C: 0.6, M: 0.2, TS: 4    	& D & 3020 & 2967 & 2891 & 2850\\
+	C: 0.6, M: 0.20, TS: 2 		& C & 3062 & 3010 & 3002 & 2831\\
+	C: 0.6, M: 0.20, TS: 4    	& D & 3020 & 2967 & 2891 & 2850\\
 	C: 0.8, M: 0.01, TS: 2   	& E & 3063 & 2892 & 2971 & 2916\\
 	C: 0.8, M: 0.01, TS: 4		& F & 3052 & 3049 & 3054 & 2897\\
-	C: 0.8, M: 0.2, TS: 2 		& G & 3099 & 2940 & 2959 & 2869\\
-	C: 0.8, M: 0.2, TS: 4    	& H & 3058 & 3005 & 2794 & 2809\\
+	C: 0.8, M: 0.20, TS: 2 		& G & 3099 & 2940 & 2959 & 2869\\
+	C: 0.8, M: 0.20, TS: 4    	& H & 3058 & 3005 & 2794 & 2809\\
 	\hline
 \end{tabular}
 \caption{List Settings per Population Size}
