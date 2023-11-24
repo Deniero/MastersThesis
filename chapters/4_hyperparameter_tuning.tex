@@ -12,27 +12,18 @@ In order to reduce the required number of tests, it was decided to only use one 
 
 \section{Population}
 \label{chap:hyperparameter_tuning:population}
-Setting a suitable population size is of high importance to a Genetic Algorithm, as has been explained in section \ref{chap:foundation:genetic_algorithm}, especially considering the limed processing resources available. On one hand, a population that is too small might result in less diverse runs of the genetic algorithm, on the other hand, if population is too high, the simulations will become too costly.
+Setting a suitable population size is of high importance to a Genetic Algorithm, which has been discussed in section \ref{chap:foundation:genetic_algorithm}, especially considering the limed processing resources available. On one hand, a population that is too small might result in less diverse runs of the genetic algorithm, on the other hand, if population is too high, the simulations will become too costly.
 
 In order to test for the best population size, other hyperparameters first have to be defined using an educated guess. While reviewing the literature, trends of general settings for genetic algorithms can be found. However \cite{mills_determining_2015} highlight the inconsistencies between findings, stating to have "uncovered conflicting opinions and evidence regarding key GA control parameters". 
 
-However \cite{grefenstette_optimization_1986} suggests, that "while it is possible to optimize GA control parameters, very good performance can be obtained with a range of GA control parameter settings." 
-This is also complimented by findings from \cite{kacprzyk_parameter_2007}: "The key insight from such studies is the robustness of EAs with respect to their parameter settings. Getting “in the ball park” is generally sufficient for good EA performance. Stated another way, the EA parameter “sweet spot” is reasonably large and easy to find [18]. As a consequence most EAs today come with a default set of static parameter values that have been found to be quite robust in practice."
+\cite{grefenstette_optimization_1986} seams the be more optimistic and suggests that a range of control parameter will already lead to acceptable performance, yet optimal performance needs tuning. \cite{kacprzyk_parameter_2007} complements these findings, adding that the "sweat spot" for hyperparameters of genetic algorithms is reasonably large and easy to find. A default set of static parameter values is generally speaking sufficient.
 
-Chosing the right selection method is complicated as well, as discuees by \cite{kacprzyk_parameter_2007}:
-"One source of difficulty here is that selection pressure is not as easy to “parameterize” as population size. We have a number of families of selection procedures (e.g, tournament selection, truncation selection, fitness-proportional selection, etc.) to choose from and a considerable body of literature analyzing their differences (see, for example, [19] or [15]), but deciding which family to choose or even which member of a parameterized family is still quite difficult, particularly because of the interacting effects with population size [13]."
-
-Looking at the literature might lead to hyperparameters are used that at least sufficient enough, to get an idea which range for population size is suitable. We will now look at different concrete hyperparameter suggestions from the literature.
-
-"
-At the beginning of an EA run it is important to have sufficient parallelism to handle possible multi-modalities, while at the end of a run an EA is likely to have converged to a local area of the fitness landscape that is no more complex than Figure 1.
-
-As a consequence, most EAs used in practice today run with a fixed population size, the value of which may be based on existing off-line studies (e.g., [34]) or more likely via manual tuning over multiple runs.
-"\cite{kacprzyk_parameter_2007}
+Following this advice, the most suitable population parameters will now be evaluated by fixating the remaining hyperparamters to a small range of suggested values from the literature.
 
 \subsection{Suggested hyperparameter from the literature}
 \todo{Use best values also from : Using genetic algorithms for automating automated lane-keeping system testing}
-\todo{Talk about rules (e.g. 1/n for mut rate...) - look at: Parameter selection in genetic algorithms}
+
+
 In an often cited thesis by \cite{de_jong_analysis_1975}, the following parameters have been suggested:
 GA(50, 0.6, 0.001, 1.0, 7, E) These suggested parameters have been used successfully by various different genetic algorithms \cite{grefenstette_optimization_1986}. 
 
@@ -61,7 +52,8 @@ DeJong believes that EAs pre-tuned with default parameter values for particular 
 
 \subsection{results}
 This now leads to a difficult decision in choosing the right parameters. Based on the extensive research, we will compare population size of 32, 48, 64 and 96. We will compare the different crossover rates: 0.8 and 0.6. For mutation, 0.01 and 0.2 will be discussed. Further we will use tournament selection with 2 and 4.
-Each run will be executed 5 times to get rid of randomness and to make the results more robuts. We will run each simulation for 40 Generations.
+Individual Mutation Probability will stay at 0.1. Chromosome Encoding is set to Time and Gene Encoding is set to Integer. 
+Each run will be executed 5 times to reduce randomness and to make the results more robust. Each simulation will last for 30 generations.
 
 \begin{figure}[ht]
 	\centering

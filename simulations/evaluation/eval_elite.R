@@ -41,7 +41,7 @@ sim_1.res$simulation <- c("Elite", "NoElite")
 sim_1.res["simulation"] <- lapply(sim_1.res["simulation"] , factor)
 
 
-#### plot data ####
+#### plot boxplot ####
 sim_1.res_column_names <- colnames(sim_1.res)
 sim_1.res_column_names <- sim_1.res_column_names[sim_1.res_column_names != "simulation"]
 melted<-melt(sim_1.res, id = c("simulation"), measured = sim_1.res_column_names)
@@ -55,6 +55,7 @@ print(plot.bp)
 ggsave("evaluation/plots/elite_vs_no_elite.jpg", plot = plot.bp, width = 12, height = 8, units = "cm", dpi = 600)
 
 
+#### plot over generations ####
 selected_repetitions = c("min_2", "min_3", "min_8")
 melted_generations<-melt(sim_1.elite_min[, c("gen", selected_repetitions)], 
                          id = c("gen"), 

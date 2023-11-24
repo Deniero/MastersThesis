@@ -23,43 +23,85 @@ parse_csv_min_data <- function(raw_csv_results) {
 
 
 #### settings ####
+simulation_name = "sim_1"
 num_of_gen = 30
 res_row_size = 1
 res_column_size = 45
 res_col_names <- c("min_0", "min_1", "min_2", "min_3", "min_4", "min_5", "min_6", "min_7", "min_8", "min_9")
 
+##### Load Data ####
+sim.opt_min = read.csv(paste0('evaluation/results/', simulation_name, '_tag.csv'))[,0:res_column_size]
+sim.def_min = read.csv(paste0('evaluation/results/', simulation_name, '_default.csv'))[,0:res_column_size]
+sim.rand = read.csv(paste0('evaluation/results/', simulation_name, '_random.csv'))
+sim.opt_diversity = read.csv(paste0('evaluation/results/', simulation_name, '_tag_diversity.csv'))
+sim.def_diversity = read.csv(paste0('evaluation/results/', simulation_name, '_default_diversity.csv'))
 
-##### Sim 1 #####
-# load data #
-sim_1.opt_min = read.csv('evaluation/results/sim_1_tag.csv')[,0:res_column_size]
-sim_1.def_min = read.csv('evaluation/results/sim_1_default.csv')[,0:res_column_size]
-sim_1.rand = read.csv('evaluation/results/sim_1_random.csv')
-threshold <- quantile(sim_1.rand$results, 0.2)
-sim_1.rand_best <- subset(sim_1.rand, sim_1.rand$results <= threshold)
-sim_1.rand_t <- data.frame(t(sim_1.rand_best))
+#### merge data
+# merge best results with random results
+threshold <- quantile(sim.rand$results, 0.2)
+sim.rand_best <- subset(sim.rand, sim.rand$results <= threshold)
+sim.rand_t <- data.frame(t(sim.rand_best))
+sim.res <- rbind(parse_csv_min_data(sim.opt_min), parse_csv_min_data(sim.def_min))
+sim.res <- bind_rows(sim.res, sim.rand_t)
+sim.res$simulation <- c("Optimized", "Default", "Random")
+sim.res["simulation"] <- lapply(sim.res["simulation"] , factor)
+sim.res_column_names <- colnames(sim.res)
+sim.res_column_names <- sim.res_column_names[sim.res_column_names != "simulation"]
+sim.res.melted<-melt(sim.res, id = c("simulation"), measured = sim.res_column_names)
+sim.res.melted$value <- ((-sim.res.melted$value + 3500) / 100)
+
+# merge diversity
+sim.opt_diversity$simulation <- "Optimized"
+sim.def_diversity$simulation <- "Default"
+
+sim.diversity <- bind_rows(sim.opt_diversity, sim.def_diversity)
+sim.diversity["simulation"] <- lapply(sim.diversity["simulation"] , factor)
+sim.diversity["repetition"] <- lapply(sim.diversity["repetition"] , factor)
 
 
-sim_1.res <- rbind(parse_csv_min_data(sim_1.opt_min), parse_csv_min_data(sim_1.def_min))
+# merge all ga generations
+sim.all_ga.opt_min <- sim.opt_min
+sim.all_ga.def_min <- sim.def_min
 
+sim.all_ga.opt_min$simulation <- "Optimized"
+sim.all_ga.def_min$simulation <- "Default"
+sim.all_ga <- bind_rows(sim.all_ga.opt_min, sim.all_ga.def_min)
+sim.all_ga["simulation"] <- lapply(sim.all_ga["simulation"] , factor)
+sim.all_ga.melted<-melt(sim.all_ga[, c("gen", "simulation", res_col_names)], 
+                         id = c("gen", "simulation"), 
+                         measured = res_col_names)
+sim.all_ga.melted$value <- ((-sim.all_ga.melted$value + 3500) / 100)
+##### plot data ####
+# plot performance comparison
 
-sim_1.res <- bind_rows(sim_1.res, sim_1.rand_t)
-
-
-sim_1.res$simulation <- c("Optimized", "Default", "Random")
-sim_1.res["simulation"] <- lapply(sim_1.res["simulation"] , factor)
-
-
-# plot data #
-sim_1.res_column_names <- colnames(sim_1.res)
-sim_1.res_column_names <- sim_1.res_column_names[sim_1.res_column_names != "simulation"]
-melted<-melt(sim_1.res, id = c("simulation"), measured = sim_1.res_column_names)
 
 desired_levels <- c("Optimized", "Default")
 
-plot.bp <- ggplot(melted, aes(simulation, value)) + 
-  geom_boxplot(data = subset(melted, simulation %in% desired_levels), color="#457b9d") + 
+plot.bp <- ggplot(sim.res.melted, aes(simulation, value)) + 
+  geom_boxplot(data = subset(sim.res.melted, simulation %in% desired_levels), color="#457b9d") + 
   geom_point(color="#457b9d")  +
-  labs(x = "", y = "Cost")
+  labs(x = "", y = "Emergency Break Duration (s)")
 print(plot.bp)
-ggsave("evaluation/plots/sim_1_comparison.jpg", plot = plot.bp, width = 12, height = 8, units = "cm", dpi = 600)
+ggsave(paste0('evaluation/plots/', simulation_name, '_comparison.jpg'), plot = plot.bp, width = 12, height = 8, units = "cm", dpi = 600)
+
+
+# plot diversity comparison
+plot.diversity_comparison <- ggplot(sim.diversity, aes(x=generation, y=diversity, group=simulation, color=simulation)) + 
+  stat_summary(fun.data = "mean_se", geom = "line", linewidth = 1) + 
+  stat_summary(fun.max = function(y) max(y), fun.min = function(y) min(y), geom = "ribbon", alpha = 0.1, aes(fill = simulation)) +
+  labs(x = "Generation", y = "Diversity", color = "Simulations", fill = "Simulations")
+print(plot.diversity_comparison)
+ggsave(paste0('evaluation/plots/', simulation_name, '_ga_diversity.jpg'), plot = plot.diversity_comparison, width = 12, height = 8, units = "cm", dpi = 600)
+
+
+# plot generation comparison
+plot.generation_comparison <- ggplot(sim.all_ga.melted, aes(x=gen, y=value, group=simulation, color=simulation)) + 
+  stat_summary(fun.data = "mean_se", geom = "line", linewidth = 1) + 
+  stat_summary(fun.max = function(y) max(y), fun.min = function(y) min(y), geom = "ribbon", alpha = 0.1, aes(fill = simulation)) +
+  labs(x = "Generation", y = "Emergency Break Duration (s)", color = "Simulations", fill = "Simulations")
+plot.generation_comparison <- plot.generation_comparison + guides(color = FALSE, fill = FALSE)
+print(plot.generation_comparison)
+ggsave(paste0('evaluation/plots/', simulation_name, '_ga_generations.jpg'), plot = plot.generation_comparison, width = 12, height = 8, units = "cm", dpi = 600)
+
+
 
