@@ -1,35 +1,14 @@
 \chapter{Hyperparameter Tuning}
 \label{chap:hyperparameter_tuning}
-In this chapter, we will incrementally move to an optimized Genetic Algorithm
 
-"
-changing the population size, the type and amount of reproductive variation, etc. could significantly change the behavior of an EA on a particular fitness landscape and, conversely, appropriate parameter settings for one fitness landscape might be inappropriate for others.
-"\cite{kacprzyk_parameter_2007}
+The performance of a Genetic Algorithm is significantly influenced by its control parameters. Performant settings on a particular fitness landscape might not be appropriate an different one (\cite{kacprzyk_parameter_2007}).
 
-\section{No Free Lunch Theorem}
-No Free Lunch Theorem:
-The best hyperparameter settings of a Genetic Algorithm are very problem specific. \cite{kacprzyk_parameter_2007}, \cite{dao_maximising_2016} \todo{More ref}
+According to the "No Free Lunch Theorem", no single algorithm will outperform all other algorithms on a single class of problem (\cite{kacprzyk_parameter_2007}). According to \cite{kacprzyk_parameter_2007}, "the No Free Lunch results place an obligation on the EA practitioner to understand something about the particular properties of the problems that (s)he is trying to solve that relate to particular choices of EA parameter settings."
+Further stating that a human-in-the-loop approach is needed to fine-tune parameter settings to a particular problem.
 
-"
-It has been shown in a variety of contexts including the areas of search, optimization, and machine learning that, unless adequate restrictions are placed on the the class of problems one is attempting to solve, there is no single algorithm that will outperform all other algorithms (see, for example, [83]).
+This chapter will focus on tuning the Genetic Algorithm to perform on the given cost function. First, an agreement on the optimal population size is made and second, a Taguchi Orthogonal Array is used for tuning the remaining hyperparameter.
 
-
-A more constructive interpretation of NFL results is that they present us with a challenge to define more carefully the classes of problems we are trying to solve and the algorithms we are developing to solve them.
-
-
-The No Free Lunch results place an obligation on the EA practitioner to understand something about the particular properties of the problems that (s)he is trying to solve that relate to particular choices of EA parameter settings. This poses a bit of a dilemma in that often an EA is being used precisely because of a lack of knowledge about the fitness landscapes being explored. As a consequence, the parameter setting strategy frequently adopted is a multiple run, human-in-the-loop approach in which various parameter settings are tried in an attempt to fine-tune an EA to a particular problem.
-"\cite{kacprzyk_parameter_2007}
-
-
-"
-While there is empirical data available to support the choice of appropriate default parameters for a specific problem to be solved,24 it has been formally proven in the “No Free Lunch” (NFL) theorem that there is not one optimal parameter setting for all possible search problems.25
-"\cite{klampfl_using_nodate}
-
-\section{Map and Starting Scenario}
-The map is Town10 from Carla. It was chosen, because 1. its roads are self contained, 2. its not too big, yet still complex and 3. its supported by Carla and thus visualization looks better.
-
-The Starting Scenario defines the number and type of all actors as well as their position. It needs to be created manually.
-Changing the scenario will have a great impact on the Genetic Algorithms performance. For time and complexity reasons, it was thus decided to first stick with one scenario and do all hyperparameter testing there. And finally test the performance for a handfull different scenarios.
+In order to reduce the required number of tests, it was decided to only use one starting scenario for tuning. It can be seen in appendix \ref{figure:appednix:start_scenario_1}. In chapter \ref{chap:evaluation}, the performance on different start scenarios will be investigated.
 
 \section{Population}
 \label{chap:hyperparameter_tuning:population}
@@ -694,7 +673,7 @@ Although the optimal hyperparameter setting will be discussed in chapter \ref{ch
 	\caption{Genetic Algorithm without Elite}
 \end{figure}
 
-The lines show that setbacks in the optimal cost between two generations happens frequenctly. In order to mitigate this problem, it was decided to implement elite selection with a size of 2. This means, that per generation, the two best individuals are copied into the next generation without modifications, which makes worse performance between generations not possible. It is important to note, that the two best individuals can still be selected by tournament selection for modification, its just that a copy of them is saved. Figure \ref{figure:no_with_elite} shows the effect of these changes.
+The lines show that setbacks in the optimal cost between two generations happens frequenctly. In order to mitigate this problem, it was decided to implement elite selection with a size of 2. This means, that per generation, the two best individuals are copied into the next generation without modifications, which makes worse performance between generations not possible. It is important to note, that the two best individuals can still be selected by tournament selection for modification, its just that a copy of them is saved. Figure \ref{figure:with_elite} shows the effect of these changes.
 
 \begin{figure}[ht] 
 	\label{figure:with_elite}
