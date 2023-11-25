@@ -71,10 +71,9 @@ sim.all_ga.melted<-melt(sim.all_ga[, c("gen", "simulation", res_col_names)],
                          id = c("gen", "simulation"), 
                          measured = res_col_names)
 sim.all_ga.melted$value <- ((3500 -sim.all_ga.melted$value) / 100)
+
 ##### plot data ####
 # plot performance comparison
-
-
 desired_levels <- c("Optimized", "Default")
 
 plot.bp <- ggplot(sim.res.melted, aes(simulation, value)) + 
@@ -102,6 +101,20 @@ plot.generation_comparison <- ggplot(sim.all_ga.melted, aes(x=gen, y=value, grou
 plot.generation_comparison <- plot.generation_comparison + guides(color = FALSE, fill = FALSE)
 print(plot.generation_comparison)
 ggsave(paste0('evaluation/plots/', simulation_name, '_ga_generations.jpg'), plot = plot.generation_comparison, width = 12, height = 8, units = "cm", dpi = 600)
+
+
+##### t - test and effect size comparing default with optimized #####
+sim.res.melted.only_ga <- subset(sim.res.melted, simulation != "Random")
+sim.res.melted.only_ga <- subset(sim.res.melted.only_ga, !is.na(value))
+
+t_test<-t.test(value ~ simulation, data = sim.res.melted.only_ga)
+print(t_test)
+t<-t_test$statistic[[1]]
+df<-t_test$parameter[[1]]
+r <- sqrt(t^2/(t^2+df))
+
+print("Effect Size:")
+print(round(r, 3))
 
 
 

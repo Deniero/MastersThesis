@@ -22,6 +22,18 @@ In the last chapter \ref{chap:hyperparameter_tuning}, values from the cost funct
 This will result in a value called Emergency Brake Duration, which will from now on be using instead of cost. The higher the Emergency Brake Duration, the better. It is important to consider, that this value might not exactly correspond to the actual Emergency Brake Duration time from the simulation, as the cost function applies a penalty for emergency breaks lasting longer then 3 seconds (again, see section \ref{implementation:cost_function}).
 
 
+
+
+
+
+EFFECT SIZE:
+From: Discovering Statistics using R
+Effect sizes are useful because they provide an objective measure of the importance of an effect. So, it doesn’t matter what effect you’re looking for, what variables have been measured, or how those variables have been measured – we know that a correlation coefficient of 0 means there is no effect, and a value of 1 means that there is a perfect effect.
+Cohen (1988, 1992) has also made some widely used suggestions about what constitutes a large or small effect: 
+r = .10 (small effect): In this case the effect explains 1\% of the total variance. 
+r = .30 (medium effect): The effect accounts for 9\% of the total variance. 
+r = .50 (large effect): The effect accounts for 25\% of the variance.
+
 \section{Comparison with random and default ga Values}
 scenario 1: default : 9v 5p
 \begin{figure}[ht] 
