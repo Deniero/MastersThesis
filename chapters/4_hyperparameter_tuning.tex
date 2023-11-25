@@ -1,6 +1,6 @@
 \chapter{Hyperparameter Tuning}
 \label{chap:hyperparameter_tuning}
-
+\todo{Crossover rate or crossover prob?}
 The performance of a Genetic Algorithm is significantly influenced by its control parameters. Performant settings on a particular fitness landscape might not be appropriate an different one (\cite{kacprzyk_parameter_2007}).
 
 According to the "No Free Lunch Theorem", no single algorithm will outperform all other algorithms on a single class of problem (\cite{kacprzyk_parameter_2007}). According to \cite{kacprzyk_parameter_2007}, "the No Free Lunch results place an obligation on the EA practitioner to understand something about the particular properties of the problems that (s)he is trying to solve that relate to particular choices of EA parameter settings."
@@ -14,9 +14,8 @@ In order to reduce the required number of tests, it was decided to only use one 
 \label{chap:hyperparameter_tuning:population}
 Setting a suitable population size is of high importance to a Genetic Algorithm, which has been discussed in section \ref{chap:foundation:genetic_algorithm}, especially considering the limed processing resources available. On one hand, a population that is too small might result in less diverse runs of the genetic algorithm, on the other hand, if population is too high, the simulations will become too costly.
 
-In order to test for the best population size, other hyperparameters first have to be defined using an educated guess. While reviewing the literature, trends of general settings for genetic algorithms can be found. However \cite{mills_determining_2015} highlight the inconsistencies between findings, stating to have "uncovered conflicting opinions and evidence regarding key GA control parameters". 
-
-\cite{grefenstette_optimization_1986} seams the be more optimistic and suggests that a range of control parameter will already lead to acceptable performance, yet optimal performance needs tuning. \cite{kacprzyk_parameter_2007} complements these findings, adding that the "sweat spot" for hyperparameters of genetic algorithms is reasonably large and easy to find. A default set of static parameter values is generally speaking sufficient.
+In order to test for the best population size, other hyperparameters first have to be fixated using an educated guess. While reviewing the literature, trends of general settings for genetic algorithms can be found. 
+\cite{grefenstette_optimization_1986} suggests that a range of control parameter will already lead to acceptable performance, yet optimal performance needs tuning. \cite{kacprzyk_parameter_2007} complements these findings, adding that the "sweat spot" for hyperparameters of genetic algorithms is reasonably large and easy to find. A default set of static parameter values is generally speaking sufficient.
 
 Following this advice, the most suitable population parameters will now be evaluated by fixating the remaining hyperparamters to a small range of suggested values from the literature.
 
@@ -24,6 +23,8 @@ Following this advice, the most suitable population parameters will now be evalu
 \todo{Use best values also from : Using genetic algorithms for automating automated lane-keeping system testing}
 
 
+
+\iffalse
 In an often cited thesis by \cite{de_jong_analysis_1975}, the following parameters have been suggested:
 GA(50, 0.6, 0.001, 1.0, 7, E) These suggested parameters have been used successfully by various different genetic algorithms \cite{grefenstette_optimization_1986}. 
 
@@ -44,22 +45,57 @@ A population size of 200 and roulette selection is used by \cite{assistant_profe
 
 
 TODO: \cite{jinghui_zhong_comparison_2005}  set the range as "We set the value of POPSIZE as 50, 100, 150, 200, 250, the value of PXOVER as 0.1, 0.3, 0.5, 0.7, 0.9, and the value of PMUTATION as 0.05, 0.1, 0.15, 0.2, 0.25."
-
-"
-DeJong believes that EAs pre-tuned with default parameter values for particular problem classes will continue providing better performance than EAs that attempt to dynamically adapt too many control parameters for specific problems. So, even after 30+ years of research, the question of best settings for EA and GA control parameters has no widely agreed answer.
-"\cite{mills_determining_2015}
+\fi
 
 
-\subsection{results}
+After reviewing various literature regarding control parameter of Genetic Algorithms, no clear consensus emerged. \cite{mills_determining_2015} also mention the inconsistencies between findings during their literature review, highlighting the conflicting evidence regarding "key GA control parameter".
+
+Table \ref{tab:ga_hyperparameters} aims to provide a short, tough not exhaustive, overview on different control parameter settings used in the literature. This compilation does not claim to cover the entire scope of available research in this domain, rather it served as a focused effort to identify usable hyperparmeters.
+
+\begin{table}[h]
+	\centering
+	\caption{Summary of Genetic Algorithm Hyperparameters}
+	\label{tab:ga_hyperparameters}
+	\begin{tabular}{|l|c|c|c|c|c|}
+		\hline
+		\textbf{Parameter Set} & \textbf{Pop} & \textbf{Cross} & \textbf{Mut} & \textbf{Sel} & \textbf{Elite} \\
+		\hline
+		\cite{de_jong_analysis_1975} & 50 & 0.6 & 0.001 & ? & 1 \\
+		\hline
+		\cite{mills_determining_2015} & 200 & ? & Adaptive & SUS & 8\% \\
+		\hline
+		\cite{grefenstette_optimization_1986} & 30 & 0.95 & 0.01 & ? & 1 \\
+		\hline
+		\cite{grefenstette_optimization_1986} & 80 & 0.45 & 0.01 & ? & 1 \\
+		\hline
+		\cite{almanee_scenorita_2021} & 50 & 0.8 & 0.2 & ? & ? \\
+		\hline
+		\cite{srinivas_genetic_1994}  & 30-100 & 0.9 & 0.01 & ? & ? \\
+		\hline
+		\cite{fazal_estimating_2005} & 50 & 0.5 & ? & Tourn & 5 \\
+		\hline
+		\cite{dao_maximising_2016} & 200 & 0.7 & ? & Roul & 1 \\
+		\hline
+		\cite{assistant_professor_amity_university_jaipur_rajasthan_india_parameter_2019} & 200 & 0.4 & ? & Roul & 10 \\
+		\hline
+		\cite{jinghui_zhong_comparison_2005} & 50-250 & 0.1-0.9 & 0.05-0.25 & ? & ? \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Generally speaking, a low mutation rate is recommended. For example \cite{grefenstette_optimization_1986} suggest poor performance using a rate over 0.05. Using a low mutation rate is also suggested by \cite{whitley_genetic_1994} and \cite{jinghui_zhong_comparison_2005}. On the other hand, \cite{boyabatli_parameter_2004} found higher mutation rates for their application to be more suitable.
+
+\cite{srinivas_genetic_1994} differentiates between higher and lower population numbers, claiming that a smaller population needs higher mutation rates in order to maintain a sufficient diversity.
+
+
+\subsection{Comparison of Population Size}
 This now leads to a difficult decision in choosing the right parameters. Based on the extensive research, we will compare population size of 32, 48, 64 and 96. We will compare the different crossover rates: 0.8 and 0.6. For mutation, 0.01 and 0.2 will be discussed. Further we will use tournament selection with 2 and 4.
 Individual Mutation Probability will stay at 0.1. Chromosome Encoding is set to Time and Gene Encoding is set to Integer. 
 Each run will be executed 5 times to reduce randomness and to make the results more robust. Each simulation will last for 30 generations.
 
 \begin{figure}[ht]
 	\centering
-\begin{tabular}{ |l|c||c|c|c|c|  }
-	\hline
-	\multicolumn{6}{|c|}{Comparison of Population Size - mean} \\
+\begin{tabular}{ c|c|cccc  }
 	\hline
 	Settings & Code & 32 & 48 & 64 & 96\\
 	\hline
@@ -73,7 +109,7 @@ Each run will be executed 5 times to reduce randomness and to make the results m
 	C: 0.8, M: 0.20, TS: 4    	& H & 3058 & 3005 & 2794 & 2809\\
 	\hline
 \end{tabular}
-\caption{List Settings per Population Size}
+\caption{Comparison of Population Size - mean}
 \end{figure}
 
 
@@ -85,39 +121,32 @@ In figure \ref{figure:population:results}, the results per population are plotte
 \end{figure}
 
 
-A high spread can be seen when looking at small population sizes. Considering these findings, a population size of 96 was chosen. While such a high value will result in a performance impact, it is important to keep the variation low.
+A higher spread in the results can be seen when looking at small population sizes. Considering these findings, a population size of 96 was chosen. While such a high value will result in a performance impact, it was deemed to be more important to keep the variation low.
 
 
 \section{Design of Experiment}
 \label{chap:hyperparameter_tuning:other_parameter}
 
-Following the conclusion from the previous section \ref{chap:hyperparameter_tuning:population}, a population size of 96 will be used. Executing one run for 30 generations currently takes around 3:50 hours. Although two different workstations were available, the time required to execute the needed number of runs for these automated tests would exceed the available time budged. This is without considering a minimum required number of repetitions to remove randomness in the results.
+This section mains to find optimal settings for the remaining control parameters for the given problem.
+Following the conclusion from the previous section \ref{chap:hyperparameter_tuning:population}, a population size of 96 will be used. 
 
-In order to tune the hyperparameter of the genetic algorithm, various different strategies can be used. Using automated hyperparamter tuning approaches like "Grid Search", "Bayesian Optimization, "Simmulated Annealing or "Hyperband" might lead to good results with minimal effort (tuning hyperparameter of these search algorithms is still needed), however they require a high number of runs, which is not feasable. Even a higher level GA can be used\todo{find references} 
+In order to tune the control parameter of the genetic algorithm, various different strategies can be used. Using automated approaches like "Grid Search", "Bayesian Optimization, "Simmulated Annealing or "Hyperband" might lead to good results with minimal effort (tuning hyperparameter of these search algorithms is still needed), however they each require a high number of runs (\cite{kacprzyk_parameter_2007}).\todo{find more (better) references} \cite{kacprzyk_parameter_2007} even suggest using a second, higher level Genetic Algorithm for the optimization process.
 
-
-"
-it is not uncommon to automate this process with a simple, top-level “parameter sweep” procedure that systematically adjusts selected parameter values. However, unless care is taken, this can lead to a combinatorial explosion of parameter value combinations and require large amounts of computation time.
-"\cite{kacprzyk_parameter_2007}
-
-"
-The fitness landscapes defined by EA parameter tuning generally have the same unknown properties as the underlying problems that suggested the use of EAs in the first place! So, a natural consequence is the notion of a two-level EA, the top level of which is evolving the parameters of the lower level EA.
-"\cite{kacprzyk_parameter_2007}
-
-"
-My sense is that, for static optimization problems, it will to continue to be the case that particular types of EAs that have been pre-tuned for particular classes of problems will continue to outperform EAs that try to adapt too many things dynamically.
-"\cite{kacprzyk_parameter_2007}
+Due to performance considerations, many optimization methods however did not fit the requirements.
+Executing one run for 30 generations currently takes around 3:50 hours. Although two different workstations were available, the time required to execute the needed number of runs for these automated tests would exceed the available time budged. This is without considering a minimum required number of repetitions to remove randomness in the results.
 
 
-A different approach called "design of experiment" (DOE), also known as statistically designed experiments. DOE tries to find the causeand-effect relationship between the factors and the output of experiments.
-It uses factorial design where each experiment has factors, of which each consists of at least two settings, with the actual number of settings being called "levels" (\cite{yang_design_2009}). Design of experiment needs manual expertise to define which factors are possibly of importance and which settings each factor should have, this is a drawback compared to automatic hyperparameter tuning.
+A different approach called "design of experiment" (DOE), also known as statistically designed experiments. DOE tries to find the cause and-effect relationship between the factors and the output of experiments.
+It uses factorial design where each experiment has factors, of which each consists of at least two settings, with the actual number of settings being called "levels" (\cite{yang_design_2009}). Design of experiment needs manual expertise to define which factors are possibly of importance and which settings each factor should have.
 
 \enquote{If the range of variable is too small, then we may miss lots of useful information. If the range is too large, then the extreme values might give infeasible experimental runs.} (\cite{yang_design_2009})
 
 Afterwards, main effects and interactions can be calculated to find the best settings per factor. It provides a graphical representation of these relationship by using interaction as well as main-effects charts.
 Using ANOVA (Analysis of Variance) it is possible to identify the significance of each factor and interaction, which enables the ranking of these factors. More details on these analysis tools will be provided in section \ref{chap:hyperparameter_tuning:analysis_of_results}.
 
-A full factorial design will test over all possible combinations of the manually selected factor levels. Looking at the proposed factors in table \ref{table:hyperparameter_tuning:settings_to_level}, we would require 1024 runs\footnote{number of runs calculated using: \url{https://datatab.net/statistics-calculator/design-of-experiments}}, which not not feasible performance wise. A full factorial design has the drawback, that as the number if factors k gets increased, the number of needed experimental runs increases exponentially, thus resulting in lengthy experiments. \cite{yang_design_2009} state, that most of the results obtained by testing over all combinations are only used for estimating higher-order interactions, which are in most cases insignificant.
+A full factorial design will test over all possible combinations of the manually selected factor levels. Looking at the proposed factors in table \ref{table:hyperparameter_tuning:settings_to_level}, we would require 1024 runs\footnote{number of runs calculated using: \url{https://datatab.net/statistics-calculator/design-of-experiments}}, which not feasible performance wise. A full factorial design has the drawback, that as the number of factors k gets increased, the number of needed experimental runs increases exponentially, thus resulting in lengthy experiments. \cite{yang_design_2009} state, that most of the results obtained by testing over all combinations are only used for estimating higher-order interactions, which are in most cases insignificant.
+
+Fractional factorial experiments require less runs ... \todo{Short explaination}
 
 \enquote{Techniques such as fractional (or partial) factorial experiments are used to simplify the experiment. Fractional factorial experiments investigate only a fraction of all possible combinations. This approach saves considerable time and money but requires rigorous mathematical treatment, both in the design of the experiment and in the analysis of the results. (\cite{roy_primer_1990})}
 
@@ -127,7 +156,7 @@ Various improvements to Design of experiment have been but forward by Dr. Genich
 
 \todo{Find examples of Papers that use taguchi for ga}
 
-Using a Taguchi design for evaluating the best hyperparamter has been successfully performed by \cite{dao_maximising_2016} as well as \cite{assistant_professor_amity_university_jaipur_rajasthan_india_parameter_2019}. 
+Using a Taguchi design for evaluating the best hyperparamter has been successfully performed by \cite{dao_maximising_2016} as well as \cite{naruka_parameter_2019}. 
 
 \enquote{ There are many similarities between “regular” experimental design and Taguchi's experimental design. However, in a Taguchi experiment, only the main effects and two-factor interactions are considered. Higher-order interactions are assumed to be nonexistent. In addition, experimenters are asked to identify which interactions might be significant before conducting the experiment, through their knowledge of the subject matter.} (\cite{yang_design_2009})
 
@@ -184,7 +213,7 @@ In table \ref{table:hyperparameter_tuning:settings_to_level}, every factor with 
 
 \begin{figure}[ht]
 	\centering
-\begin{tabular}{ |l|c||c|c|c|c|  }
+\begin{tabular}{ l|c|cccc }
 	\hline
 	Factors & Code & Level 1 & Level 2 & Level 3 & Level 4\\
 	\hline
@@ -232,7 +261,7 @@ A $L_{16}$ array seems suitable to accommodate the required 13 DOF, which can be
 	\centering
 \begin{tabular}{ |c||c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|  }
 	\hline
-	   & \multicolumn{15}{|c|}{ $L_{16}(2^{15})$ } \\
+	   & \multicolumn{15}{c|}{ $L_{16}(2^{15})$ } \\
 	NO.& 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10& 11& 12& 13& 14&15\\
 	\hline
 	1  & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\

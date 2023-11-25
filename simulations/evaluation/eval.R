@@ -70,7 +70,7 @@ sim.all_ga["simulation"] <- lapply(sim.all_ga["simulation"] , factor)
 sim.all_ga.melted<-melt(sim.all_ga[, c("gen", "simulation", res_col_names)], 
                          id = c("gen", "simulation"), 
                          measured = res_col_names)
-sim.all_ga.melted$value <- ((-sim.all_ga.melted$value + 3500) / 100)
+sim.all_ga.melted$value <- ((3500 -sim.all_ga.melted$value) / 100)
 ##### plot data ####
 # plot performance comparison
 
@@ -80,16 +80,16 @@ desired_levels <- c("Optimized", "Default")
 plot.bp <- ggplot(sim.res.melted, aes(simulation, value)) + 
   geom_boxplot(data = subset(sim.res.melted, simulation %in% desired_levels), color="#457b9d") + 
   geom_point(color="#457b9d")  +
-  labs(x = "", y = "Emergency Break Duration (s)")
+  labs(x = "", y = "Cummulated Emergency Break Duration (s)")
 print(plot.bp)
-ggsave(paste0('evaluation/plots/', simulation_name, '_comparison.jpg'), plot = plot.bp, width = 12, height = 8, units = "cm", dpi = 600)
+ggsave(paste0('evaluation/plots/', simulation_name, '_comparison.jpg'), plot = plot.bp, width = 12, height = 6, units = "cm", dpi = 600)
 
 
 # plot diversity comparison
 plot.diversity_comparison <- ggplot(sim.diversity, aes(x=generation, y=diversity, group=simulation, color=simulation)) + 
   stat_summary(fun.data = "mean_se", geom = "line", linewidth = 1) + 
   stat_summary(fun.max = function(y) max(y), fun.min = function(y) min(y), geom = "ribbon", alpha = 0.1, aes(fill = simulation)) +
-  labs(x = "Generation", y = "Diversity", color = "Simulations", fill = "Simulations")
+  labs(x = "Generations", y = "Diversity", color = "Simulations", fill = "Simulations")
 print(plot.diversity_comparison)
 ggsave(paste0('evaluation/plots/', simulation_name, '_ga_diversity.jpg'), plot = plot.diversity_comparison, width = 12, height = 8, units = "cm", dpi = 600)
 
@@ -98,7 +98,7 @@ ggsave(paste0('evaluation/plots/', simulation_name, '_ga_diversity.jpg'), plot =
 plot.generation_comparison <- ggplot(sim.all_ga.melted, aes(x=gen, y=value, group=simulation, color=simulation)) + 
   stat_summary(fun.data = "mean_se", geom = "line", linewidth = 1) + 
   stat_summary(fun.max = function(y) max(y), fun.min = function(y) min(y), geom = "ribbon", alpha = 0.1, aes(fill = simulation)) +
-  labs(x = "Generation", y = "Emergency Break Duration (s)", color = "Simulations", fill = "Simulations")
+  labs(x = "Generations", y = "Cummulated Emergency Break Duration (s)", color = "Simulations", fill = "Simulations")
 plot.generation_comparison <- plot.generation_comparison + guides(color = FALSE, fill = FALSE)
 print(plot.generation_comparison)
 ggsave(paste0('evaluation/plots/', simulation_name, '_ga_generations.jpg'), plot = plot.generation_comparison, width = 12, height = 8, units = "cm", dpi = 600)
