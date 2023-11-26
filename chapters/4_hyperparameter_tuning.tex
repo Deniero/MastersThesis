@@ -10,6 +10,11 @@ This chapter will focus on tuning the Genetic Algorithm to perform on the given 
 
 In order to reduce the required number of tests, it was decided to only use one starting scenario for tuning. It can be seen in appendix \ref{figure:appednix:start_scenario_1}. In chapter \ref{chap:evaluation}, the performance on different start scenarios will be investigated.
 
+\section{Simulation Setup}
+Two workstations were available for running all of the following simulations. The first workstation had an Intel Core i7-9700K and a GeForce RTX 2070 SUPER with 32 GB of RAM. The second workstation had an Intel Core i7-6850K as well as two Nvidia GeForce GTX 1080 also with 32 GB of RAM. On both systems, Kubuntu 20.04 LTS was the operating system.
+
+Running one complete Genetic Algorithm takes approximately 3 hours on a single workstation, depending on the number of actors used.
+
 \section{Population}
 \label{chap:hyperparameter_tuning:population}
 Setting a suitable population size is of high importance to a Genetic Algorithm, which has been discussed in section \ref{chap:foundation:genetic_algorithm}, especially considering the limed processing resources available. On one hand, a population that is too small might result in less diverse runs of the genetic algorithm, on the other hand, if population is too high, the simulations will become too costly.
@@ -21,32 +26,6 @@ Following this advice, the most suitable population parameters will now be evalu
 
 \subsection{Suggested hyperparameter from the literature}
 \todo{Use best values also from : Using genetic algorithms for automating automated lane-keeping system testing}
-
-
-
-\iffalse
-In an often cited thesis by \cite{de_jong_analysis_1975}, the following parameters have been suggested:
-GA(50, 0.6, 0.001, 1.0, 7, E) These suggested parameters have been used successfully by various different genetic algorithms \cite{grefenstette_optimization_1986}. 
-
-An extensive study by \cite{mills_determining_2015} which that took over "over 60 numerical optimization problems." into consideration found that "the most effective level settings found for each factor: population size = 200, selection method = SUS, elite selection percentage = 8\%, reboot proportion = 0.4, number of crossover points = 3, mutation rate = adaptive and precision scaling = 1/2 as fine as specified by the user."
-
-\cite{grefenstette_optimization_1986} claim that GA(30, 0.95, 0.01, 1.0, 1, E) and GA(80, 0.45, 0.01, 0.9, 1, P) produced the best results. They also advised against, a mutation rate of over 0.05, suggesting poor performance. Using a low mutation rate is also suggested by \cite{whitley_genetic_1994} and \cite{jinghui_zhong_comparison_2005}. 
-On the other hand, \cite{boyabatli_parameter_2004} state, that "Controversial to existing literature on GA, our computational results reveal that in the case of a dominant set of decision variable the crossover operator does not have a significant impact on the performance measures, whereas high mutation rates are more suitable for GA applications."
-Other paper also find a relatively high mutation rate useful. \cite{almanee_scenorita_2021} uses genetic algorithms in a similar domain as this thesis. There, a Population of 50, crossover of 0.8 and mut of 0.2 was used. These used params are the same as the default params from deap (pop = 50 CXPB, MUTPB, NGEN = 0.5, 0.2, 4). \todo{cite https://deap.readthedocs.io/en/master/overview.html}
-
-\cite{srinivas_genetic_1994} state, that for a higher population, cross : 0.6, mut: 0.001 and pop: 100 is a good starting point, while a lower population needs higher crossover and mutation rates like this cross: 0.9, mut: 0.01, pop: 30
-
-
-\cite{fazal_estimating_2005} recommends a population size of 50, a scattered crossover function with a crossover probability of 0.5. The used selection function was tournament selection. Elite count was set to 5.
-
-\cite{dao_maximising_2016} suggests a population size of 200, two point crossover with a crossover probability of 0.7. A Gausian Mutation Function as well as roulette selection and elite count set to 1.
-
-A population size of 200 and roulette selection is used by \cite{assistant_professor_amity_university_jaipur_rajasthan_india_parameter_2019}. Further, the elite count is set to10. A heuristic crossover function with a crossover probability of 0.4 is also used.
-
-
-TODO: \cite{jinghui_zhong_comparison_2005}  set the range as "We set the value of POPSIZE as 50, 100, 150, 200, 250, the value of PXOVER as 0.1, 0.3, 0.5, 0.7, 0.9, and the value of PMUTATION as 0.05, 0.1, 0.15, 0.2, 0.25."
-\fi
-
 
 After reviewing various literature regarding control parameter of Genetic Algorithms, no clear consensus emerged. \cite{mills_determining_2015} also mention the inconsistencies between findings during their literature review, highlighting the conflicting evidence regarding "key GA control parameter".
 
@@ -76,7 +55,7 @@ Table \ref{tab:ga_hyperparameters} aims to provide a short, tough not exhaustive
 		\hline
 		\cite{dao_maximising_2016} & 200 & 0.7 & ? & Roul & 1 \\
 		\hline
-		\cite{assistant_professor_amity_university_jaipur_rajasthan_india_parameter_2019} & 200 & 0.4 & ? & Roul & 10 \\
+		\cite{naruka_parameter_2019} & 200 & 0.4 & ? & Roul & 10 \\
 		\hline
 		\cite{jinghui_zhong_comparison_2005} & 50-250 & 0.1-0.9 & 0.05-0.25 & ? & ? \\
 		\hline

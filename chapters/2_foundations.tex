@@ -4,36 +4,19 @@
 \section{Genetic Algorithm}
 \label{chap:foundation:genetic_algorithm}
 
+Pioneered by John Holland (1974) \todo{Find paper}, Genetic Algorithms (GAs) imitate natural selection and the Darwinian principle called "survival of the fittest". Genetic Algorithms are a subclass of evolutionary algorithms and search the solution space using a population of individuals (\cite{mills_determining_2015}). Each individual contains one chromosome, which serves as a candidate solution. Using genetic operations, the individuals mate among themselves and mutate independently. 
 
-\paragraph{General}
-Pioneered by John Holland (1974) \todo{Find paper}, Genetic Algorithms (GAs) imitate natural selection and the Darwinian principle called "survival of the fittest". Genetic Algorithms search the solution space using a population of individuals. Each individual contains one chromosome, which serves as a candidate solution. Using genetic operations, the individuals mate among themselves and mutate independently. Which individual is chosen depends on a fitness function, which defines the search problem. Individuals that do poorly on the given problem die out, while "strong" individuals propagate.
-Genetic Algorithms iteratively (each iteration is call "generation") optimize by manipulating a population of potential solutions (\cite{srinivas_genetic_1994}).
+Which individual is chosen depends on a fitness function, which defines the search problem. Each individual has a fitness value corresponding to the performance on its chromosome (\cite{majumdar_genetic_2015}). Individuals that do poorly on the given problem die out, while "strong" individuals propagate. Genetic Algorithms iteratively (each iteration is call "generation") optimize by manipulating a population of potential solutions (\cite{srinivas_genetic_1994}).
 Chromosomes consist of individual genes, which form a solution to the search problem. Over generations using genetic operations, gene values and position will be optimized, resulting in iteratively better solutions (\cite{srinivas_genetic_1994}).
+
 This masters thesis will utilize generational genetic algorithms, where each generation, the entire population is replaces. Contrary to that, steady state genetic algorithms only replace a small fraction of the population at a time (\cite{srinivas_genetic_1994}).
 
-Genetic algorithms are a subclass of evolutionary algorithms (\cite{mills_determining_2015}).
+This search method on the basis of biological principles allows through its population for a global and dispersed search which avoids various shortcommings of local search techniques (\cite{grefenstette_optimization_1986}). Especially on difficult search spaces with lots of local optima, a genetic alogorithm is less prone to get stuck on a substandard solution (\cite{katoch_review_2021}, \cite{xia_genetic_2019}, \cite{majumdar_genetic_2015}). Genetic Algorithms offer advantages for complex optimization and non-deterministic polynomial (NP-hard) problems (\cite{hussain_trade-off_2020}).
 
+\enquote{GAs can find good solutions within a large, ill-defined search space, and can be readily adapted to a wide variety of search problems} (\cite{mills_determining_2015})
 
-"
-The Fitness Function: The fitness function in Genetic Algorithm represents the objective function and the fitness value corresponds the performance of an individual chromosome.
-"\cite{majumdar_genetic_2015}
+\cite{grefenstette_optimization_1986} further emphasis its ability to outperform gradient techniques on difficult problems with high-dimensional, noisy or discontinuous fitness functions by efficiently exploiting "relatively the relatively simple selection mechanism." A genetic algorithms main advantage for these problems comes from its capability to explore the search space using its entire population (\cite{hussain_trade-off_2020}). Further advantages are the "high implicit parallelism", which makes genetic algorithms "numerically very efficient" (\cite{marsili_libelli_adaptive_2000}).
 
-\paragraph{Pros}
-This search method on the basis of biological principles allows trough its population for a global and dispersed search which avoids various shortcommings of local search techniques (\cite{grefenstette_optimization_1986}). Especially on difficult search spaces with lots of local optima, a genetic alogorithm is less prone to get stuck on a substandard solution (\cite{katoch_review_2021}, \cite{xia_genetic_2019}, \cite{majumdar_genetic_2015}). Genetic Algorithms offer advantages for complex optimization and non-deterministic polynomial (NP-hard) problems (\cite{hussain_trade-off_2020}).
-
-\enquote{GAs can find good solutions within a large, ill-defined search space, and can be readily adapted to a wide variety of search problems (Mitchell, 1998)} (\cite{mills_determining_2015})
-
-\cite{grefenstette_optimization_1986} further emphasis its ability to outperform gradient techniques on difficult problems such as "as optimizations involving discontinuous, noisy, high-dimensional, and multimodal objective functions." Adding, that base Genetic Algorithms their effectiveness on their "ability to exploit efficiently this vast amount of accumulating knowledge by means of relatively simple selection mechanisms".
-
-\enquote{The most attractive feature of GA is that it has the ability to explore the search space with the help of the entire population of individuals.} (\cite{hussain_trade-off_2020})
-
-
-Further advantages are the "high implicit parallelism", which makes genetic algorithms "numerically very efficient" (\cite{marsili_libelli_adaptive_2000}).
-
-\enquote{The power and simplicity of GA make it popular for even largescale optimization problems. The main advantage of GA is that it does not require neither mathematical expression of response surfaces nor any derivative or gradient information} (\cite{boyabatli_parameter_2004})
-
-
-\paragraph{Basic Structure}
 At its core, a genetic algorithm uses a list of simple evolution inspired functions. A basic genetic algorithm can be seen here, according to \cite{srinivas_genetic_1994}. \todo{Probably ref Holland or Dejong}
 
 \begin{lstlisting}[language=C, tabsize=4]
@@ -52,177 +35,99 @@ At its core, a genetic algorithm uses a list of simple evolution inspired functi
 \end{lstlisting}
 
 
-First, the population is initialized randomly and its individuals are subsequently evaluated using the fitness function. The following steps are now repeated until some stopping criteum is triggered (\cite{grefenstette_optimization_1986}) (in this case, it is just a maximum on the number of generations).
-The individuals are chosen using a selection operation, which takes their fitness value under consideration. Next, under some crossover probabilty, the selected individals mate, producing new offspring. This surfs the purpose of exchanging information between the chromosomes as genes. Futher, a handfull of indivduals (selected using a mutation probabilty) get mutated, which adds small variations to the chromomsomes, thus adding new variation to the population.
-Finally the new population gets evaluated.
+First, the population is initialized randomly and its individuals are subsequently evaluated using the fitness function. The following steps are now repeated until some stopping criterium is triggered (\cite{grefenstette_optimization_1986}). 
 
-"
-Stopping criteria: Stopping criteria determines what causes the algorithm to terminate-generations, time limit, fitness limit etc.
-"\cite{majumdar_genetic_2015}
+While different stopping methods are available like time limit, fitness limit or minimum convergence rate (\cite{majumdar_genetic_2015}), this masters thesis will use a maximum number of generations.
+The individuals are chosen using a selection operation, which takes their fitness value under consideration. A crossover rate subsequently defines, which for the selected individuals mate using a crossover function. This operation serves the purpose of exchanging information between the chromosomes as genes. In order to add variation and diversity the resulting crossover offspring undergoes small changes using a mutation function. A mutation rate decides which on which individuals this operation is applied.
+As a final step, the new population gets evaluated.
 
 
-\paragraph{Problems}
 According to \cite{hussain_trade-off_2020}, genetic algorithms suffer from an exploration vs exploitation dilemma. If the algorithm converges too quickly to a solution, most of the search space might not have yet been explored, thus increasing the probability of getting stuck at only a local optimum.
-In contrast to that, a low convergence rate will be time consimung and result in wasted compuational resources.
+In contrast to that, a low convergence rate will be time consuming and result in wasted computational resources.
 
 \enquote{Finding a balance between exploration and exploitation has been a difficult-to-achieve goal from the beginning.} (\cite{kacprzyk_parameter_2007})
 
-Genetic algorithms also require an application specific encoding of genes, which requires time and domain specific knowledge. Due to know real consus on the "best parameter settings" (see section \ref{chap:hyperparameter_tuning}, their optimal selection proves to be difficult.
+Genetic algorithms also require an application specific encoding of genes, which requires time and domain specific knowledge. Due to no real consensus on the best controll parameter settings, their optimal selection proves to be difficult, which will be discussed in section \ref{chap:hyperparameter_tuning}.
 
-"
-Premature convergence is a common issue for GA. It can lead to the loss of alleles that makes it difficult to identify a gene [15]. Premature convergence states that the result will be suboptimal if the optimization problem coincides too early.
-"\cite{katoch_review_2021}
-
-\subsection{Genes}
+\subsection{Chromosomes and Genes}
 \label{chap:foundation:ga:encoding}
 
+\todo{explain genes and chromosomes a bit more!}
+
 The encoding of the genes proved to be, besides the hyperparamter tuning, the main challenge of setting up a genetic algorithm pipeline.
-A simple and commonly used representation for genes is binary encoding. As suggested by its name, a gene can take the for as 0 or 1. Futher common encodings are octal and hexadecimal representations (\cite{srinivas_genetic_1994}, \cite{katoch_review_2021}).
+A simple and commonly used representation for genes is binary encoding. As suggested by its name, a gene can take the for as 0 or 1. Further common encodings are octal and hexadecimal representations (\cite{srinivas_genetic_1994}, \cite{katoch_review_2021}).
 
 In case a custom encoding needs to be used, the genetic operation crossover and mutation have to be tailored accordingly. \cite{srinivas_genetic_1994} suggests, to use integer representations in case a optimization problem has real-valued continuous variables. Theses variables are linearly mapped to integers defined in a specific range. It is also possible to again represent these integers as binary encodings.
 
-Various other encodings are available, often very problem specific. For example tree encodings allows for genes to represent programming functions, leading to a path of genetic algorithms called "genetic programming" (\cite{katoch_review_2021}).
+Various other encodings are available, often very problem specific. For example tree encodings allows for genes to represent programming functions, leading to a subcategory of genetic algorithms called "genetic programming" (\cite{katoch_review_2021}).
 
 
-\subsection{Control Parameter of a Genetic Algorithm}
-Hyperparamter have a huge influence on the performance of a Genetic Algorihm. They have an impact on the "convergin" ...
-It has been shown, that there is no universal hyperparamter set and that it needs to be optimized on a per "problem" basis.
-
-\subsubsection{Num of generations}
-The Number of Generation defines the duration of a GA. As long as the algorihtm has not converged, ....?
-For my testing, using a generation size of 30 was almost always sufficient, and will thus mostly be used.
-
-\subsubsection{Population Size}
-Controlling the Population Size, which defines the number of individuals per generation, has a direct impact on the performance of the genetic algorithm.
+\subsection{Population Size}
+Controlling the Population Size, which defines the number of individuals per generation, has a direct impact on the performance of a Genetic Algorithm.
 Research seams to be in agreement, that a small population leads to less diverse individuals and might provide an insufficient sample size. This can lead to a premature convergence to a local optimum.
 Increasing the population size will allow the genetic algorithm to perform a more informed search. However computation time will suffer due to the larger number of individuals per generation as well as slower convergence to an optimum (\cite{grefenstette_optimization_1986}, \cite{katoch_review_2021}, \cite{kacprzyk_parameter_2007}).
-\cite{kacprzyk_parameter_2007} also suggest, that "complex, multi-peaked landscapes may require populations of 100s or even 1000s of parents in order to have some reasonable chance of finding globally optimal solutions"
-This Exploration-Exploitation problem is at the core of the Genetic Algorithm.
 
-Increasing population size will increase the degree if parallelism, as each individual represents one search point (\cite{mills_determining_2015}).
+\cite{kacprzyk_parameter_2007} also suggest, that "complex, multi-peaked landscapes may require populations of 100s or even 1000s of parents in order to have some reasonable chance of finding globally optimal solutions."
 
-"
-As a consequence, most EAs used in practice today run with a fixed population size, the value of which may be based on existing off-line studies (e.g., [34]) or more likely via manual tuning over multiple runs.
-"\cite{kacprzyk_parameter_2007}
+Increasing population size will increase the degree of parallelism, as each individual represents one search point (\cite{mills_determining_2015}).
 
-\subsubsection{Selection}
-The selection operator chooses two parents for crossover and mutation opteriation until the list offsprings has reached the desired population size. 
-The selection operator will favour individuals based on their fitness value, ensuring their increased representation from generation to generation (\cite{srinivas_genetic_1994}). Weak solutions thus will be discarded over time.
+\subsection{Selection}
+The selection operator chooses two parents for crossover and mutation operations until the list offspring has reached the desired population size. 
+The selection operator will favour individuals based on their fitness value, ensuring their increased representation from generation to generation (\cite{srinivas_genetic_1994}). Weak solutions will be discarded over time.
 
-The selection algorithm again needs to satisfy two requirements. On the one hand, high selection pressure will lead to decreased diversity in the population resulting in premature convergence (\cite{katoch_review_2021}). This results in the algorithm behaviong more like a local search method like a hill-climber or a “greedy” algorithm (\cite{kacprzyk_parameter_2007}).
+The selection algorithm again needs to satisfy two requirements. On the one hand, high selection pressure will lead to decreased diversity in the population resulting in premature convergence (\cite{katoch_review_2021}). This results in the algorithm behaving more like a local search method like a hill-climber or a “greedy” algorithm (\cite{kacprzyk_parameter_2007}).
 The initial low average fitness value of the population will in combination with a few good performing individuals will lead to them overtaking the population, drastically reducing diversity.
 On the other hand, a low selection pressure will struggle to converge at an optimum.
 
-\cite{hussain_trade-off_2020} propose a selection method where initially a low selection pressure is applied, while increasing it to the end, arguing, that "trade-off between these two competing criteria, an adjustable selection pressure must desired".
+\cite{hussain_trade-off_2020} propose a selection method where initially a low selection pressure is applied and increasing it to the end, arguing, that a "trade-off between these two competing criteria, an adjustable selection pressure must desired".
 
-Different selection methods like stochastic uniform remainder, random selection, rank selection, roulette wheel selection and tournament selection exist (\cite{majumdar_genetic_2015}). The choice of selection method highly affects the performance of the Genetic Algorithm (\cite{hussain_trade-off_2020}).
+Different selection methods like stochastic uniform remainder, random selection, rank selection, roulette wheel selection and tournament selection exist (\cite{majumdar_genetic_2015}). According to \cite{hussain_trade-off_2020}, who provide a extensive comparison of different selection techniques, the choice of selection method highly affects the performance of the Genetic Algorithm.
 
-Roulette wheel selection is a popular mechanism, where each individual corresponds to an area on the roulette wheel, based on its fitness value (\todo{cite Holland, else: \cite{hussain_trade-off_2020}}). \cite{grefenstette_optimization_1986} points out the scaling problem as a major drawback, which means, that as the algorithm progesses, its fitness variance to mean ratio becomes increasingly small, which leads to low selection pressure.
+Roulette wheel selection is a popular mechanism, where each individual corresponds to an area on the roulette wheel, based on its fitness value (\todo{cite Holland, else: \cite{hussain_trade-off_2020}}). \cite{grefenstette_optimization_1986} points out the scaling problem as a major drawback. As the algorithm progresses, its fitness variance to mean ratio becomes increasingly small, leading to low selection pressure.
 This problem can be mitigated by using ranks instead of the fitness value (\cite{katoch_review_2021}).
 
-Tournament selection is a popular alternative to roulette selection. First, a tournament size t has to be chosen. Until the desired number of offsprings is achieved, t individuals will be chosen at random from the population. Only from this smaller list, the best individual is selected. A popular tournament size is 2, larger sizes might enhance competition among individuals, however it also has an impact on the diversity of the population (\cite{hussain_trade-off_2020}). In a comparison of different selection methods by \cite{jinghui_zhong_comparison_2005}, tournament selection was deemt to be the most performant, converging more quickly then for example roulette wheel selection.
+Tournament selection is a popular alternative to roulette selection. First, a tournament size t has to be chosen. Until the desired number of offsprings is achieved, t individuals will be chosen at random from the population. Only from this smaller list, the best individual is selected. A popular tournament size is 2, larger sizes might enhance competition among individuals, however it also has an impact on the diversity of the population (\cite{hussain_trade-off_2020}). In a comparison of different selection methods by \cite{jinghui_zhong_comparison_2005}, tournament selection was deemed to be the most performant, converging more quickly then for example roulette wheel selection.
 
-\cite{hussain_trade-off_2020} provide a extensive comparison of different selection techniques.
+Elite is an additional method to help the selection process, proposed by \cite{de_jong_analysis_1975}. Here the best n individuals are automatically chosen to go into the next generation. This can help improve performance, as the best individuals will not be removed by randomness.
 
-Elite is an additional method to help the selection process, proposed by \cite{de_jong_analysis_1975}. Here the best n individuals are automatically chosen to go into the next generation. This can help improve performance, as the best individuals are not removed by randomness.
+\subsection{Crossover}
+The crossover operation serves as the mating process between two individuals (chosen from the population by the selection operation). Its resulting offspring is a combination of both parent genes. \cite{grefenstette_optimization_1986} highlights, that "first, it provides new points for further testing within the hyperplanes already represented in the population" and second, that "crossover introduces representatives of new hyperplanes into the population". 
 
+Different types of crossovers can be chosen, the most simple approach being the single-point crossover. Here a randomly chosen point along the length of the chromosome is chosen. The two parents will swap their genetic information at this point, generating two new offsprings (\cite{katoch_review_2021}). Extension are the two- or multipoint crossover operations, where chromosomes are divided by k segments, which will get exchanged. They eliminate a disadvantage of "the single-point crossover bias toward bits at the ends of strings." (\cite{srinivas_genetic_1994})
 
-\subsubsection{Crossover}
-The crossover operation serves as the mating process between two individuals (chosen from the population by the selection operation). Its resulting offspring has a combination of both parents genes. \cite{grefenstette_optimization_1986} highlights, that this "First, it provides new points for further testing within the hyperplanes already represented in the population." and "Second, crossover intro- duces representatives of new hyperplanes into the population". 
+A second crossover operation is the uniform crossover, where, based on a probability, it randomly decides to swap genes between the parents, independent to the exchange of other genes (\cite{katoch_review_2021}). 
 
-Different types of crossovers can be chosen, the most simple approach being the single-point crossover. Here a randomly chosen point aloong the length of the chromosome is chosen. The two parents will swap their genetic information at this point, generating two new offsprings (\cite{katoch_review_2021}). Extension are the two- or multipoint crossover operations, where chromosomes are divided by k segments, which will get exchanged. They eliminate a disadvantage of "the single-point crossover bias toward bits at the ends of strings." (\cite{srinivas_genetic_1994})
+\enquote{To classify techniques, we can use the notions of positional and distributional biases. A crossover operator has positional bias if the probability that a bit is swapped depends on its position in the string. Distributional bias is related to the number of bits exchanged by the crossover operator. If the distribution of the number is nonuniform,the crossover operator has a distributional bias. Among the various crossover operators, single-point crossover exhibits the maximum positional bias and the least distributional bias. Uniform crossover, at the other end of the spectrum, has maximal distributional bias and minimal positional bias.} (\cite{srinivas_genetic_1994})\todo{Rewrite}
 
-A second crossover opteration is the uniform crossover, here, based on a probability, it randomly decides to swap genes between the parents, independent of the exchange of other genes (\cite{katoch_review_2021}). 
-
-enquote{To classify techniques, we can use the notions of positional and distributional biases. A crossover operator has positional bias if the probability that a bit is swapped depends on its position in the string. Distributional bias is related to the number of bits exchanged by the crossover operator. If the distribution of the number is nonuniform,the crossover operator has a distributional bias. Among the various crossover operators, single-point crossover exhibits the maximum positional bias and the least distributional bias. Uniform crossover, at the other end of the spectrum, has maximal distributional bias and minimal positional bias.} (\cite{srinivas_genetic_1994})
-
-According to \cite{srinivas_genetic_1994} the ignoring of the genes position results in a higher disruptiveness, which has potential drawbacks. However it will be more exploratory in homogeneous populations where k-point crossovers might struggle to explore. \cite{srinivas_genetic_1994} also suggests that uniform crossover is more useful in small populations. Larger populations inherently are more diverse, making k-point crossover more suitable.
+According to \cite{srinivas_genetic_1994} ignoring of the genes position results in a higher disruptiveness, which has potential drawbacks. However it will be more exploratory in homogeneous populations where k-point crossovers might struggle to explore. \cite{srinivas_genetic_1994} also suggests that uniform crossover is more useful in small populations. Larger populations inherently are more diverse, making k-point crossover more suitable.
 
 Other crossover operations are analysed in paper \todo{Find good research paper, maybe \cite{katoch_review_2021}}. 
 
-Not only the crossover type has to be chosen, a crossover probability (or crossover rate) also needs definition. This value defines, how likely a single crossover operation is to be applied on the parent population. If no crossover will be applied, the parents will directly be used as children.
-The problem of choosing a crossover probability again comes back to the exploration/exploitation balance. Higher crossover rates will introduce new structures quickly into the population, however good structures might get disrupted. A low crossover rate will result in a low exploration, resulting in stagnation (\cite{grefenstette_optimization_1986}). 
+Not only the crossover type has to be chosen, a crossover rate also needs definition. This value defines, how likely a single crossover operation is to be applied on the selected individuals.
+The problem of choosing a crossover probability again comes back to the exploration/exploitation balance. Higher crossover rates will introduce new structures quickly into the population, however good sequences of genes might get disrupted. A low crossover rate will result in a low exploration, resulting in stagnation (\cite{grefenstette_optimization_1986}).
 
-\enquote{If reproductive variation is too strong, the result is undirected random search.} (\cite{kacprzyk_parameter_2007})
-
-\subsubsection{Mutation}
-The Mutation operation is applied after crossover as a means to maintain the diversity of the gene pool. Through small random changes, the variability of the population increases. Each individual can be exposed to a mutation, irrespective it their fitness value (\cite{srinivas_genetic_1994}).
-Mutation is controlled by a "MutationProbability" which chooses the individuals that are mutated. An "IndividualMutationProbability" will descide which genes of the chosen chromosome are mutated.
+\subsection{Mutation}
+The Mutation operation is applied after Crossover as a means to maintain the diversity of the gene pool. Through small random changes, the variability of the population increases. Each individual can be exposed to a mutation, irrespective it their fitness value.
+Mutation is controlled by a Mutation Rate which chooses the individuals that are mutated. An additional Individual Mutation Rate selects which specific genes of the chosen chromosome are mutated (\cite{srinivas_genetic_1994}).
 
 \enquote{If the mutation is not considered during evolution, then there will be no new information available for evolution.}(\cite{katoch_review_2021})
 
 Depending on the gene encoding, the mutation operation might vary. In case of binary gene encoding, mutation will only flip certain bits. For custom encodings, the mutation operation needs to be tailored accordingly.
 
-The setting of the mutation probabilities again needs to be chosen carefully. If it is too high, the genetic algorithm might transform into random testing, too low and the population will not be able to maintain diversity and reintroduce genetic material. (\cite{klampfl_using_nodate}, \cite{grefenstette_optimization_1986}). 
+The settings for Mutation Rates again needs to be chosen carefully. If they are too high, the genetic algorithm might transform into random testing. In case they are set too low, the population will not be able to maintain diversity as no new genetic material is reintroduced. (\cite{klampfl_using_nodate}, \cite{grefenstette_optimization_1986}).
+
 \enquote{A low level of mutation serves to prevent any given bit position from remaining forever converged to a single value in- the entire population.} (\cite{grefenstette_optimization_1986})
 
+\subsection{Adaptive Control Parameters}
+Various literature suggests adaptively controlling selection methods, crossover rates and mutation rates over the duration of a genetic algorithm ( ... \todo{insert more paper}). The main goal is to mitigate the previously mentioned exploration-exploitation problem. In the beginning, exploration is desired, meaning high crossover and mutation rates as well as selection methods that allow for a maintained diversity. However to the end of the Genetic Algorithms duration, convergence to an optimum is desired, meaning more "elite" selection methods as well as less variation due to crossover and mutation (\cite{srinivas_genetic_1994}).
 
-"
-DeJong believes that EAs pre-tuned with default parameter values for particular problem classes will continue providing better performance than EAs that attempt to dynamically adapt too many control parameters for specific problems. So, even after 30+ years of research, the question of best settings for EA and GA control parameters has no widely agreed answer.
-"\cite{mills_determining_2015}
+\cite{marsili_libelli_adaptive_2000} propose a method, where different mutation rates are used depending on the fitness of the individual. They claim, that a higher mutation probability for low fitness population results in a more efficient search.
 
+Contrary, \cite{kacprzyk_parameter_2007} is more critical to adaptive control parameters. Although adaptive control parameter might improve the performance of a genetic algorithm for specific problems, Genetic Algorithms are already quite robust in practice. Adding more tunable parameters will not make the task of the researcher easier.
 
-\subsubsection{Adaptive Control Parameters}
+\enquote{The purist might argue that inventing feedback control procedures for EAs is a good example of over-engineering an already sophisticated adaptive system.} (\cite{kacprzyk_parameter_2007})
 
-GEŅERALL
-
-"
-My sense is that, for static optimization problems, it will to continue to be the case that particular types of EAs that have been pre-tuned for particular classes of problems will continue to outperform EAs that try to adapt too many things dynamically.
-"\cite{kacprzyk_parameter_2007}
-
-"
-Parameter settings optimal in the earlier stages of the search typically become inefficient during the later stages. Similarly, encodings become too coarse as the search progresses, and the fraction of the search space that the GA focuses its search on becomes progressivelysmaller. To overcome these drawbacks, several dynamic and adaptive strategiesfor varying the control parameters and encodings have been proposed. One strategy exponentially decreases mutation rates with increasing numbers of generations, to gradually decrease the search rate and disruption of strings as the population converges in the search space. Another approach considers dynamically modifying the rates at whichthe various genetic operators are used, based on their performance. Each operator is evaluated for the fitness values of strings it generates in subsequent generations. Very often, after a large fraction of the population has converged (the strings have become homogeneous), crossover becomes ineffective in searching for better strings. Typically, low mutation rates (0.001 to 0.01) are inadequate for continuing exploration. In such a situation, a dynamic approach for varying mutation rates based on the Hamming distance between strings to be crossed can be useful. The mutation rate increasesas the Hamming distancebetween strings decreases. As the strings to be crossed resemble each other to a greater extent,the capacity of crossover to generate new strings decreases, but the increased mutation rate sustainsthe search.
-"\cite{srinivas_genetic_1994}
-
-"
-The purist might argue that inventing feedback control procedures for EAs is a good example of over-engineering an already sophisticated adaptive system.
-
-A better strategy is to take our inspiration from nature and design our EAs to be self-regulating. For example, individuals in the population might contain “regulatory genes” that control mutation and recombination mechanisms, and these regulatory genes would be subject to the same evolutionary processes as the rest of the genome.
-"\cite{kacprzyk_parameter_2007}
-
-
-
-"
-Perhaps the most interesting thing to note today, after more than 30 years of experimenting with dynamic parameter setting strategies, is that, with one exception, none of them are used routinely in every day practice. The one exception are the strategies used by the ES community for mutation step size adaptation.
-"\cite{kacprzyk_parameter_2007}
-
-"
-My own view is that there is not much to be gained in dynamically adapt- ing EA parameter settings when solving static optimization problems. The real payoff for dynamic parameter setting strategies is when the fitness land- scapes are themselves dynamic (see, for example, [4], [5], or [32]).
-"\cite{kacprzyk_parameter_2007}
-
-"
-For instance, in a GA, one may want to decrease the probability of crossover and mutation over time to avoid too high reproductive variation hindering convergence to local optima. However, in that case, one would need to set new parameters that define how much and how often each probability is decreased. Research has not yet concluded if one technique has a clear advantage over the other.
-"\cite{klampfl_using_nodate}
-
-
-MUTATION
-"It is shown in this paper that making mutation a function of ®tness produces a more ef®cient search. This function is such that the least signi®cant bits are more likely to be mutated in high-®tness chromosomes, thus improving their accuracy, whereas low-®tness chromosomes have an increased probability of mutation, enhancing their role in the search. In this way, the chance of disrupting a high-®tness chromosome is decreased and the exploratory role of low-®tness chromosomes is best exploited.
-"
-\cite{marsili_libelli_adaptive_2000}
-
-"
-The weak point of "classical" GAs is the total randomness of mutation, which is applied equally to all chromosomes, irrespective of their fitness. Thus a very good chromosome is equally likely to be disrupted by mutation as a bad one. On the other hand, bad chromosomes are less likely to produce good ones through crossover, because of their lack of building blocks, until they remain unchanged. They would benefit the most from mutation and could be used to spread throughout the parameter space to increase the search thoroughness. So there are two conflicting needs in determining the best probability of mutation. Usually, a reasonable compromise in the case of a constant mutation is to keep the probability low to avoid disruption of good chromosomes, but this would prevent a high mutation rate of low-fitness chromosomes. Thus a constant probability of mutation would probably miss both goals and result in a slow improvement of the population.
-"\cite{marsili_libelli_adaptive_2000}
-
-
-"
-This paper has presented an improved search algorithm to reduce the chance that high-®tness chromosomes are muted during the search, thus losing their favourable schemata. In GAs, mutation is usually assigned a constant probability and thus all chromosome have the same likelihood of mutation irrespective of their ®tness. Conversely, making mutation a function of ®tness produces a more ef®cient search.
-"\cite{marsili_libelli_adaptive_2000}
-
-"
-signi®cant bits are likely to be muted in high-®tness chromosomes, thus improving their accuracy, whereas low-®tness chromosomes are much more likely to change, enhancing their exploratory role in the search.
-"\cite{marsili_libelli_adaptive_2000}
-
-"
-In all cases the new algorithm showed a faster improvement of the maximum ®tness, which was always greater than the one produced by the classical GA at the same generation.
-"\cite{marsili_libelli_adaptive_2000}
-
-
-"
-In 2007, DeJong took a broader view, considering what was known with respect to the wider community of evolutionary algorithms (EAs). He observed that while it appears that adapting mutation rate on-line during execution provides advantages, most EAs are deployed with a default set of static parameter values that have been found quite robust in practice.
-"\cite{mills_determining_2015}
-
-
+\cite{kacprzyk_parameter_2007} adds, that "after more than 30 years of experimenting with dynamic parameter setting strategies, is that, with one exception, none of them are used routinely in every day practice. The one exception are the strategies used by the ES community for mutation step size adaptation."
 
 \iffalse
 \subsubsection{Multiobjective fitness function}
