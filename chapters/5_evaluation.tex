@@ -15,11 +15,7 @@ It seams like the high variations does not allow for more complex traffic situat
 TODO: chart: emergency break due to pedestrians vs vehicles
 
 
-In the last chapter \ref{chap:hyperparameter_tuning}, values from the cost function (shown in section \ref{implementation:cost_function}) were displayed. These values however are difficult to interpret. Considering this, in this chapter, these values will be modified using this equation:
 
-(3500 - cost) / 100
-
-This will result in a value called Emergency Brake Duration, which will from now on be using instead of cost. The higher the Emergency Brake Duration, the better. It is important to consider, that this value might not exactly correspond to the actual Emergency Brake Duration time from the simulation, as the cost function applies a penalty for emergency breaks lasting longer then 3 seconds (again, see section \ref{implementation:cost_function}).
 
 
 

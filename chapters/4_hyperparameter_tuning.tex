@@ -8,12 +8,16 @@ Further stating that a human-in-the-loop approach is needed to fine-tune paramet
 
 This chapter will focus on tuning the Genetic Algorithm to perform on the given cost function. First, an agreement on the optimal population size is made and second, a Taguchi Orthogonal Array is used for tuning the remaining hyperparameter.
 
-In order to reduce the required number of tests, it was decided to only use one starting scenario for tuning. It can be seen in appendix \ref{figure:appednix:start_scenario_1}. In chapter \ref{chap:evaluation}, the performance on different start scenarios will be investigated.
-
 \section{Simulation Setup}
 Two workstations were available for running all of the following simulations. The first workstation had an Intel Core i7-9700K and a GeForce RTX 2070 SUPER with 32 GB of RAM. The second workstation had an Intel Core i7-6850K as well as two Nvidia GeForce GTX 1080 also with 32 GB of RAM. On both systems, Kubuntu 20.04 LTS was the operating system.
 
-Running one complete Genetic Algorithm takes approximately 3 hours on a single workstation, depending on the number of actors used.
+As has been defined in Chapter \ref{chap:implementation}, each genetic algorithm will run for 30 generations, additionally 1 simulation will have a duration of 35 seconds. On a single workstation, it takes approximately 3 hours to complete one Genetic Algorithm with a Population of 96. This time indication is however influenced by the number of actors used. 
+
+Town10 from Carla will be used as a map. It was chosen, because 1. its roads are self contained, 2. its not too big, yet still complex and 3. its supported by Carla and thus visualization looks better.
+
+In order to reduce the required number of tests, it was decided to only use one starting scenario for tuning. It can be seen in appendix \ref{figure:appednix:start_scenario_1}. In chapter \ref{chap:evaluation}, the performance on different start scenarios will be investigated.
+
+\todo{Show default start scenario}
 
 \section{Population}
 \label{chap:hyperparameter_tuning:population}

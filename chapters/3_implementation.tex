@@ -1,17 +1,17 @@
 \chapter{Implementation}
-
+\label{chap:implementation}
 \section{Traffic Manager}
-A custom developed Traffic Manger will be used to simulate an environment, that can subsequently be controlled by the Genetic Algorithm. The Traffic Manager is not part of this thesis and will be regarded as a "blackbox", only recieving a brief introduction.
-In general, it will simulate traffic starting from a predefined scenarios which defines the positions and types of vehicles and pedestrians(i.e. actors). 
-A simulation always consist of at least one EGO vehicle. Additionally any number of NPCs can be used.
+A custom developed Traffic Manger will be used to simulate an traffic environment, which can subsequently be controlled by the Genetic Algorithm. The Traffic Manager is not part of this thesis and will be regarded as a "blackbox", only receiving a brief introduction.
+In general, it will simulate traffic starting from a predefined scenarios which defines the positions and types of vehicles and pedestrians (i.e. actors). 
+A simulation always consist of at least one EGO vehicle. Additionally any number of NPCs can be used. The Starting Scenario defines the number and type of all actors as well as their position. It needs to be created manually.
 
-While the NPCs are only controlled by the Traffic Manager, the ego vehicle can be either partly or completely controlled by an ADAS/AD function. The goal of the Genetic Algorithm is to test these functions for safety.
+While the NPCs are only controlled by the Traffic Manager, the ego vehicle can be either partly or completely controlled by an ADAS/AD function. The goal of the Genetic Algorithm is subsequently to test this function for safety, comfort etc...
 
 For all simulations done by this thesis, the Traffic Manager was set to 100Hz and the simulation duration set to 35 seconds.
 
 \subsection{Action Interface}
 \label{implementation:action_interface}
-To control the behaviour of the actors inside the simulation, actions can be requested over the "Action Interface", which is provided by the Traffic Manager. An action will initiate a certain behaviour from an actor. It can be set to at any timestep for any actor\footnote{depending on the ADAS/AD function under test, the Action Interface might be disabled for the EGO vehicle}. Pedestrians and vehicles have a different set of actions.
+To control the behaviour of the actors inside the simulation, actions can be requested over the Action Interface, which is provided by the Traffic Manager. An action will initiate a certain behaviour from an actor. It can be set to at any timestep for any actor\footnote{depending on the ADAS/AD function under test, the Action Interface might be disabled for the EGO vehicle}. Pedestrians and vehicles have a different set of possible actions.
 
 \todo{Insert graph of action interface}
 
@@ -37,7 +37,7 @@ The following list are all actions provided by the traffic manager that were ava
 	\item ModifyTargetVelocity
 	\begin{itemize}
 		\item Parameters: Vehicle ID: int, ...
-		\item Modifies the interal Target Velocity of the Traffic Manager by a percentage. If it is for example 0, the vehicle will stop.
+		\item Modifies the internal target velocity of the Traffic Manager by a percentage. If it is for example 0, the vehicle will stop.
 	\end{itemize}
 	\item TurnHeading
 	\begin{itemize}
@@ -56,43 +56,36 @@ The following list are all actions provided by the traffic manager that were ava
 	\end{itemize}
 \end{itemize}
 
-All these actions are accessed by the Genetic Algorithm and the Behavior tree. The Behaviour tree sets only actions for the EGO vehicle, while the Genetic Algorithm will set all actions for the other actors in the simulation.
-
-\subsection{Map and Starting Scenario}
-The map is Town10 from Carla. It was chosen, because 1. its roads are self contained, 2. its not too big, yet still complex and 3. its supported by Carla and thus visualization looks better.
-
-The Starting Scenario defines the number and type of all actors as well as their position. It needs to be created manually.
-
-
-
-\section{Genetic Algorithm}
-The task of the Genetic Algorithm is to search for sequences of actions that will result in the most interesting scenarios according to its cost function.
-For implementing the Genetic Algorithm, DEAP\footnote{\url{https://deap.readthedocs.io/en/master}} was chosen. It is a popular tool for academia and allows for high customisability.
-As has been stated in section \ref{implementation:action_interface}, the algorithm has full access over setting actions for all NPCs. Searching for sequences of actions, it tries to optimize a cost function. This section aims to explain how the genetic algorithm was implemented and which different hyperparameters are variable. In chapter \ref{chap:hyperparameter_tuning}, the best hyperparameter combination will be generated, further analysis is done in \ref{chap:evaluation}.
-
-A few default settings for the genetic algorithm had to be chosen. It was decided that the genetic algorithm will set an action per actor every 50 steps, which translates to 0.5 seconds (simulation runs at 100hz). In other words, every 50 steps of the simulation is 1 timestep for the genetic algorithm. The time of a simulation is always set to 35 seconds. Each genetic algorithm will run for 30 generations. These to settings were chosen with the aim of reducing the amount of needed computations.
-
-If the GA decides to not set an action for the integer, it sets "NoAction" as a placeholder.
-
-\subsection{Usage for GA}
-\todo{maybe remove}
+\todo{BT will still need an introduction}
 Due to the fact, \todo{insert ref to discussion}, that there is no full stack available for the EGO vehicle, a solution had to be found.
 In order to have the Genetic Algorithm control only NPCs and not the EGO vehicle itselve, a behaviour tree is used.
 The behaviour tree is used to control the EGO vehicle over the action interface provided by the Traffic Manager. This is the same as the Genetic Algorithm is doing.
 
 The behaviour tree will define which direction the EGO should take at junctions and it will realistically dodge obstacles intoduced by the Genetic Algorithm. The main goal of the BT is to make the EGO vehicle behave in a realistic way.
 
+
+
+
+All these actions are accessed by the Genetic Algorithm and the Behavior tree. The Behaviour tree sets only actions for the EGO vehicle, while the Genetic Algorithm will set all actions for the other actors in the simulation.
+
+\section{Genetic Algorithm}
+The Genetic Algorithm will search for sequences of actions that will result in the most interesting scenarios according to its cost function.
+For implementing the Genetic Algorithm, DEAP\footnote{\url{https://deap.readthedocs.io/en/master}} was chosen. It is a popular tool in academia and allows for high customisability.
+As has been stated in section \ref{implementation:action_interface}, the algorithm has full access over setting actions for all NPCs. Searching for sequences of actions, the GA tries to optimize a cost function. This section aims to explain how the genetic algorithm was implemented and which different control parameter are variable. In chapter \ref{chap:hyperparameter_tuning}, the best hyperparameter combination will be generated, further analysis is done in \ref{chap:evaluation}.
+
+A few default settings for the genetic algorithm had to be chosen. It was decided that the genetic algorithm will set an action per actor every 50 steps, which translates to 0.5 seconds (simulation runs at 100hz). In other words, every 50 steps of the simulation is 1 timestep for the genetic algorithm. If the GA decides to not set an action for the integer, it sets "NoAction" as a placeholder.
+
 \subsection{Maximum Number of Generations}
-Using a fixed maximum number of generation is a commonly used stopping criteria. While more complex methods like a "adaptive convergence rate" might lead better performance\todo{find ref}, it was decided that the additional complexity of having to choose a suitable convergence rate outweighs its pros. A genetic algorithm already has a lot of different control parameters that need tuning.
+Using a fixed maximum number of generation is a commonly used stopping criteria. While more complex methods like a "adaptive convergence rate" might lead to better performance\todo{find ref}, it was decided that the additional complexity of having to choose a suitable convergence rate outweighs its pros. A genetic algorithm already has a lot of different control parameters that need tuning.
 
 Performance is always a huge consideration, thus a lower maximum number of generations is preferred. During testing, a generation size of 30 was almost always sufficient and will be used in all of the coming testing.
 
 
 \subsection{Encoding}
-When implementing a Genetic Algorithm, it is necessary to implement an encoding that fits to the problem. Each individual basically thus needs to include all actions that the genetic algorithm wants to apply. Different encodings presented in section \ref{chap:foundation:ga:encoding}, however none directly fitted to the problem presented. A custom encoding for both chromosomes and genes needed to be generated.
+When implementing a Genetic Algorithm, it is necessary to implement an encoding that fits to the problem. Each individual basically thus needs to include all actions that the genetic algorithm wants to apply. Different encodings were presented in section \ref{chap:foundation:ga:encoding}, however none directly fitted to the problem presented. A custom encoding for both chromosomes and genes needed to be generated.
 
 \subsubsection{Chromosome}
-Each individual has 1 chomosome which consits of a list of genes, which has been explained in section \todo{ref}. Starting out, 2 different encodings came to mind, in both cases, the genes position in the chromosome defined the time an action is set.
+Each individual has 1 chomosome which consists of a list of genes, as has been explained in section \todo{ref}. Starting out, 2 different encodings came to mind, in both cases, the genes position in the chromosome defined the time an action is set.
 
 \paragraph{Time}
 The first encoding is will be called "Time". Each gene corresponds to 1 timestep (so 1 gene per every 0.5 seconds). One gene has a list of the length of the number of all NPCs. This list is populated with actions. The index of an action in the list corresponds to the NPC id (index + 1 as the ego has id == 0, thus a start at 1 is needed). A visualization is seen in figure \ref{figure:encoding:chromosome:time}.
@@ -182,6 +175,15 @@ result["ego\_emergency\_stop"] is a list with the length $100 * simulation\_dura
 
 It would have been interesting to not only test for emergency stops (which will make the NPCs try to get the EGO to hard break often) but also improve time to collison (TTC), as was done by \todo{Ref florian}. However by the time of starting the testing, no working TTC functionality was implemented. Thus, only the emergency break cost function is used by the GA to be optimized.
 
+
+TODO: rewrite
+As previously defined, 1 simulations has a duration of 35 seconds. In order to simplify the evaluation of the cost values in Chapters \ref{chap:hyperparameter_tuning} and \ref{chap:evaluation}, the cost value will be inserted into the following equation
+
+(3500 - cost) / 100
+
+In the last chapter \ref{chap:hyperparameter_tuning}, values from the cost function (shown in section \ref{implementation:cost_function}) were displayed. These values however are difficult to interpret. Considering this, in this chapter, these values will be modified using this equation:
+
+This will result in a value called Emergency Brake Duration, which will from now on be using instead of cost. The higher the Emergency Brake Duration, the better. It is important to consider, that this value might not exactly correspond to the actual Emergency Brake Duration time from the simulation, as the cost function applies a penalty for emergency breaks lasting longer then 3 seconds (again, see section \ref{implementation:cost_function}).
 
 \section{Behavior Tree}
 A behavior tree is a decision tree. \todo{insert a good introduction to BT}
