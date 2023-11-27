@@ -63,9 +63,6 @@ The behaviour tree is used to control the EGO vehicle over the action interface 
 
 The behaviour tree will define which direction the EGO should take at junctions and it will realistically dodge obstacles intoduced by the Genetic Algorithm. The main goal of the BT is to make the EGO vehicle behave in a realistic way.
 
-
-
-
 All these actions are accessed by the Genetic Algorithm and the Behavior tree. The Behaviour tree sets only actions for the EGO vehicle, while the Genetic Algorithm will set all actions for the other actors in the simulation.
 
 \section{Genetic Algorithm}
@@ -85,45 +82,57 @@ Performance is always a huge consideration, thus a lower maximum number of gener
 When implementing a Genetic Algorithm, it is necessary to implement an encoding that fits to the problem. Each individual basically thus needs to include all actions that the genetic algorithm wants to apply. Different encodings were presented in section \ref{chap:foundation:ga:encoding}, however none directly fitted to the problem presented. A custom encoding for both chromosomes and genes needed to be generated.
 
 \subsubsection{Chromosome}
-Each individual has 1 chomosome which consists of a list of genes, as has been explained in section \todo{ref}. Starting out, 2 different encodings came to mind, in both cases, the genes position in the chromosome defined the time an action is set.
+Each individual has 1 Chromosome which consists of a list of Genes, as has been explained in section \todo{ref}. Starting out, 2 different encodings came to mind, in both cases, the genes position of a chromosome define the time step of an action.
 
 \paragraph{Time}
-The first encoding is will be called "Time". Each gene corresponds to 1 timestep (so 1 gene per every 0.5 seconds). One gene has a list of the length of the number of all NPCs. This list is populated with actions. The index of an action in the list corresponds to the NPC id (index + 1 as the ego has id == 0, thus a start at 1 is needed). A visualization is seen in figure \ref{figure:encoding:chromosome:time}.
+The first encoding is will be called "Time". Each gene corresponds to 1 time step (so 1 gene per every 0.5 seconds), thus it needs to contain all actions of all NPCs at this particular moment. A gene consits of a lists which lenghts equals the number of NPCs. Each object in this lists equals an action. The index of this action inside the list corresponds to the NPC id (index + 1 as the ego has id == 0, thus a start at 1 is needed). A visualization is seen in figure \ref{figure:encoding:chromosome:time}.
 
+\todo{Show a list of actions for one gen. Remove Pros/COons}
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{figures/time_encoding}
 	\caption{Time}
 	\label{figure:encoding:chromosome:time}
 \end{figure}
 
+Looking this figure, an action set on the position 6 and has an index of 2 in the gene list will be applied to NPC 2 at time step 6 (which at 3.0 seconds in the simulation).
 
-Given the previously stated simulation time of 35 seconds, each chromosome has a length of $35 * 2 = 70$ genes. Each gene consits of $number\_of\_actors$ actions.
-Crossover can thus only move all actions of a timestep at once, modifing between actions of the same timestep can only be done using mutation. If this is desired will be seen in the next chapters.
+
+Given the previously stated simulation time of 35 seconds, each chromosome has a length of $35 * 2 = 70$ genes.
+Crossover can thus only move all actions of a time step at once, modifications between actions of the same time step will only happen due to a mutation operation.\todo{Not technically true...}. If these points are a downside will be evaluated in Chapter \ref{chap:hyperparameter_tuning}
 
 
 \paragraph{TimeNPC}
-The second encoding has the name "TimeNPC", and is somewhat differently structured. Now, genes only hold 1 action, encoding now not only the timestep, but also the actor id in the position of the gene inside the chromosome. Now, each actors actions will be listed one after another. This is visualized in figure \ref{figure:encoding:chromosome:time_npc}.
+The second encoding has the name "TimeNPC" consist of genes which only hold 1 action, encoding. Now not only the time step, but also the actor id in the position of the gene inside the chromosome. Each actors actions will be listed one after another which is visualized in figure \ref{figure:encoding:chromosome:time_npc}.
 
+\todo{remove pros cons, show actual gene}
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{figures/time_npc_encoding}
 	\caption{Time + NPC}
 	\label{figure:encoding:chromosome:time_npc}
 \end{figure}
 
-Now, each gene has a length of $1$ and each chromosome now has a length of $35 * 2 * number\_of\_actors$, which makes them much longer compared to the previous encoding. This now allows the crossover operation to modify only specific actions of one timesstep. Previously this was not possible.
+Looking this figure, an action set on the position 13 will be applied to NPC 2 at time step 3 (which at 1.5 seconds in the simulation).
 
-However for this encoding to make sense, the crossover operations "OnePoint" and "TwoPoint" had to be modified as follows. In an example of 10 NPCs, the operations will be executed for each NPC separately. Otherwise these two operations would have only had an effect on 1 or 2 different NPCs. For the reaiming NPCs, their actions would stay the same.
+
+Now, each gene has a length of $1$ and each chromosome now has a length of $35 * 2 * number\_of\_actors$, which makes them much longer compared to the previous encoding. This now allows the crossover operation to modify only specific actions of one times step. Previously this was not possible.
+
+\todo{Explain better}
+However for this encoding to make sense, the crossover operations "OnePoint" and "TwoPoint" had to be modified as follows. In an example of 10 NPCs, the operations will be executed for each NPC separately. Otherwise these two operations would have only had an effect on 1 or 2 different NPCs. For the remaining NPCs, their actions would stay the same.
 
 \subsubsection{Gene}
-Two different encodings for genes were implemented as well. A gene always consits of a list, which depending on the chromosome type either has a length of $number\_of\_actors$ (In case ChromosomeEncoding == Time) or of length 1 (in case ChromosomeEncoding == TimeNPC). The following two encodings thus show the type of object, which is in these lists.
+Two different encodings for genes were implemented as well. A gene always consists of a list, which depending on the chromosome type either has a length of $number\_of\_actors$ (In case ChromosomeEncoding == Time) or of length 1 (in case ChromosomeEncoding == TimeNPC). The following two encodings thus show the type of object, which is in these lists.
 
 \paragraph{Integer}
-The first encoding uses integer, which are translated into actions when the simulation is started. For each action, a range of integers is assigned, the larger the range, the more likely the action is chosen by the GA. Actions that have parameters are split into different ranges, according to which paramters make sense. For example ModifyTargetVelocity is split into five different parts, with different percentages, namely 50, 70, 100, 130, 160. The range of integers assigned to these parts is different. A percentage setting of 100 for example has the largest integer range assigned.
-In Appendix , the probabilty of an actions can be seen. In Appendix ... the probabitly per actions of the parameters can be viewed.
+The first encoding uses integer, which are translated into actions when the simulation is started. For each action, a range of integers is assigned, the larger the range, the more likely the action is chosen by the GA.These ranges were assigned based on intuition and trial and error. In Appendix ... these probabilities can be viewed
 
-These ranges were assigned based on intuition and trial and error. The encoding is visualized in \ref{figure:encoding:gene:int}.
+Actions that have parameters are split into different ranges, according to which values make sense. For example ModifyTargetVelocity has five different percentages assigned, namely 50, 70, 100, 130, 160. The range of integers assigned to each of these parts is different as well. A percentage setting of 100 for example has the largest integer range assigned.
 
-TODO: Due to the cliff problem, it was decided to not use binary representations for these integers. Due to the mutation choosing the integers randomly, it is not a problem that the variables are not really "continous".
+Actions will be split into 1 or more parts that get an range of integer assigned. Combing these ranges results in a continuos list of integers.
+
+\todo{Example}
+
+The encoding is visualized in \ref{figure:encoding:gene:int}.
+
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{figures/int_encoding}
@@ -132,8 +141,8 @@ TODO: Due to the cliff problem, it was decided to not use binary representations
 \end{figure}
 
 \paragraph{Dictionary}
-The second encoding is much similar to the actual actions used in the simulations. Now, no translation is necessary anymore. During generation of the individuals, each action is again selected based on different probabilities assigned to actions, which again can be viewed in Appendix ... . These probablilites are the same as for the integer encoding. However the difference is, in case an action has parameters that need to be chosen. 
-For each parameter, a range and a randomness function was chosen. For example in case of the percenetage parameter in ModifyTargetVelocity, the values are selected from a GausDistribution, with mu= 100, sigma=25 and a range limit between 0 and 300.
+The second encoding is much similar to the actual actions used in the simulations. Now, no translation is necessary. During generation of the individuals, each action is again selected based on different probabilities assigned to actions. These probabilities are the same as for the integer encoding. However the difference is in case an action has parameters that need to be chosen. 
+For each parameter, a range and a randomness function was chosen. For example in case of the percentage parameter in ModifyTargetVelocity, the values are selected from a Gaussian Distribution, with mu=100, sigma=25 and a range limit between 0 and 300.
 
 Again, these probability functions with settings were assigned based on intuition as well as trial and error. Detailed information can be seen in Appendix...
 
@@ -147,11 +156,9 @@ Figure \ref{figure:encoding:gene:dict} shows a visualization.
 
 \subsection{Cost Function}
 \label{implementation:cost_function}
-\todo{Suggestion florian: better explain cost values (e.g. 3500 means no emergency break...)}
+As for this Masters Thesis no ADAS/AD system was available to be tested so it was only possible to utilized Traffic Manager internal values. Namely Emergency Break, which is a boolean value that flips to true in case a vehicle has to break \todo{when exactly?}. Only the ego vehicles emergency break value was of interest. The emergency break values are stored in a list called result["ego\_emergency\_stop"] which has a length of $100 * simulation\_duration\_seconds$ (because 100hz). In case an emergency break lasts longer than 3 seconds, a penalty will be applied.
 
-Cost function is a bit difficult, as we are only using internal values. No ADAS/AD system is tested and we thus have to work with what we got.
-This is the code of the cost function:
-
+The following code snipped shows the cost calculation.
 \begin{lstlisting}[language=Python, tabsize=4]
 SEPS_PER_SECOND = 100
 # allow emergency breaks to last only 3 seconds
@@ -171,19 +178,19 @@ for i in range(len(result["ego_emergency_stop"])):
 		duration_counter += 1
 return cost
 \end{lstlisting}
-result["ego\_emergency\_stop"] is a list with the length $100 * simulation\_duration\_seconds$ (because 100hz). It contains a boolean per step, if the EGO vehicle has initiated an emergency stop.
 
-It would have been interesting to not only test for emergency stops (which will make the NPCs try to get the EGO to hard break often) but also improve time to collison (TTC), as was done by \todo{Ref florian}. However by the time of starting the testing, no working TTC functionality was implemented. Thus, only the emergency break cost function is used by the GA to be optimized.
+The resulting cost values however are a not easy to interpret, thus these numbers are modified using this equation:
 
+\begin{equation} 
+	\label{equ:modified_cost}
+	\begin{split}
+		cummulated_emergency_break_duration & = (3500 - cost) / 100
+	\end{split}
+\end{equation}
 
-TODO: rewrite
-As previously defined, 1 simulations has a duration of 35 seconds. In order to simplify the evaluation of the cost values in Chapters \ref{chap:hyperparameter_tuning} and \ref{chap:evaluation}, the cost value will be inserted into the following equation
+The constant 3500 is chosen to account for the 100 Hz sampling rate with a duration of 35 seconds. The division by 100 transforms $cummulated\_emergency\_break\_duration$ into seconds. This value from now on be used instead of cost. A higher $cummulated\_emergency\_break\_time$ is preferable. It is important to consider, that this value might not exactly correspond to the actual cumulated emergency brake duration time from the simulation, as the cost function applies a penalty for emergency breaks lasting longer then 3 seconds.
 
-(3500 - cost) / 100
-
-In the last chapter \ref{chap:hyperparameter_tuning}, values from the cost function (shown in section \ref{implementation:cost_function}) were displayed. These values however are difficult to interpret. Considering this, in this chapter, these values will be modified using this equation:
-
-This will result in a value called Emergency Brake Duration, which will from now on be using instead of cost. The higher the Emergency Brake Duration, the better. It is important to consider, that this value might not exactly correspond to the actual Emergency Brake Duration time from the simulation, as the cost function applies a penalty for emergency breaks lasting longer then 3 seconds (again, see section \ref{implementation:cost_function}).
+Optimizing for different cost functions, such as improving time to collision (TTC)\footnote{As was done by ref florian} would have been interesting as well. However at the time, no working TTC functionality was implemented. Consequently, only the emergency break cost function will be optimized by the Genetic Algorithm.
 
 \section{Behavior Tree}
 A behavior tree is a decision tree. \todo{insert a good introduction to BT}
