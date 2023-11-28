@@ -3,8 +3,8 @@
 \todo{Crossover rate or crossover prob?}
 The performance of a Genetic Algorithm is significantly influenced by its control parameters. Performant settings on a particular fitness landscape might not be appropriate an different one (\cite{kacprzyk_parameter_2007}).
 
-According to the "No Free Lunch Theorem", no single algorithm will outperform all other algorithms on a single class of problem (\cite{kacprzyk_parameter_2007}). According to \cite{kacprzyk_parameter_2007}, "the No Free Lunch results place an obligation on the EA practitioner to understand something about the particular properties of the problems that (s)he is trying to solve that relate to particular choices of EA parameter settings."
-Further stating that a human-in-the-loop approach is needed to fine-tune parameter settings to a particular problem.
+According to the "No Free Lunch Theorem", no single algorithm will outperform all other algorithms on a single class of problem (\cite{kacprzyk_parameter_2007}). \cite{kacprzyk_parameter_2007} further states, that "the No Free Lunch results place an obligation on the EA practitioner to understand something about the particular properties of the problems that (s)he is trying to solve that relate to particular choices of EA parameter settings."
+A human-in-the-loop approach is needed to fine-tune parameter settings to a particular problem.
 
 This chapter will focus on tuning the Genetic Algorithm to perform on the given cost function. First, an agreement on the optimal population size is made and second, a Taguchi Orthogonal Array is used for tuning the remaining hyperparameter.
 
@@ -17,7 +17,7 @@ Town10 from Carla will be used as a map. It was chosen, because 1. its roads are
 
 In order to reduce the required number of tests, it was decided to only use one starting scenario for tuning. It can be seen in appendix \ref{figure:appednix:start_scenario_1}. In chapter \ref{chap:evaluation}, the performance on different start scenarios will be investigated.
 
-\todo{Show default start scenario}
+\todo{Show default start scenario  or show all start scenarios?}
 
 \section{Population}
 \label{chap:hyperparameter_tuning:population}

@@ -5,7 +5,7 @@ A custom developed Traffic Manger will be used to simulate an traffic environmen
 In general, it will simulate traffic starting from a predefined scenarios which defines the positions and types of vehicles and pedestrians (i.e. actors). 
 A simulation always consist of at least one EGO vehicle. Additionally any number of NPCs can be used. The Starting Scenario defines the number and type of all actors as well as their position. It needs to be created manually.
 
-While the NPCs are only controlled by the Traffic Manager, the ego vehicle can be either partly or completely controlled by an ADAS/AD function. The goal of the Genetic Algorithm is subsequently to test this function for safety, comfort etc...
+While the NPCs are only controlled by the Traffic Manager, the ego vehicle can be either partly or completely controlled by an ADAS/AD function. The goal of the Genetic Algorithm is subsequently to test this function for safety, comfort etc...\todo{currently not happening}
 
 For all simulations done by this thesis, the Traffic Manager was set to 100Hz and the simulation duration set to 35 seconds.
 
@@ -184,11 +184,11 @@ The resulting cost values however are a not easy to interpret, thus these number
 \begin{equation} 
 	\label{equ:modified_cost}
 	\begin{split}
-		cummulated_emergency_break_duration & = (3500 - cost) / 100
+		cummulated\_emergency\_break\_duration & = (3500 - cost) / 100
 	\end{split}
 \end{equation}
 
-The constant 3500 is chosen to account for the 100 Hz sampling rate with a duration of 35 seconds. The division by 100 transforms $cummulated\_emergency\_break\_duration$ into seconds. This value from now on be used instead of cost. A higher $cummulated\_emergency\_break\_time$ is preferable. It is important to consider, that this value might not exactly correspond to the actual cumulated emergency brake duration time from the simulation, as the cost function applies a penalty for emergency breaks lasting longer then 3 seconds.
+The constant 3500 is chosen to account for the 100 Hz sampling rate with a duration of 35 seconds. The division by 100 transforms the value into seconds. This value from now on be used instead of cost. A higher $cummulated\_emergency\_break\_time$ is preferable. It is important to consider, that this value might not exactly correspond to the actual cumulated emergency brake duration time from the simulation, as the cost function applies a penalty for emergency breaks lasting longer then 3 seconds.
 
 Optimizing for different cost functions, such as improving time to collision (TTC)\footnote{As was done by ref florian} would have been interesting as well. However at the time, no working TTC functionality was implemented. Consequently, only the emergency break cost function will be optimized by the Genetic Algorithm.
 
