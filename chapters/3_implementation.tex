@@ -192,8 +192,8 @@ The constant 3500 is chosen to account for the 100 Hz sampling rate with a durat
 
 Optimizing for different cost functions, such as improving time to collision (TTC)\footnote{As was done by ref florian} would have been interesting as well. However at the time, no working TTC functionality was implemented. Consequently, only the emergency break cost function will be optimized by the Genetic Algorithm.
 
-\section{Behavior Tree}
-A behavior tree is a decision tree. \todo{insert a good introduction to BT}
+\section{Behaviour Tree}
+A behaviour tree is a decision tree. \todo{insert a good introduction to BT}
 Depending on the functionality under test, it is possible to let the EGO vehicle be controlled by a Behaviour Tree. This makes sense if for example a functionilty like AEB is tested, where only the breaks are controlled. In case of a full driving stack, no Behaviour Tree would be used.
 
 The general idea is to have an EGO vehicle moving in a "relateable" manner trough the world. It will try to dodge standing or slow moving obstacles. This needs to be done in a determinisitc manner in order to no introduce randomness into the simulation.

@@ -200,6 +200,8 @@ plot.percentage_contribution <- ggplot(percentage_contribution, aes(y = reorder(
 print(plot.percentage_contribution)
 ggsave("taguchi/plots/percentage_contribution.jpg", plot = plot.percentage_contribution, width = 12, height = 6, units = "cm", dpi = 600)
 
+
+plot(anova)
 ##### WORK in progress
 residuals_df <- data.frame(residuals = residuals(anova))
 studen_residuals_df <- data.frame(residuals = rstudent(anova))
@@ -233,10 +235,10 @@ combined$msd <- apply(combined[,res_col_names], 1, function(row) sum(row^2) / le
 combined$s_n <- apply(combined, 1, function(row) -10 * log10(as.numeric(row[c('msd')])))
 
 
-anova <- aov(s_n ~ A + B + C + D * E + F + G, data = combined)
-summary(anova)
-x <- xtable(anova)
+anova.s_n <- aov(s_n ~ A + B + C + D * E + F + G, data = combined)
+summary(anova.s_n)
+x <- xtable(anova.s_n)
 print(x)
-LM <- lm(s_n ~ A + B + C + D * E + F + G, data = combined)
-summary(LM)
+LM.s_n <- lm(s_n ~ A + B + C + D * E + F + G, data = combined)
+summary(LM.s_n)
 # did not result in good performance and was not further investigated.

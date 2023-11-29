@@ -77,3 +77,13 @@ plot.line <- ggplot(melted_generations, aes(gen, value, color=variable)) + geom_
 print(plot.line)
 ggsave("evaluation/plots/ga_no_elite_generations.jpg", plot = plot.line, width = 15, height = 7, units = "cm", dpi = 300)
 
+#### T test ####
+
+t_test<-t.test(value ~ simulation, data = melted)
+print(t_test)
+t<-t_test$statistic[[1]]
+df<-t_test$parameter[[1]]
+r <- sqrt(t^2/(t^2+df))
+
+print("Effect Size:")
+print(round(r, 3))

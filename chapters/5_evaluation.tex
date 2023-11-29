@@ -17,19 +17,6 @@ TODO: chart: emergency break due to pedestrians vs vehicles
 
 
 
-EFFECT SIZE:
-From: Discovering Statistics using R
-Effect sizes are useful because they provide an objective measure of the importance of an effect. So, it doesn’t matter what effect you’re looking for, what variables have been measured, or how those variables have been measured – we know that a correlation coefficient of 0 means there is no effect, and a value of 1 means that there is a perfect effect.
-Cohen (1988, 1992) has also made some widely used suggestions about what constitutes a large or small effect: 
-r = .10 (small effect): In this case the effect explains 1\% of the total variance. 
-r = .30 (medium effect): The effect accounts for 9\% of the total variance. 
-r = .50 (large effect): The effect accounts for 25\% of the variance.
-
-
-From chat: 
-Effect size, on the other hand, quantifies the strength or magnitude of an observed effect. It provides a standardized measure that allows researchers to assess the practical significance of their findings.
-Effect size is not affected by sample size, making it a valuable metric for comparing the impact of different interventions or experimental conditions.
-
 
 
 
@@ -65,7 +52,7 @@ First, a comparison of the three algorithms on scenario 1 was made. The results 
 
 Looking at the graph, the Optimized Algorithm clearly outperformed the Default GA as well as Random Search.
 
-In order to analyse the statistical significance in the differences in mean between the Default Ga vs optimized GA the Welch Two Sample t-test can be used (\cite{field_discovering_2012}). It shows a clear result, stating that on average greater fitness is achieved by using Optimized GA (M = 8.52, SE = ?) than from using Default GA (M = 7.09, SE = ?). This difference was significant \textit{t}(17.87) = -3.15, p < .05. It did represent a large effect r = 0.60.
+Welchs T Test shows a clear result, stating that on average greater fitness is achieved by using Optimized GA (M = 8.52, SE = ?) than from using Default GA (M = 7.09, SE = ?). This difference was significant \textit{t}(17.87) = -3.15, p < .05. It did represent a large effect r = 0.60.
 A better performance of the Optimized GA was unsurprising, as it was specifically trained for the used starting scenario.
 
 To further analyse both genetic algorithms, a look at their performance over the generations next to their diversity chart is of interest. Figure \ref{figure:sim_1_ga_comparison} plots the mean over the 10 repetitions, the outline show the min and max values.
@@ -116,7 +103,7 @@ Start Scenario 3 is described in more detail in \todo{ref}. 5 vehicles with 3 pe
 
 Looking at the graph, the Optimized Algorithm clearly outperformed the Default GA as well as Random Search.
 
-The Two Sample t-test shows the same picture when comparing both GA algorithms. On average, greater fitness is achieved by using Optimized GA (M = 6.66, SE = ?) than from using Default GA (M = 6.49, SE = ?). This difference was however not significant \textit{t}(17.83) = -0.92, p > .05. A small effect r = 0.07 complements these findings.
+The Two Sample t-test shows the same picture when comparing both GA algorithms. On average, greater fitness is achieved by using Optimized GA (M = 6.66, SE = ?) than from using Default GA (M = 6.49, SE = ?). This difference was however not significant \textit{t}(17.83) = -0.92, p > .05. No effect r = 0.07 \todo{How to call it exaclty?} complements these findings.
 
 To further analyse both genetic algorithms, a look at their performance over the generations next to their diversity chart is of interest. Figure \ref{figure:sim_3_ga_comparison} plots the mean over the 10 repetitions, the outline show the min and max values.
 

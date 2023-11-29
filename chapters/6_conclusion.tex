@@ -1,7 +1,20 @@
 \chapter{Conclusion}
+
+The results of \ref{chap:evaluation} show, that the Optimized GA shows significant improvements in most start scenarios. Only when less NPCs are available for the algorithm to control, the performance seems to be on par with the a genetic algorithm utilizing settings from the literature.
+
+Compared to random testing, research question 1 definitely holds true. A genetic algorithm will drastically improve performance when using the given cost function.
+
+Also the second research question can be answered with yes. Taguchi orthogonal testing only needs a minimal amount of different experiments while leading to impressive performance compared to using control parameters suggested by the literature.
+
+
+
 \section{Future Work}
 \subsection{Oracles}
-While not implemented here, Oracles are needed in order to get a list of good scenarios.
+Considering that usually only the best result from a Genetic Algorithm is used, there might be some potential improvements.
 
+Using oracle functions to select interesting scenarios during the runtime of a Genetic Algorithm was already done by \cite{almanee_scenorita_2021}. Different oracle functions test for different threasholds in the simulation. Examples are 'overSpeedLimit', 'criticalLaneChange', 'criticalComfortLevel. These functions will test each individual in the population. In case one or multiple functions return true, the individual scenario will be saved and automatically categorized according to the types of thresholds. The Genetic Algorithm however remains unaffected.
 
-\section{Final words}
+Oracles have the potential to extract a number of interesting scenarios from only 1 Genetic Algorithm run.
+
+\subsection{Autoware}
+During the masters thesis, only an internal Emergency Brake value was tested. It still remains to be seen if the proposed approach is able to detect failiors in real ADAS AD functions. Especially testing on Full Driving Stacks is of interest. The open source driving stack Autoware might be a possible candidate.
