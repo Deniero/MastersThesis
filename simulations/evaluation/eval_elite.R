@@ -45,12 +45,13 @@ sim_1.res["simulation"] <- lapply(sim_1.res["simulation"] , factor)
 sim_1.res_column_names <- colnames(sim_1.res)
 sim_1.res_column_names <- sim_1.res_column_names[sim_1.res_column_names != "simulation"]
 melted<-melt(sim_1.res, id = c("simulation"), measured = sim_1.res_column_names)
+melted$value <- ((-melted$value + 3500) / 100)
 
 
 plot.bp <- ggplot(melted, aes(simulation, value)) + 
   geom_boxplot(color="#457b9d") + 
   geom_point(color="#457b9d")  +
-  labs(x = "", y = "Cost")
+  labs(x = "", y = "Fitness")
 print(plot.bp)
 ggsave("evaluation/plots/elite_vs_no_elite.jpg", plot = plot.bp, width = 12, height = 8, units = "cm", dpi = 600)
 
@@ -60,9 +61,11 @@ selected_repetitions = c("min_2", "min_3", "min_8")
 melted_generations<-melt(sim_1.elite_min[, c("gen", selected_repetitions)], 
                          id = c("gen"), 
                          measured = selected_repetitions)
+melted_generations$value <- ((-melted_generations$value + 3500) / 100)
+
 levels(melted_generations$variable) <- c("Rep 1", "Rep 2", "Rep 3")
 plot.line <- ggplot(melted_generations, aes(gen, value, color=variable)) + geom_line()  +
-  labs(x = "Generations", y = "Cost", color = "Repetitions")
+  labs(x = "Generations", y = "Fitness", color = "Repetitions")
 print(plot.line)
 ggsave("evaluation/plots/ga_elite_generations.jpg", plot = plot.line, width = 15, height = 7, units = "cm", dpi = 300)
 
@@ -71,9 +74,11 @@ selected_repetitions = c("min_2", "min_3", "min_8")
 melted_generations<-melt(sim_1.no_elite_min[, c("gen", selected_repetitions)], 
                          id = c("gen"), 
                          measured = selected_repetitions)
+melted_generations$value <- ((-melted_generations$value + 3500) / 100)
+
 levels(melted_generations$variable) <- c("Rep 1", "Rep 2", "Rep 3")
 plot.line <- ggplot(melted_generations, aes(gen, value, color=variable)) + geom_line()  +
-  labs(x = "Generations", y = "Cost", color = "Repetitions")
+  labs(x = "Generations", y = "Fitness", color = "Repetitions")
 print(plot.line)
 ggsave("evaluation/plots/ga_no_elite_generations.jpg", plot = plot.line, width = 15, height = 7, units = "cm", dpi = 300)
 

@@ -92,6 +92,10 @@ tag.res <- rbind(parse_csv_tag_data(raw_0102), parse_csv_tag_data(raw_0304),
                  parse_csv_tag_data(raw_0910), parse_csv_tag_data(raw_1112),
                  parse_csv_tag_data(raw_1314), parse_csv_tag_data(raw_1516))
 
+head(tag.res)
+tag.res <- (3500 - tag.res) / 100
+head(tag.res)
+
 mean_of_results <- mean(as.matrix(tag.res), na.rm = TRUE)
 
 # define taguchi array
@@ -132,9 +136,9 @@ ggsave("taguchi/plots/main_effects.jpg", plot = plot.main_effects, width = 18, h
 # calc optimum performance without interaction DE:
 main_effects.best_effects <- main_effects %>%
   group_by(factor_name) %>%
-  summarize(min_effect = min(effect))
+  summarize(max_effect = max(effect))
 print("Predicted Optiumum performance without interaction DE")
-print(sum(main_effects.best_effects$min_effect) - (mean_of_results * nrow(main_effects.best_effects)) + mean_of_results)
+print(sum(main_effects.best_effects$max_effect) - (mean_of_results * nrow(main_effects.best_effects)) + mean_of_results)
 
 
 #### interaction effects ####
@@ -170,9 +174,9 @@ combined_effects_filtered <- combined_effects %>%
 
 combined_effects.best_effects <- combined_effects_filtered %>%
   group_by(factor_name) %>%
-  summarize(min_effect = min(effect))
+  summarize(max_effect = max(effect))
 print("Predicted Optiumum performance with interaction DE")
-print(sum(combined_effects.best_effects$min_effect) - (mean_of_results * nrow(combined_effects.best_effects)) + mean_of_results)
+print(sum(combined_effects.best_effects$max_effect) - (mean_of_results * nrow(combined_effects.best_effects)) + mean_of_results)
 
 
 #### ANOVA ####
@@ -201,7 +205,7 @@ print(plot.percentage_contribution)
 ggsave("taguchi/plots/percentage_contribution.jpg", plot = plot.percentage_contribution, width = 12, height = 6, units = "cm", dpi = 600)
 
 
-plot(anova)
+#plot(anova)
 ##### WORK in progress
 residuals_df <- data.frame(residuals = residuals(anova))
 studen_residuals_df <- data.frame(residuals = rstudent(anova))

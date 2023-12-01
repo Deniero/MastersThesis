@@ -2,6 +2,7 @@ library(here)
 library(ggplot2)
 library(reshape)
 library(xtable)
+library(tidyr)
 
 theme_set(theme_light())
 setwd("C:/Users/u19i96/Documents/MastersThesis/simulations")
@@ -44,9 +45,17 @@ results.all <- cbind(results.all, "population" = c(replicate(8, "32"), replicate
 results.all["population"] <- lapply(results.all["population"] , factor)
 
 
+#### Write means for table ####
+mean_table <- results.all[c("population", "setting")]
+mean_table$min_mean <- rowMeans(results.all[c("min_0", "min_1", "min_2", "min_3", "min_4")])
+mean_table$min_mean <- ((-mean_table$min_mean + 3500) / 100)
+wide_df <- pivot_wider(mean_table, id_cols = "setting", names_from = "population", values_from = "min_mean")
+x <- xtable(wide_df)
+print(x)
+
 #### Generate Plots ####
 melted<-melt(results.all, id = c("setting", "population"), measured = c("min_0", "min_1", "min_2", "min_3", "min_4"))
-
+melted$value <- ((-melted$value + 3500) / 100)
 
 scatter <- ggplot(melted, aes(setting, value)) + geom_point(aes(color=population)) + geom_smooth()
 print(scatter)
@@ -70,9 +79,9 @@ print(plot.points.line)
 
 plot.pop_comp <- ggplot(melted, aes(x=setting, y=value, group=population)) + 
   stat_summary(fun.max = function(y) max(y), fun.min = function(y) min(y), geom = "errorbar", size = 0.5, color="#457b9d") +
-  stat_summary(fun.data = "mean_se", geom = "line", size = 1.1, color="#457b9d")  +
+  stat_summary(fun.y = "mean", geom = "line", size = 1.1, color="#457b9d")  +
   facet_wrap(~population, ncol = 4) +
-  labs(x = "Settings", y = "Cost")
+  labs(x = "Settings", y = "Fitness")
 print(plot.pop_comp)
 ggsave("population/plots/comparison.jpg", plot = plot.pop_comp, width = 25, height = 10, units = "cm", dpi = 600)
 

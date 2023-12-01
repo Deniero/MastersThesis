@@ -117,4 +117,28 @@ print("Effect Size:")
 print(round(r, 3))
 
 
+#### plot random distribution ####
+rand_with_removed_value <- sim.rand
+rand_with_removed_value$results <- ((-rand_with_removed_value$results + 3500) / 100)
+
+test <- ggplot(rand_with_removed_value, aes(x = results)) +
+  geom_histogram(binwidth = 1, fill = "lightblue", color = "black", alpha = 0.7) +
+  labs(title = "Histogram", x = "Values", y = "Frequency")
+
+print(test)
+
+
+
+
+install.packages("fitdistrplus")
+library(fitdistrplus)
+
+# Assuming skewed_data is your vector of skewed data
+fit <- fitdist(rand_with_removed_value$results, "lnorm")  # Fit a log-normal distribution
+
+# Summary of the fitted distribution
+summary(fit)
+
+# Plot the histogram and fitted distribution
+plot(fit)
 
