@@ -1,83 +1,79 @@
 \chapter{Implementation}
 \label{chap:implementation}
 \section{Traffic Manager}
-A custom developed Traffic Manger will be used to simulate an traffic environment, which can subsequently be controlled by the Genetic Algorithm. The Traffic Manager is not part of this thesis and will be regarded as a "blackbox", only receiving a brief introduction.
-In general, it will simulate traffic starting from a predefined scenarios which defines the positions and types of vehicles and pedestrians (i.e. actors). 
-A simulation always consist of at least one EGO vehicle. Additionally any number of NPCs can be used. The Starting Scenario defines the number and type of all actors as well as their position. It needs to be created manually.
+A custom developed Traffic Manger will be used to simulate an traffic environment, which can subsequently be controlled by the Genetic Algorithm. The Traffic Manager is not part of the Masters Thesis and will be regarded as a "blackbox", only receiving a brief introduction.
+Generally speaking, it will simulate traffic starting from a predefined start scenarios, in which the positions and types of actors (vehicles and pedestrians) are defined. 
+A simulation always consist of at least one EGO vehicle. Additionally any number of NPCs can be placed.
 
-While the NPCs are only controlled by the Traffic Manager, the ego vehicle can be either partly or completely controlled by an ADAS/AD function. The goal of the Genetic Algorithm is subsequently to test this function for safety, comfort etc...\todo{currently not happening}
+While the NPCs are only controlled by the Traffic Manager, the ego vehicle can be either partly or completely controlled by an ADAS/AD function. The goal of the Genetic Algorithm is subsequently to test this function for safety, comfort etc... by controlling the NPCs in order to generate critical scenarios.
 
 For all simulations done by this thesis, the Traffic Manager was set to 100Hz and the simulation duration set to 35 seconds.
 
 \subsection{Action Interface}
 \label{implementation:action_interface}
-To control the behaviour of the actors inside the simulation, actions can be requested over the Action Interface, which is provided by the Traffic Manager. An action will initiate a certain behaviour from an actor. It can be set to at any timestep for any actor\footnote{depending on the ADAS/AD function under test, the Action Interface might be disabled for the EGO vehicle}. Pedestrians and vehicles have a different set of possible actions.
-
-\todo{Insert graph of action interface}
-
-If no action is set, the actor will behave in a normal manner inside the simulation. This means that the actor will follow along its path until a new action changes its behaviour.
+To control the behaviour of all actors inside the simulation, actions can be requested over the Action Interface, which is provided by the Traffic Manager. An action will initiate a certain behaviour from an actor and can be set to at any timestep\footnote{depending on the ADAS/AD function under test, the Action Interface might be disabled for the EGO vehicle}. Pedestrians and vehicles have a different set of possible actions. If no action is set, the actor will behave in a normal manner inside the simulation. This means that the actor will follow along its path until a new action changes its behaviour.
 
 The following list are all actions provided by the traffic manager that were available for the genetic algorithm at the time of this master thesis.
 \begin{itemize}
 	\item JunctionSelection
 	\begin{itemize}
-		\item Parameters: Vehicle ID: int, Junction\_selection\_angle: float
-		\item Angle is set in radiant. Default value is 0. Vehicles will chose which direction to take at a junction based on this angle.
+		\item Parameters: Vehicle ID: int, Junction\_selection\_angle: float (rad)
+		\item Vehicles will chose which direction to take at junctions based on this angle.
 	\end{itemize}
 	\item LaneChange
 	\begin{itemize}
-		\item Parameters: Vehicle ID: int, ...
+		\item Parameters: Vehicle ID: int, direction: float, distance: float, (optional) delay: float
 		\item Initiates a LaneChange based on its given parameters.
 	\end{itemize}
 	\item AbortLaneChange
 	\begin{itemize}
-		\item Parameters: Vehicle ID: int, ...
+		\item Parameters: Vehicle ID: int
 		\item If a LaneChange is currently happening, it will get aborted.
 	\end{itemize}
 	\item ModifyTargetVelocity
 	\begin{itemize}
-		\item Parameters: Vehicle ID: int, ...
-		\item Modifies the internal target velocity of the Traffic Manager by a percentage. If it is for example 0, the vehicle will stop.
+		\item Parameters: Vehicle ID: int, percentage: float
+		\item Modifies the internal target velocity of the vehicle by a percentage. If it is set to 0, the vehicle will stop.
 	\end{itemize}
 	\item TurnHeading
 	\begin{itemize}
-		\item Parameters: Pedestrian ID: int, ...
-		\item The pedestrian will turn 180 degrees and walk in the oposite direction
+		\item Parameters: Pedestrian ID: int
+		\item The pedestrian will turn 180 degrees and walk in the opposite direction
 	\end{itemize}
 	\item CrossRoad
 	\begin{itemize}
-		\item Parameters: Pedestrian ID: int, ...
+		\item Parameters: Pedestrian ID: int
 		\item The pedestrian will cross the road immediately.
 	\end{itemize}
 	\item CrossAtCrosswalk
 	\begin{itemize}
-		\item Parameters: Pedestrian ID: int, ...
+		\item Parameters: Pedestrian ID: int
 		\item The pedestrian will cross the road at the next crosswalk.
 	\end{itemize}
 \end{itemize}
 
-\todo{BT will still need an introduction}
-Due to the fact, \todo{insert ref to discussion}, that there is no full stack available for the EGO vehicle, a solution had to be found.
-In order to have the Genetic Algorithm control only NPCs and not the EGO vehicle itselve, a behaviour tree is used.
-The behaviour tree is used to control the EGO vehicle over the action interface provided by the Traffic Manager. This is the same as the Genetic Algorithm is doing.
+The Genetic Algorithm will control only NPCs, while a Behaviour Tree is used for the EGO vehicle itself. Both methods use the Action Interface to control their respective actors. An overview is provided in figure \ref{figure:traffic_manager:structure}.
 
-The behaviour tree will define which direction the EGO should take at junctions and it will realistically dodge obstacles intoduced by the Genetic Algorithm. The main goal of the BT is to make the EGO vehicle behave in a realistic way.
-
-All these actions are accessed by the Genetic Algorithm and the Behavior tree. The Behaviour tree sets only actions for the EGO vehicle, while the Genetic Algorithm will set all actions for the other actors in the simulation.
+\begin{figure}[ht] 
+	\includegraphics[width=1\linewidth]{figures/tm_structure}
+	\caption{Action Interface Structure}
+	\label{figure:traffic_manager:structure}
+\end{figure}
 
 \section{Genetic Algorithm}
 The Genetic Algorithm will search for sequences of actions that will result in the most interesting scenarios according to its cost function.
 For implementing the Genetic Algorithm, DEAP\footnote{\url{https://deap.readthedocs.io/en/master}} was chosen. It is a popular tool in academia and allows for high customisability.
 As has been stated in section \ref{implementation:action_interface}, the algorithm has full access over setting actions for all NPCs. Searching for sequences of actions, the GA tries to optimize a cost function. This section aims to explain how the genetic algorithm was implemented and which different control parameter are variable. In chapter \ref{chap:hyperparameter_tuning}, the best hyperparameter combination will be generated, further analysis is done in \ref{chap:evaluation}.
 
-A few default settings for the genetic algorithm had to be chosen. It was decided that the genetic algorithm will set an action per actor every 50 steps, which translates to 0.5 seconds (simulation runs at 100hz). In other words, every 50 steps of the simulation is 1 timestep for the genetic algorithm. If the GA decides to not set an action for the integer, it sets "NoAction" as a placeholder.
+A few default settings for the genetic algorithm had to be chosen. It was decided that the genetic algorithm will set an action per actor every 50 steps, which translates to 0.5 seconds (simulation runs at 100hz). In other words, every 50 steps of the simulation is 1 timestep for the genetic algorithm. If the GA decides to not set an action, "NoAction" will be used as a placeholder.
 
 \subsection{Maximum Number of Generations}
-Using a fixed maximum number of generation is a commonly used stopping criteria. While more complex methods like a "adaptive convergence rate" might lead to better performance\todo{find ref}, it was decided that the additional complexity of having to choose a suitable convergence rate outweighs its pros. A genetic algorithm already has a lot of different control parameters that need tuning.
+Using a fixed maximum number of generation is a commonly used stopping criteria. While more complex methods like a "adaptive convergence rate" might lead to better performance\ref{label}, it was decided that the additional complexity of having to choose a suitable convergence rate outweighs its pros. A genetic algorithm already has a lot of different control parameters that need tuning.
 
 Performance is always a huge consideration, thus a lower maximum number of generations is preferred. During testing, a generation size of 30 was almost always sufficient and will be used in all of the coming testing.
 
 
+TODO: Continue from here!
 \subsection{Encoding}
 When implementing a Genetic Algorithm, it is necessary to implement an encoding that fits to the problem. Each individual basically thus needs to include all actions that the genetic algorithm wants to apply. Different encodings were presented in section \ref{chap:foundation:ga:encoding}, however none directly fitted to the problem presented. A custom encoding for both chromosomes and genes needed to be generated.
 
