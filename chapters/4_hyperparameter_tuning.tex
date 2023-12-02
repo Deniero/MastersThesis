@@ -531,6 +531,9 @@ The interaction term represents the combined effect of alcohol and gender.
 "(\cite{field_discovering_2012})
 
 
+TODO: talk about if encodings were relevant. Why the high random settings are strange. 
+
+
 To look at the percentage contribution of each factor the formulas \ref{equation:taguchi:ss_t} and \ref{equation:taguchi:contribution} (gathered by \cite{yang_design_2009}) are used.
 
 \begin{equation} \label{equation:taguchi:ss_t}
@@ -688,6 +691,12 @@ The lines show that setbacks in the optimal cost between two generations happens
 	\caption{Genetic Algorithm with Elite}
 \end{figure}
 
+\begin{figure}[ht] 
+	\label{figure:elite_no_elite_comp}
+	\includegraphics[width=1\linewidth]{simulations/evaluation/plots/elite_vs_no_elite_generations}
+	\caption{Elite Comparison}
+\end{figure}
+
 In order to analyse the statistical significance in the differences in mean between the Default Ga vs optimized GA a T-test can be used, because of a possible violation of the assumption of homogeneity, a robust Welch T-Test is applied which adjusts the DOF accordingly (\cite{field_discovering_2012}).
 
 On average, using elite improved the performance (M = 8.52, SE = *), compared to using no elite (M = 7.92, SE = *). This difference was not significant \textit{t}(14.21) = 0.96, p > .05; however, it did represent a small-sized effect r = .25. A comparison of the 10 repetitions can also be seen in figure \ref{figure:elite_comparison}.
@@ -708,7 +717,7 @@ According to \cite{field_discovering_2012} effect sizes provide an objective mea
 	\item r = .50 (large effect): The effect explains 25\% of the variance.
 \end{itemize} 
 
-Effect sizes will be used to compare different algorithms in chapter \ref{chap:evaluation} as well and are calculated according to equation \ref{equ:effect_size}.
+Effect sizes will be used to compare different algorithms in chapter \ref{chap:evaluation} as well and are calculated according to equation \ref{equ:effect_size}.\todo{Dof or df}
 \begin{equation} \label{equ:effect_size}
 	\begin{split}
 		r & = \sqrt{\frac{t^2}{t^2 + DOF}}

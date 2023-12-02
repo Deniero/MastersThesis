@@ -23,7 +23,7 @@ parse_csv_min_data <- function(raw_csv_results) {
 
 
 #### settings ####
-simulation_name = "sim_3"
+simulation_name = "sim_1"
 num_of_gen = 30
 res_row_size = 1
 res_column_size = 45
@@ -120,7 +120,7 @@ ggsave(paste0('evaluation/plots/', simulation_name, '_ga_diversity.jpg'), plot =
 plot.generation_comparison <- ggplot(sim.all_ga.melted, aes(x=gen, y=value, group=simulation, color=simulation)) + 
   stat_summary(fun.data = "mean_se", geom = "line", linewidth = 1) + 
   stat_summary(fun.max = function(y) max(y), fun.min = function(y) min(y), geom = "ribbon", alpha = 0.1, aes(fill = simulation)) +
-  labs(x = "Generations", y = "Cummulated Emergency Break Duration (s)", color = "Simulations", fill = "Simulations")
+  labs(x = "Generations", y = "Cummulated Emergency Break Duration", color = "Simulations", fill = "Simulations")
 plot.generation_comparison <- plot.generation_comparison + guides(color = FALSE, fill = FALSE)
 print(plot.generation_comparison)
 ggsave(paste0('evaluation/plots/', simulation_name, '_ga_generations.jpg'), plot = plot.generation_comparison, width = 12, height = 8, units = "cm", dpi = 600)
