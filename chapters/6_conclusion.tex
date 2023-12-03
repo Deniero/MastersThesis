@@ -1,15 +1,16 @@
 \chapter{Conclusion}
+\todo{write better and longer conclusion}
+The in this Masters Thesis proposed settings for a genetic algorithm show good performance on the given search problem.
 
-The results of \ref{chap:evaluation} show, that the Optimized GA shows significant improvements in most start scenarios. Only when less NPCs are available for the algorithm to control, the performance seems to be on par with the a genetic algorithm utilizing settings from the literature.
+The results of \ref{chap:evaluation} show, that the optimized settings GA shows significant improvements in most start scenarios compared to general settings from the literature as well as compared to random search. Only in the case of a small number of NPCs, the performance seems to be on par with the a genetic algorithm utilizing settings from the literature.
 
 Compared to random testing, research question 1 definitely holds true. A genetic algorithm will drastically improve performance when using the given cost function.
 
-Also the second research question can be answered with yes. Taguchi orthogonal testing only needs a minimal amount of different experiments while leading to impressive performance compared to using control parameters suggested by the literature.
+The second research question can be answered as well with yes. Taguchi orthogonal testing only needs a minimal amount of different experiments while leading to impressive performance improvements compared to using control parameters suggested by the literature.
 
 \section{Future Work}
 \subsection{Oracles}
-Considering that usually only the best result from a Genetic Algorithm is used, there might be some potential improvements.
+\todo{add Responsibility-Sensitive Safety (RSS)}
+Using oracle functions to select interesting scenarios during the runtime of a Genetic Algorithm was already done by \cite{almanee_scenorita_2021}. Different oracle functions test for different thresholds in the simulation. Examples are 'overSpeedLimit', 'criticalLaneChange', 'criticalComfortLevel'. These functions will test each individual in the population. In case one or multiple functions return true, the individual scenario will be saved and automatically categorized according to the types of thresholds. The genetic algorithm remains unaffected.
 
-Using oracle functions to select interesting scenarios during the runtime of a Genetic Algorithm was already done by \cite{almanee_scenorita_2021}. Different oracle functions test for different thresholds in the simulation. Examples are 'overSpeedLimit', 'criticalLaneChange', 'criticalComfortLevel. These functions will test each individual in the population. In case one or multiple functions return true, the individual scenario will be saved and automatically categorized according to the types of thresholds. The Genetic Algorithm however remains unaffected.
-
-Oracles have the potential to extract a number of interesting scenarios from only 1 Genetic Algorithm run.
+Oracles have the potential to extract a multiple different scenarios from only one genetic algorithm run. The automatic categorization drastically improves the usefulness of this testing approach. Otherwise each result from the genetic algorithm needs to be evaluated manually for finding errors in the ADAS/AD function.
