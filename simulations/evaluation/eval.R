@@ -23,7 +23,7 @@ parse_csv_min_data <- function(raw_csv_results) {
 
 
 #### settings ####
-simulation_name = "sim_1"
+simulation_name = "sim_4"
 num_of_gen = 30
 res_row_size = 1
 res_column_size = 45

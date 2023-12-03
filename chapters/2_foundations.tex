@@ -13,7 +13,11 @@ This masters thesis will utilize generational Genetic algorithms, where the enti
 
 This search method on the basis of biological principles allows for a global and dispersed search through its population. This avoids various shortcomings of local search techniques (\cite{grefenstette_optimization_1986}). Especially on challenging search spaces with multiple local optima, a GA is less prone to get stuck on a substandard solution (\cite{katoch_review_2021}, \cite{xia_genetic_2019}, \cite{majumdar_genetic_2015}). Genetic algorithms offer advantages for complex optimization and non-deterministic polynomial (NP-hard) problems (\cite{hussain_trade-off_2020}).
 
-\enquote{GAs can find good solutions within a large, ill-defined search space, and can be readily adapted to a wide variety of search problems} (\cite{mills_determining_2015})
+\begin{quote}
+	\begin{em}
+		\enquote{GAs can find good solutions within a large, ill-defined search space, and can be readily adapted to a wide variety of search problems} (\cite{mills_determining_2015})
+	\end{em}
+\end{quote}
 
 \cite{grefenstette_optimization_1986} further emphasis its ability to outperform gradient techniques on difficult problems with high-dimensional, noisy or discontinuous fitness functions by efficiently exploiting a "relatively the relatively simple selection mechanism." The main advantage of a GA in tackling these problems comes from its capability to explore the search space using its entire population (\cite{hussain_trade-off_2020}). Further advantages are the "high implicit parallelism", which make Genetic algorithms "numerically very efficient" (\cite{marsili_libelli_adaptive_2000}).
 
@@ -41,7 +45,11 @@ The individuals are chosen using a selection operation, which takes their fitnes
 As discussed by \cite{hussain_trade-off_2020}, genetic algorithms suffer from an exploration vs exploitation dilemma. If the algorithm converges too quickly to a solution, most of the search space might not have yet been explored, thus increasing the probability of getting stuck in a local optimum.
 In contrast to that, a low convergence rate might be time consuming and result in inefficient utilization of computational resources.
 
-\enquote{Finding a balance between exploration and exploitation has been a difficult-to-achieve goal from the beginning.} (\cite{kacprzyk_parameter_2007})
+\begin{quote}
+	\begin{em}
+		\enquote{Finding a balance between exploration and exploitation has been a difficult-to-achieve goal from the beginning.} (\cite{kacprzyk_parameter_2007})
+	\end{em}
+\end{quote}
 
 Due to no real consensus on the best control parameter settings, their optimal selection proves to be difficult, which will be discussed in section \ref{chap:hyperparameter_tuning}.
 
@@ -101,7 +109,11 @@ A suitable crossover probability again is influenced by the exploration-exploita
 The mutation operation is applied after crossover as a means to maintain the diversity of the gene pool. Through small random changes, the variability of the population increases. Each individual can be exposed to mutation, irrespective it their fitness value.
 A mutation rate chooses the individuals to be are mutated. An additional individual mutation rate selects which specific genes of the chosen chromosome are mutated (\cite{srinivas_genetic_1994}). Depending on the gene encoding, the mutation operation might vary. In case of binary gene encoding, mutation will only flip certain bits. For custom encodings, the mutation operation needs to be tailored accordingly.
 
-\enquote{If the mutation is not considered during evolution, then there will be no new information available for evolution.}(\cite{katoch_review_2021})
+\begin{quote}
+	\begin{em}
+		\enquote{If the mutation is not considered during evolution, then there will be no new information available for evolution.}(\cite{katoch_review_2021})
+	\end{em}
+\end{quote}
 
 The settings for mutation rates again needs to be chosen carefully. If they are too high, the genetic algorithm might transform into random testing. In case they are set too low, the population will not be able to maintain diversity as no new genetic material is reintroduced. (\cite{klampfl_using_nodate}, \cite{grefenstette_optimization_1986}).
 
@@ -112,7 +124,11 @@ Various literature suggests adaptively controlling selection methods, crossover 
 
 Contrary, \cite{kacprzyk_parameter_2007} is more critical to adaptive control parameters. Although adaptive control parameter might improve the performance of a genetic algorithm for specific problems, Genetic Algorithms are already quite robust in practice. Adding more tunable parameters will not make the task of the researcher easier.
 
-\enquote{The purist might argue that inventing feedback control procedures for EAs is a good example of over-engineering an already sophisticated adaptive system.} (\cite{kacprzyk_parameter_2007})
+\begin{quote}
+	\begin{em}
+		\enquote{The purist might argue that inventing feedback control procedures for EAs is a good example of over-engineering an already sophisticated adaptive system.} (\cite{kacprzyk_parameter_2007})
+	\end{em}
+\end{quote}
 
 \cite{kacprzyk_parameter_2007} adds, that \enquote{after more than 30 years of experimenting with dynamic parameter setting strategies, is that, with one exception, none of them are used routinely in every day practice. The one exception are the strategies used by the ES community for mutation step size adaptation.}
 

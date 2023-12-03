@@ -108,7 +108,11 @@ Executing one run for 30 generations currently takes around 3:50 hours. Due to h
 A different approach is called design of experiment (DOE), also known as statistically designed experiments. DOE tries to find the cause and-effect relationship between the factors and the output of experiments.
 It uses factorial design where each experiment has factors, of which each consists of at least two settings, with the actual number of settings being called levels (\cite{yang_design_2009}). Design of experiment needs manual expertise to define which factors are possibly of importance and which settings each factor should have.
 
-\enquote{If the range of variable is too small, then we may miss lots of useful information. If the range is too large, then the extreme values might give infeasible experimental runs.} (\cite{yang_design_2009})
+\begin{quote}
+	\begin{em}
+		\enquote{If the range of variable is too small, then we may miss lots of useful information. If the range is too large, then the extreme values might give infeasible experimental runs.} (\cite{yang_design_2009})
+	\end{em}
+\end{quote}
 
 Afterwards, main effects and interactions can be calculated to find the best settings per factor. It provides a graphical representation of these relationship by using interaction as well as main-effects charts.
 Using ANOVA (Analysis of Variance) it is possible to identify the significance of each factor and interaction, which enables the ranking of these factors. More details on these analysis tools will be provided in section \ref{chap:hyperparameter_tuning:analysis_of_results}.
@@ -117,7 +121,11 @@ A full factorial design will test over all possible combinations of the manually
 
 Fractional factorial experiments require less runs ... \todo{Short explaination}
 
-\enquote{Techniques such as fractional (or partial) factorial experiments are used to simplify the experiment. Fractional factorial experiments investigate only a fraction of all possible combinations. This approach saves considerable time and money but requires rigorous mathematical treatment, both in the design of the experiment and in the analysis of the results. (\cite{roy_primer_1990})}
+\begin{quote}
+	\begin{em}
+		\enquote{Techniques such as fractional (or partial) factorial experiments are used to simplify the experiment. Fractional factorial experiments investigate only a fraction of all possible combinations. This approach saves considerable time and money but requires rigorous mathematical treatment, both in the design of the experiment and in the analysis of the results.} (\cite{roy_primer_1990})
+	\end{em}
+\end{quote}
 
 
 \subsection{Taguchi Method}
@@ -125,7 +133,11 @@ Various improvements to Design of experiment have been but forward by Dr. Genich
 
 Taguchi's experimental design is a fractional factorial design, which requires significantly less runs. Different fractional factorial designs are available. Taguchi was chosen, because he provides a simple and easy to follow procedure which requires only a minimal number of runs.
 
-\enquote{ There are many similarities between “regular” experimental design and Taguchi's experimental design. However, in a Taguchi experiment, only the main effects and two-factor interactions are considered. Higher-order interactions are assumed to be non-existent. In addition, experimenters are asked to identify which interactions might be significant before conducting the experiment, through their knowledge of the subject matter.} (\cite{yang_design_2009})
+\begin{quote}
+	\begin{em}
+		\enquote{ There are many similarities between “regular” experimental design and Taguchi's experimental design. However, in a Taguchi experiment, only the main effects and two-factor interactions are considered. Higher-order interactions are assumed to be non-existent. In addition, experimenters are asked to identify which interactions might be significant before conducting the experiment, through their knowledge of the subject matter.} (\cite{yang_design_2009})
+	\end{em}
+\end{quote}
 
 Using a Taguchi design for evaluating the best hyperparameter has been successfully performed by \cite{dao_maximising_2016} as well as \cite{naruka_parameter_2019}.
 
@@ -540,7 +552,11 @@ The percentage contribution of all factors is plotted in \ref{figure:taguchi:per
 \subsubsection{Main-effects and interaction chart}
 Identifying the optimal conditions needs analysis of the main effects per factor. They allow to predict the factors, that lead to the best result \cite{roy_primer_1990}.
 
-\enquote{The main-effects chart is a plot of average responses at different levels of a factor versus the factor levels.} (\cite{yang_design_2009})
+\begin{quote}
+	\begin{em}
+		\enquote{The main-effects chart is a plot of average responses at different levels of a factor versus the factor levels.} (\cite{yang_design_2009})
+	\end{em}
+\end{quote}
 
 For every factor, sum up the mean of all results per level, then divide by the number of runs per level.
 

@@ -52,7 +52,7 @@ The following list are all actions provided by the traffic manager that were ava
 	\end{itemize}
 \end{itemize}
 
-The Genetic Algorithm will control only NPCs, while a Behaviour Tree is used for the EGO vehicle itself. Both methods use the Action Interface to control their respective actors. An overview is provided in figure \ref{figure:traffic_manager:structure}.
+The genetic algorithm will control only NPCs, while a Behaviour Tree is used for the EGO vehicle itself. Both methods use the Action Interface to control their respective actors. An overview is provided in figure \ref{figure:traffic_manager:structure}.
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{figures/tm_structure}
@@ -61,8 +61,8 @@ The Genetic Algorithm will control only NPCs, while a Behaviour Tree is used for
 \end{figure}
 
 \section{Genetic Algorithm}
-The Genetic Algorithm will search for sequences of actions that will result in the most interesting scenarios according to its cost function.
-For implementing the Genetic Algorithm, DEAP\footnote{\url{https://deap.readthedocs.io/en/master}} was chosen. It is a popular tool in academia and allows for high customisability.
+The genetic algorithm will search for sequences of actions that will result in the most interesting scenarios according to its cost function.
+For implementing the genetic algorithm, DEAP\footnote{\url{https://deap.readthedocs.io/en/master}} was chosen. It is a popular tool in academia and allows for high customisability.
 As has been stated in section \ref{implementation:action_interface}, the algorithm has full access over setting actions for all NPCs. Searching for sequences of actions, the GA tries to optimize a cost function. This section aims to explain how the genetic algorithm was implemented and which different control parameter are variable. In chapter \ref{chap:hyperparameter_tuning}, the best hyperparameter combination will be generated, further analysis is done in \ref{chap:evaluation}.
 
 A few default settings for the genetic algorithm had to be chosen. It was decided that the genetic algorithm will set an action per actor every 50 steps, which translates to 0.5 seconds (simulation runs at 100hz). In other words, every 50 steps of the simulation is 1 timestep for the genetic algorithm. If the GA decides to not set an action, "NoAction" will be used as a placeholder.

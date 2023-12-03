@@ -117,7 +117,7 @@ tag.res.factor <- cbind(tag.factor_array, tag.res)
 
 # print Table
 x <- xtable(tag.res)
-digits(x) <- 0
+#digits(x) <- 0
 print(x)
 
 
