@@ -129,6 +129,7 @@ ggsave(paste0('evaluation/plots/', simulation_name, '_ga_generations.jpg'), plot
 print("comparing Optimized with Default")
 sim.res.melted.only_ga <- subset(sim.res.melted, simulation != "Random")
 #sim.res.melted.only_ga <- subset(sim.res.melted.only_ga, !is.na(value))
+sim.res.melted.only_ga$simulation <- relevel(sim.res.melted.only_ga$simulation, ref = "Optimized")
 
 t_test<-t.test(value ~ simulation, data = sim.res.melted.only_ga)
 print(t_test)

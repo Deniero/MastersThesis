@@ -13,7 +13,3 @@ Considering that usually only the best result from a Genetic Algorithm is used, 
 Using oracle functions to select interesting scenarios during the runtime of a Genetic Algorithm was already done by \cite{almanee_scenorita_2021}. Different oracle functions test for different thresholds in the simulation. Examples are 'overSpeedLimit', 'criticalLaneChange', 'criticalComfortLevel. These functions will test each individual in the population. In case one or multiple functions return true, the individual scenario will be saved and automatically categorized according to the types of thresholds. The Genetic Algorithm however remains unaffected.
 
 Oracles have the potential to extract a number of interesting scenarios from only 1 Genetic Algorithm run.
-
-\subsection{Autoware}
-\todo{probably remove this subsection}
-During the masters thesis, only an internal Emergency Brake value was tested. It still remains to be seen if the proposed approach is able to detect failiors in real ADAS AD functions. Especially testing on Full Driving Stacks is of interest. The open source driving stack Autoware might be a possible candidate.
