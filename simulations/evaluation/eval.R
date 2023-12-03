@@ -110,16 +110,15 @@ ggsave(paste0('evaluation/plots/', simulation_name, '_comparison.jpg'), plot = p
 # plot diversity comparison
 plot.diversity_comparison <- ggplot(sim.diversity, aes(x=generation, y=diversity, group=simulation, color=simulation)) + 
   stat_summary(fun.data = "mean_se", geom = "line", linewidth = 1) + 
-  stat_summary(fun.max = function(y) max(y), fun.min = function(y) min(y), geom = "ribbon", alpha = 0.1, aes(fill = simulation)) +
+  stat_summary(fun.max = function(y) quantile(y, 0.75), fun.min = function(y) quantile(y, 0.25), geom = "ribbon", alpha = 0.1, aes(fill = simulation)) +
   labs(x = "Generations", y = "Diversity", color = "Simulations", fill = "Simulations")
 print(plot.diversity_comparison)
 ggsave(paste0('evaluation/plots/', simulation_name, '_ga_diversity.jpg'), plot = plot.diversity_comparison, width = 12, height = 8, units = "cm", dpi = 600)
 
-
 # plot generation comparison
 plot.generation_comparison <- ggplot(sim.all_ga.melted, aes(x=gen, y=value, group=simulation, color=simulation)) + 
   stat_summary(fun.data = "mean_se", geom = "line", linewidth = 1) + 
-  stat_summary(fun.max = function(y) max(y), fun.min = function(y) min(y), geom = "ribbon", alpha = 0.1, aes(fill = simulation)) +
+  stat_summary(fun.max = function(y) quantile(y, 0.75), fun.min = function(y) quantile(y, 0.25), geom = "ribbon", alpha = 0.1, aes(fill = simulation)) +
   labs(x = "Generations", y = "Cummulated Emergency Break Duration", color = "Simulations", fill = "Simulations")
 plot.generation_comparison <- plot.generation_comparison + guides(color = FALSE, fill = FALSE)
 print(plot.generation_comparison)
