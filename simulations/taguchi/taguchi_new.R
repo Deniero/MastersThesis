@@ -110,7 +110,6 @@ tag.factor_array <- data.frame(
 )
 
 tag.interaction_array <- data.frame(
-  FG = as.factor(c (1,2,2,1,1,2,2,1,2,1,1,2,2,1,1,2)), 
   DE = as.factor(c (1,2,2,1,2,1,1,2,1,2,2,1,2,1,1,2))
 )
 tag.res.factor <- cbind(tag.factor_array, tag.res)
@@ -144,26 +143,26 @@ print(sum(main_effects.best_effects$max_effect) - (mean_of_results * nrow(main_e
 #### interaction effects ####
 interaction_effects <- calc_effects(tag.interaction_array, tag.res)
 
-plot.interaction_effects <- ggplot(interaction_effects, aes(x=level, y=effect, group=factor_name)) + 
-  geom_line(linewidth=1.0, color="#457b9d") +
-  scale_x_discrete(expand = c(0.1, 0.1)) +
-  facet_wrap(~factor_name, scales = "free", ncol = 4) +
-  labs(x = "", y = "")
+#plot.interaction_effects <- ggplot(interaction_effects, aes(x=level, y=effect, group=factor_name)) + 
+#  geom_line(linewidth=1.0, color="#457b9d") +
+#  scale_x_discrete(expand = c(0.1, 0.1)) +
+#  facet_wrap(~factor_name, scales = "free", ncol = 4) +
+#  labs(x = "", y = "")
 
-print(plot.interaction_effects)
-ggsave("taguchi/plots/interaction_effects.jpg", plot = plot.interaction_effects, width = 18, height = 6, units = "cm", dpi = 600)
+#print(plot.interaction_effects)
+#ggsave("taguchi/plots/interaction_effects.jpg", plot = plot.interaction_effects, width = 18, height = 6, units = "cm", dpi = 600)
 
 # Calc Test of interaction
-test_of_interaction <- rbind(get_test_of_interaction(tag.res.factor, "D", "E"), get_test_of_interaction(tag.res.factor, "F", "G"))
+test_of_interaction <- get_test_of_interaction(tag.res.factor, "D", "E")
 
 # TODO: define chart like in primer page 158(164)
 plot.test_of_interaction <- ggplot(test_of_interaction, aes(x=factor_2_level, y=interaction_effect, group=factor_1_level, color=factor_1_level)) + 
   geom_line(linewidth=1.0) +
   facet_wrap(~interaction, scales = "free", ncol = 2) +
   scale_x_discrete(expand = c(0.1, 0.1)) +
-  labs(x = "Factor 2", y = "", color = "Factor 1")
+  labs(x = "E", y = "", color = "D")
 print(plot.test_of_interaction)
-ggsave("taguchi/plots/test_of_interaction.jpg", plot = plot.test_of_interaction, width = 18, height = 6, units = "cm", dpi = 600)
+ggsave("taguchi/plots/test_of_interaction.jpg", plot = plot.test_of_interaction, width = 18, height = 4, units = "cm", dpi = 600)
 
 
 # calc Predicted Optiumum performance with interaction DE
@@ -183,13 +182,13 @@ print(sum(combined_effects.best_effects$max_effect) - (mean_of_results * nrow(co
 # change to long format
 tag.res.factor.melted<-melt(tag.res.factor, id = c(names(tag.factor_array)), measured = c(names(tag.res)))
 
-anova <- aov(value ~ A + B + C + D * E + F * G, data = tag.res.factor.melted)
+anova <- aov(value ~ A + B + C + D * E + F + G, data = tag.res.factor.melted)
 summary(anova)
 x <- xtable(anova)
 print(x)
 
 
-LM <- lm(value ~ A + B + C + D * E + F * G, data = tag.res.factor.melted)
+LM <- lm(value ~ A + B + C + D * E + F + G, data = tag.res.factor.melted)
 summary(LM)
 
 
