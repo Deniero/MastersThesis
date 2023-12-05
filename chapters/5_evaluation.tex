@@ -23,7 +23,7 @@ This Chapter will compare the GA settings proposed in \ref{para:hyperparameter_t
 The evaluation is done over 4 different start scenarios which can be found in the appendix at \ref{Appendix:A}
 
 \section{Start Scenario 1}
-First, a comparison of the three algorithms on start scenario 1 was made. This is the same start scenario, that was used in Chapter \ref{chap:hyperparameter_tuning}. The results are shown in Section \ref{figure:sim_1_comparison}.
+First, a comparison of the three algorithms on start scenario 1 was made. This is the same start scenario, that was used in Chapter \ref{chap:hyperparameter_tuning}. The results are shown in figure \ref{figure:sim_1_comparison}.
 
 \begin{figure}[ht] 
 	\label{figure:sim_1_comparison}
@@ -31,7 +31,7 @@ First, a comparison of the three algorithms on start scenario 1 was made. This i
 	\caption{Start Scenario 1: Default GA vs Optimized GA vs Random Search}
 \end{figure}
 
-Looking at the graph, the Optimized GA clearly outperformed the Default GA as well as Random Search.
+Analysing the graph, the Optimized GA clearly outperformed the Default GA as well as Random Search.
 
 Welchs t-test shows that on average, greater fitness is achieved by using Optimized GA (M = 8.52, SE = ?) than from using Default GA (M = 7.09, SE = ?). This difference was significant \textit{t}(17.87) = 3.15, p < .01. It did represent a large effect r = 0.60.
 Compared to Random (M = 4.943, SE = ?), the Optimized GA has even higher dominance, with a significant difference \textit{t}(16.9) = 7.12, p < .001 and a large effect r = 0.87.
@@ -93,7 +93,7 @@ To further analyse both genetic algorithms, their performance over the generatio
 The rate of improved fitness of the Default GA now drops very similar to the Optimized GA. The early decline in the diversity is also not as pronounced as in the previous comparisons. While the optimized GA shows to still hold the diversity in the population longer, this only has a minimal impact on its average fitness. The similarity in performance might be explained by the smaller search space due to the smaller number of NPCs. Here, high mutation and crossover rates might not have the previous pronounced advantage.
 
 \section{Start Scenario 4}
-Start scenario 4 is can be seen in Appendix at \ref{figure:appednix:start_scenario_4}. 18 vehicles with 10 pedestrians are initialized, resulting in the simulation with the most NPCs.
+Start scenario 4 can be seen in Appendix at \ref{figure:appednix:start_scenario_4}. 18 vehicles with 10 pedestrians are initialized, resulting in the simulation with the most NPCs.
 
 \begin{figure}[ht] 
 	\label{figure:sim_4_comparison}
@@ -105,7 +105,7 @@ Figure \ref{figure:sim_4_comparison} shows the Optimized GA clearly outperformin
 The Optimized GA (M = 10.60, SE = ?) has significantly greater fitness then the Default GA (M = 8.46, SE = ?) with \textit{t}(17.98) = 5.30, p < .001 and a large effect r = 0.78.
 Compared to Random Search (M = 6.86, SE = ?), the greater fitness of the Optimized GAs is significant with \textit{t}(11.71) = 12.7, p < .001 and a large effect r = 0.96.
 
-Both genetic algorithms performance over the generations next to their diversity chart will be compared in figure \ref{figure:sim_4_ga_comparison}.
+Both genetic algorithms performance over the generations next to their diversity chart is compared in figure \ref{figure:sim_4_ga_comparison}.
 
 \begin{figure}[ht] 
 	\label{figure:sim_4_ga_comparison}
@@ -122,7 +122,7 @@ Both genetic algorithms performance over the generations next to their diversity
 
 
 Already at generation 5, the average rate of improved fitness of the Default GA drops compared to the Optimized GA. This is accompanied by an early sharp decline in the diversity. The optimized GA again shows be able to hold the diversity much longer at a high level, its rate of diversity drop is linear.
-The results underline the statement made in Section \ref{chap:evaluation:scenario_3}, that the Optimized GA excels at scenarios with lots of NPCs, where a vast search space is given.
+The results underline the statement made in Section \ref{chap:evaluation:scenario_3}, which claims, that the Optimized GA excels at scenarios with lots of NPCs, where a vast search space is given.
 
 
 

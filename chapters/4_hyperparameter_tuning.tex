@@ -12,9 +12,9 @@ This Chapter will focus on tuning the genetic algorithm to perform well on the g
 \label{chap:hyperparameter_tuning:simulation_setup}
 Two workstations were available for running all of the following simulations. The first workstation had an Intel Core i7-9700K and a GeForce RTX 2070 SUPER with 32 GB of RAM. The second workstation had an Intel Core i7-6850K as well as two Nvidia GeForce GTX 1080 also with 32 GB of RAM. On both systems, Kubuntu 20.04 LTS was the operating system.
 
-As has been defined in Chapter \ref{chap:implementation}, each genetic algorithm will run for 30 generations, additionally 1 simulation will have a duration of 35 seconds. On a single workstation, it takes approximately 3 hours and 50 minutes to complete one genetic algorithm with a population of 96. This time indication is also influenced by the number of actors used. 
+As has been defined in Chapter \ref{chap:implementation}, each genetic algorithm will run for 30 generations. Additionally 1 simulation will have a duration of 35 seconds. On a single workstation, it takes approximately 3 hours and 50 minutes to complete one genetic algorithm with a population size of 96. This time indication is however influenced by the number of actors. 
 
-Town10 from Carla will be used as the map for all simulations. It has an adequate size, yet is not too big and allows for interesting manoeuvrers.
+Town 10 from the driving simulator Carla\footnote{\href{https://carla.readthedocs.io/en/latest/map_town10/}{https://carla.readthedocs.io/en/latest/map\_town10/}} will be used as the map for all experiments. It has an adequate size, yet is not too big and allows for interesting manoeuvrers.
 
 \todo{not sure where to show the start scenarios, they are currently in the appendix}
 In order to reduce the required number of tests, only one starting scenario was used for all of the tuning of the control parameters. Start scenario 1 can be seen in appendix \ref{figure:appednix:start_scenario_1}. In chapter \ref{chap:evaluation}, the performance of the tuned genetic algorithm on different start scenarios will be investigated.
@@ -29,7 +29,7 @@ In order to test for the best population size, other hyperparameters first have 
 Following this advice, the most suitable population parameters will now be evaluated by fixating the remaining hyperparameters to a small range of suggested values from the literature.
 
 \subsection{Suggested Hyperparameter from the Literature}
-After reviewing various literature regarding control parameter of Genetic Algorithms, no clear consensus emerged. \cite{mills_determining_2015} come to a similar conclusion, mentioning the inconsistencies between findings during their literature review, highlighting the conflicting evidence regarding "key GA control parameter".
+After reviewing various literature regarding control parameter of genetic algorithms, no clear consensus emerged. \cite{mills_determining_2015} come to a similar conclusion, mentioning the inconsistencies between findings during their literature review and highlighting the conflicting evidence regarding "key GA control parameter".
 
 Table \ref{tab:ga_hyperparameters} aims to provide a short, tough not exhaustive, overview on different control parameter settings used in the literature. This compilation does not claim to cover the entire scope of available research in this domain, rather it served as a focused effort to identify usable hyperparameters.
 
@@ -61,11 +61,11 @@ Generally speaking, a low mutation rate is recommended. For example \cite{grefen
 
 
 \subsection{Comparison of Population Size}
-This leads to a difficult decision in choosing the right parameters. Based on the extensive research, population sizes of 32, 48, 64 and 96 will be compared. Crossover rates are set to 0.8 and 0.6. For mutation, 0.01 and 0.2 will be discussed. Further, tournament selection of 2 and 4 is used.
+Based on the described research, population sizes of 32, 48, 64 and 96 will be compared. Crossover rates are set to 0.8 and 0.6. For mutation, 0.01 and 0.2 will be discussed. Further, tournament selection of 2 and 4 is used.
 Individual mutation probability will stay at 0.1. Chromosome encoding is set to Time and gene encoding is set to Integer. 
 Each run will be executed 5 times to reduce randomness and to make the results more robust. Each simulation will last for 30 generations. A list of all settings with the mean over 5 repetitions per population size can be seen in table \ref{tab:pop_settings_results}.
 
-\begin{figure}[ht]
+\begin{table}[h]
 	\label{tab:pop_settings_results}
 	\centering
 \begin{tabular}{ c|c|cccc  }
@@ -83,8 +83,7 @@ Each run will be executed 5 times to reduce randomness and to make the results m
 	\hline
 \end{tabular}
 \caption{results from testing population size - mean of 5 repetitions}
-\end{figure}
-
+\end{table}
 
 In figure \ref{figure:population:results}, the results per population are plotted. The line is corresponds to the mean, while the bars show the spread (min to max) of all 5 repetitions.
 \begin{figure}[ht] 
@@ -93,7 +92,6 @@ In figure \ref{figure:population:results}, the results per population are plotte
 		\label{figure:population:results}
 \end{figure}
 
-\todo{say that 64 had the best results, however there was too much variance}
 A higher spread in the results can be seen when looking at small population sizes. Considering these findings, a population size of 96 was chosen. While such a high value will result in a performance impact, it was deemed to be more important to keep the variation low. \todo{explain decision a bit more}
 
 \section{Design of Experiment}
@@ -101,13 +99,13 @@ A higher spread in the results can be seen when looking at small population size
 This section aims to find optimal settings for the remaining control parameters of the given problem.
 Following the conclusion from the previous section \ref{chap:hyperparameter_tuning:population}, a population size of 96 will be fixated. 
 
-In order to tune the control parameter of the genetic algorithm, various different strategies can be used. Using automated approaches like "grid search", "bayesian optimization, "simmulated annealing or "hyperband" might lead to good results with minimal effort (tuning hyperparameter of these search algorithms is still needed), however they each require a high number of runs (\cite{kacprzyk_parameter_2007}).\todo{find more references} \cite{kacprzyk_parameter_2007} even suggest using a second, higher level Genetic Algorithm for the optimization process.
+In order to tune the control parameter of the genetic algorithm, various different strategies can be used. Using automated approaches like "grid search", "bayesian optimization, "simmulated annealing or "hyperband" might lead to good results with minimal effort (tuning of hyperparameter for these search algorithms is still needed), however they each require a high number of runs (\cite{kacprzyk_parameter_2007}).\todo{find more references} \cite{kacprzyk_parameter_2007} even suggest using a second, higher level genetic algorithm for the optimization process.
 
 Due to performance considerations, many optimization methods did not fit the requirements.
 Executing one run for 30 generations currently takes around 3:50 hours. The high variance, between runs requires a certain number of repetitions for each setting. Although two different workstations were available, the time required to execute the needed number of runs for these automated tests would exceed the available time budged. For this section, 8 repetitions were used per setting, which makes one evaluation last 30 hours.
 
 A different approach is called design of experiment (DOE), also known as statistically designed experiments. DOE tries to find the cause and-effect relationship between the factors and the output of experiments.
-It uses factorial design where each experiment has factors, of which each consists of at least two settings, with the actual number of settings being called levels (\cite{yang_design_2009}). Design of experiment needs manual expertise to define which factors are possibly of importance and which settings each factor should have.
+It uses factorial design where the variables in an experiment are named 'factors'. Each factor consists of at least two settings, with the actual number of settings being called 'levels' (\cite{yang_design_2009}). Design of experiment needs manual expertise to define which factors are possibly of importance and which settings each factor should have.
 
 \begin{quote}
 	\begin{em}
@@ -119,7 +117,7 @@ Afterwards, main effects and interactions can be calculated to find the best set
 
 A full factorial design will test over all possible combinations of the manually selected factor levels. Looking at the proposed factors in table \ref{table:hyperparameter_tuning:settings_to_level}, 1024 runs\footnote{number of runs calculated using: \url{https://datatab.net/statistics-calculator/design-of-experiments}} are required, which not feasible performance wise. A full factorial design has the drawback, that as the number of factors k gets increased, the number of needed experimental runs increases exponentially, thus resulting in lengthy experiments. \cite{yang_design_2009} state, that most of the results obtained by testing over all combinations are only used for estimating higher-order interactions, which are in most cases insignificant.
 
-Fractional factorial experiments require less runs ... \todo{Short explaination}
+Fractional factorial experiments require less runs ... \todo{Add Short explanation}
 
 \begin{quote}
 	\begin{em}
@@ -129,9 +127,9 @@ Fractional factorial experiments require less runs ... \todo{Short explaination}
 
 
 \subsection{Taguchi Method}
-Various improvements to design of experiment have been but forward by Dr. Genichi Taguchi, such as reducing the influence of uncontrollable (noise) factors on processes and products and reducing variability (\cite{roy_primer_1990}). This master thesis will not discuss all of Taguchi's proposed considerations, for more detail \cite{roy_primer_1990} as well as \cite{yang_design_2009} is highly recommended.
+Various improvements to design of experiment have been but forward by Dr. Genichi Taguchi, such as reducing the influence of uncontrollable (noise) factors on processes and products and reducing variability (\cite{roy_primer_1990}). This master's thesis will not discuss all of Taguchi's proposed considerations, for more detail \cite{roy_primer_1990} as well as \cite{yang_design_2009} is highly recommended.
 
-Taguchi's proposed experimental design is a fractional factorial design, which requires significantly less runs. While different fractional factorial designs are available, Taguchi was chosen, because he provides a simple and easy to follow procedure which requires only a minimal number of runs.
+Taguchi's proposed experimental design is a fractional factorial design, that requires significantly less runs. While different fractional factorial designs are available, Taguchi was chosen, because he provides a simple and easy to follow procedure which requires only a minimal number of runs.
 
 \begin{quote}
 	\begin{em}
@@ -144,9 +142,10 @@ Using Taguchi design for finding optimal hyperparameter of a genetic algorithm h
 Taguchi predefined a number of different orthogonal arrays where each row contains the specific levels (i.e the settings) of one experiment, while the columns correspond the factors (\cite{li_taguchi_2021}). Taguchi's orthogonal arrays \enquote{represent the smallest fractional factorials} (\cite{roy_primer_1990}). Only a fraction of combinations needs to be tested, drastically reducing computational needs.
 
 The researcher has the responsibility to select an array based on the individual needs (\cite{li_taguchi_2021}).
-Using these orthogonal arrays instead of full factorial experiments will lead to a much smaller amount of simulation runs, while the full factorial experiments \enquote{might not provide appreciably more useful information} \cite{roy_primer_1990}.
+Using these orthogonal arrays instead of full factorial experiments will lead to a much smaller amount of simulation runs, while the full factorial experiments \enquote{might not provide appreciably more useful information} (\cite{roy_primer_1990}).
 
-\todo{TODO: rewrite from here}
+\todo{explain cons (e.g. higher order interactions are not possible) and orthogonality}
+\iffalse
 " OFF and OLH experiment designs sample a full factorial design space in a balanced and orthogonal fashion. Balance ensures good effect estimates by reducing an estimator’s bias and variability. Orthogonality ensures good estimates of two-term interactions. Balance is achieved by ensuring that each level of every factor occurs an equal number of times in the selected sample. Orthogonality is achieved by ensuring that each pair of levels occurs an equal number of times across all experiment parameters in the selected sample. OFF and OLH designs exhibit good space-spanning properties, which aid screening, sensitivity, and comparative analyses. On the other hand, highly fractionated OFF or OLH designs can have poor space-filling properties, which are necessary for optimization analyses.
 
 "\cite{mills_determining_2015}
@@ -160,9 +159,9 @@ This is complimented by \cite{yang_design_2009}, who states, that:
 \enquote{During many years of applications of factorial design, people have found that higher-order interaction effects (i.e., interaction effects involving three or more factors) are very seldom significant. In most experimental case studies, only some main effects and two-factor interactions are significant.}
 
 However, \cite{kacprzyk_parameter_2007} claim, that "tuning EA parameters can itself be a challenging task since EA parameters interact in highly non-linear ways." It remains to be seen in it is possible to use this method for optimizing parameters of a genetic algorithm.
-\todo{to here}
+\fi
 
-\paragraph{Selection of orthogonal array}
+\paragraph{Selection of an Orthogonal Array}
 When choosing a suitable Taguchi orthogonal array, various factors have to be taken into account. According to \cite{yang_design_2009}, a three step procedure needs to be followed:
 
 \begin{enumerate}
@@ -181,10 +180,9 @@ When choosing a suitable Taguchi orthogonal array, various factors have to be ta
 	\end{enumerate}
 \end{enumerate}
 
-For this design of experiment, 7 factors (3 factors of level 4 and 4 factors of level 2) have been selected. Which factors and levels to choose was done based on experience gained on section \ref{chap:hyperparameter_tuning:population}. When selecting levels, it is important to have them \enquote{as far away from either side of the current working condition as possible}(\cite{roy_primer_1990}).
-In table \ref{table:hyperparameter_tuning:settings_to_level}, every factor with the corresponding levels has been listed.
+For this design of experiment, 7 factors (3 factors of level 4 and 4 factors of level 2) have been selected. Which factors and levels to choose was done based on experience gained on section \ref{chap:hyperparameter_tuning:population}. In table \ref{table:hyperparameter_tuning:settings_to_level}, every factor with the corresponding levels has been listed.
 
-\begin{figure}[ht]
+\begin{table}[h]
 	\label{table:hyperparameter_tuning:settings_to_level}
 	\centering
 \begin{tabular}{ l|c|cccc }
@@ -201,10 +199,9 @@ In table \ref{table:hyperparameter_tuning:settings_to_level}, every factor with 
 	\hline
 \end{tabular}
 \caption{List of control parameters (factors) with correspond settings (levels)}
-\end{figure}
+\end{table}
 
-
-It is important to state, that Taguchi allows to only test for possible (pre determined) two-level interactions, evaluating higher level interactions is not possible (\cite{yang_design_2009}). Analysing interactions comes at a cost of degrees of freedom. An interaction between ChromosomeType and GeneType might be of interest and will thus be chosen.
+It is important to state, that Taguchi allows to only test for possible (pre determined) two-level interactions, evaluating higher level interactions is not possible (\cite{yang_design_2009}). Analysing interactions comes at the cost of degrees of freedom. An interaction between ChromosomeType and GeneType might be of interest and will thus be chosen.
 
 \subsection{Selection of a Suitable Standard Orthogonal Array}
 \label{chap:hyperparameter_tuning:selection_orthogonal_array}
@@ -216,7 +213,7 @@ The total degree of freedom can be calculated using the rules provided by \cite{
 	\item Two-factor interactions use this equation to calculate DOF: $(n_{factor1} - 1)(n_{factor2} - 1)$ where $n$ = number of levels.
 \end{enumerate}
 
-This leads to the following calculation for the needed 3 Factors of Level 4 and 4 Factors of Level 2 as well as the interaction between ChromosomeType-GeneType:
+This leads to the following calculation for the needed 3 factors of level 4 and 4 factors of level 2 as well as the interaction ChromosomeType-GeneType:
 
 \begin{equation} \label{DOF}
 	\begin{split}
@@ -227,7 +224,7 @@ This leads to the following calculation for the needed 3 Factors of Level 4 and 
 
 A $L_{16}$ array seems suitable to accommodate the required 15 DOF, which can be seen in \ref{table:hyperparameter_tuning:L16_orhtogonal_array}.
 
-\begin{figure}[ht]
+\begin{table}[ht]
 	\centering
 \begin{tabular}{ |c||c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|  }
 	\hline
@@ -254,7 +251,7 @@ A $L_{16}$ array seems suitable to accommodate the required 15 DOF, which can be
 \end{tabular}
 \label{table:hyperparameter_tuning:L16_orhtogonal_array}
 \caption{ $L_{16}(2^{15})$ Taguchi orthogonal array taken from \cite{roy_primer_1990}}
-\end{figure}
+\end{table}
 
 4 level factors need additional space which will be generated using column merging, while the interaction will need to be assigned as well.
 Either an interaction table or linear graphs of the $L_{16}$ array can be used for both column merging and interaction assignment (\cite{nazandanacioglu_taguchi_2005}). Both illustrate the interaction relationships in the orthogonal array (\cite{yang_design_2009}).
@@ -295,29 +292,25 @@ The linear graph is more straight forward and will be the chosen approach. While
 	
 	\draw (Node9) -- node[midway, right] {14} (Node7);
 	
-	
 	% Define 6 11 13
 	\node (Node11) at (8,0) {11};
 	\node (Node6) at (8,2) {6};
 	
 	\draw (Node11) -- node[midway, right] {13} (Node6);
 \end{tikzpicture}
-\caption{ Linear Graph of $L_{16}(2^{15})$ taken from \cite{yang_design_2009}}
+\caption{Linear Graph of $L_{16}(2^{15})$ taken from \cite{yang_design_2009}}
 \end{figure}
 
-\todo{bad explanation}
-In a Taguchi linear graph, the nodes as well as the connections both represent columns in the orthogonal array. An interaction between to columns that are represented as nodes "comes out to" the connecting line column \cite{taguchi_taguchis_2005}. This is useful for both analysing interactions between columns as well as combining (merging) interacting columns in case a higher factor is needed.
-
-The column describing their connection will subsequently contain the interaction (\cite{taguchi_taguchis_2005}).
+In a Taguchi linear graph, the nodes as well as the connections both represent columns in the orthogonal array. The interaction between two nodes is described by the connecting line (\cite{taguchi_taguchis_2005}). This is useful for both analysing interactions between columns as well as combining (merging) interacting columns in case a higher factor is needed.
 
 \paragraph{Column Merging}
 A, B and C are both 4 level factors. The currently selected orthogonal array only fits 2 level factors. Column merging, it is possible to extend columns to accommodate higher order levels. 
 
 As calculated in \ref{DOF}, a four-level column requires three degrees of freedom, thus three two-level columns need to be merged. Column merging needs the to be merged columns to be part of an interaction group (\cite{yang_design_2009}). The available interaction groups are visualized by the linear graph in figure \ref{figure:hyperparameter_tuning:linear_graph}.
 
-So, 3 interaction 2-level columns need to first be selected. One column is discarded, the remain two columns are merged using the rules in tabular \ref{table:hyperparameter_tuning:merging_rules}.
+3 2-level interaction columns need to be selected first. One column is discarded, the remain two columns are merged using the rules in tabular \ref{table:hyperparameter_tuning:merging_rules}.
 
-\begin{figure}[ht]
+\begin{table}[ht]
 	\centering
 	\begin{tabular}{ |ccccccc|  }
 		\hline
@@ -331,14 +324,12 @@ So, 3 interaction 2-level columns need to first be selected. One column is disca
 	\end{tabular}
 	\caption{Rules taken from \cite{roy_primer_1990}}
 	\label{table:hyperparameter_tuning:merging_rules}
-\end{figure}
+\end{table}
 
-The four-level factor can then be assigned to this newly generated column. Because three four-level factors are needed for the current experiment, nine two-level columns need to be merged in total.
+The four-level factor can then be assigned to this newly generated column. Because three four-level factors are needed for the current experiment, nine two-level columns have to be merged in total.
 
 \paragraph{Assigning Interactions}
-Interactions between two-level factors can be assigned using the linear graph as well. Here, select two connecting nodes. 
-
-An interaction between ChromosomeType and GeneType seems possible, thus D and E will be assigned to connected nodes in the linear graph. The resulting graph can be seen in \ref{figure:hyperparameter_tuning:linear_graph_assigned}.
+Interactions between two-level factors can be assigned using the linear graph as well. An interaction between ChromosomeType and GeneType seems possible, thus D and E will be assigned to connected nodes in the linear graph. The resulting graph can be seen in \ref{figure:hyperparameter_tuning:linear_graph_assigned}. An interaction between F and G can not be investigated, as the chosen orthogonal array is not able to fit the additional 1 degree of freedom (see equation \ref{DOF}).
 
 \begin{figure}[H]
 	\centering
@@ -403,7 +394,7 @@ An interaction between ChromosomeType and GeneType seems possible, thus D and E 
 
 Combining columns 1 2 3 to A, 4 8 12 to B and 5 10 15 to C using rules defined by table \ref{table:hyperparameter_tuning:merging_rules} is done in \ref{table:hyperparameter_tuning:merging_columns}.
 
-\begin{figure}[ht]
+\begin{table}[ht]
 	\centering
 	\begin{tabular}{ |c||cccc|cccc|cccc|  }
 		\hline
@@ -429,12 +420,12 @@ Combining columns 1 2 3 to A, 4 8 12 to B and 5 10 15 to C using rules defined b
 	\end{tabular}
 	\caption{Building 4 Level columns from 2 Level columns}
 	\label{table:hyperparameter_tuning:merging_columns}
-\end{figure}
+\end{table}
 
 Removing the old and inserting the new columns in the table and transcoding 7 to D, 9 to E, 14 to DE, 6 to F, 11 to G and 13 to FG results in the final table \ref{table:hyperparameter_tuning:final_taguchi}.
 This combination table will subsequently be used as settings for the simulation runs.
 
-\begin{figure}[ht]
+\begin{table}[ht]
 	\centering
 	\begin{tabular}{ |c||c|c|c|c|c|c|c|c|c|  }
 		\hline
@@ -460,13 +451,13 @@ This combination table will subsequently be used as settings for the simulation 
 	\end{tabular}
 	\caption{Final version of used Taguchi orthogonal array}
 	\label{table:hyperparameter_tuning:final_taguchi}
-\end{figure}
+\end{table}
 
 
 \subsection{Result Analysis}
 \label{chap:hyperparameter_tuning:analysis_of_results}
-Table \ref{table:hyperparameter_tuning:final_taguchi} can now be used for running all the needed testcases (the interaction columns can be ignored until the evaluation). Transcoding all factors and levels to get the corresponding setting can be done using the table from \ref{table:hyperparameter_tuning:settings_to_level}. Every setting will be repeated 8 times to reduce randomness and gain information about variance. 
-Running the genetic algorithm using these 16 different settings each repeated 8 times took 10 days on the two in Section \ref{chap:hyperparameter_tuning:simulation_setup} described workstations. The results are found in the appendix at \ref{table:appendix:hyperparameter_tuning:final_taguchi}.
+The final table \ref{table:hyperparameter_tuning:final_taguchi} will be used for running all the needed testcases (the interaction columns can be ignored until the evaluation). Transcoding all factors and levels to get the corresponding setting can be done using the table from \ref{table:hyperparameter_tuning:settings_to_level}. Every setting will be repeated 8 times to reduce randomness and gain information about variance. 
+Running the genetic algorithm with these 16 different settings each repeated 8 times took 10 days on the two in Section \ref{chap:hyperparameter_tuning:simulation_setup} described workstations. The results are found in the appendix at \ref{table:appendix:hyperparameter_tuning:final_taguchi}.
 
 \subsubsection{ANOVA}
 ANOVA analysis (analysis of variance) will provide information on the magnitude of contribution of the main effects and interactions. The calculation of ANOVA on a Taguchi experiment is the same as for a classical design of experiment (\cite{yang_design_2009}). Calculating ANOVA is done using the programming language R\footnote{\href{https://www.r-project.org/}{https://www.r-project.org/}} and the result can be seen in table \ref{table:taguchi:anova_results}.
@@ -492,13 +483,13 @@ ANOVA analysis (analysis of variance) will provide information on the magnitude 
 	\label{table:taguchi:anova_results}
 \end{table}
 
-Sum of squares of the model tell how much of the total variation is explained by the model. The variance is broken down into the factors A-G along with the interaction D:E. The residual sum of squares shows the difference between the models prediction versus what was actually observed (i.e the variance that can not be explained by the model) (\cite{field_discovering_2012}).
+The sum of squares of a model tell how much of the total variation is explained by the model. The variance is broken down into the factors A-G along with the interaction D:E. The residual sum of squares shows the difference between the models prediction versus what was actually observed (i.e the variance that can not be explained by the model) (\cite{field_discovering_2012}).
 
 The F ratio (or value) measures the ratio of variance explained by the factor and the variation explained by the error term (\cite{field_discovering_2012}). Simply speaking, how good is the model versus how bad is the model. 
 
 Finally, the p value (in column labelled Pr(>F)) shows how likely the size of the given F ratio is obtained in case there is no effect on the results. Commonly, if p is smaller than 0.05, the effect can be viewed as statistically significant (\cite{field_discovering_2012}).
 
-The higher number of DOF can be explained with our number of repetitions and can be calculated with the equation \ref{full DOF} (taken from \cite{roy_primer_1990}).
+The higher number of DOF can be explained with the number of repetitions and can be calculated with the equation \ref{full DOF} (taken from \cite{roy_primer_1990}).
 
 \begin{equation} \label{full DOF}
 	\begin{split}
@@ -515,7 +506,7 @@ Looking at the factors as well as the interaction, significant main effects can 
 D (ChromosomeType) and the interaction D:E will be mentioned as well with F(1, 112) = 3.21, p < 0.1 and F(1, 112) = 3.4, p < 0.1 respectively.
 There is not enough evidence that suggests significant main effects for the factors B (CrossoverRate) and E (GeneType).
 
-Especially the fact, that the CrossoverRate does not show significant effects is surprising. The low influence of GeneType however might be explained by the fact it does not have a huge impact on the action selected apart from more granularity of the parameters when Dictionary encoding is used.
+Especially the fact, that the CrossoverRate does not show significant effects is surprising, which is not supported by the literature (todo: find references). The low influence of GeneType however might be explained by the fact, that it does not have a huge impact on the action selected apart from more granularity of the parameters when Dictionary encoding is used.
 
 To look at the percentage contribution of each factor the formulas \ref{equation:taguchi:ss_t} and \ref{equation:taguchi:contribution} (gathered by \cite{yang_design_2009}) are used.
 
@@ -532,7 +523,7 @@ Example calculation for factor A.
 	\end{split}
 \end{equation}
 
-The percentage contribution of all factors is plotted in \ref{figure:taguchi:percentage_contribution} and again shows the high error of the model. 
+The percentage contribution of all factors is plotted in \ref{figure:taguchi:percentage_contribution} and shows the high error of the model. 
 \begin{figure}[ht] 
 	\label{figure:taguchi:percentage_contribution}
 	\includegraphics[width=1\linewidth]{simulations/taguchi/plots/percentage_contribution}
@@ -541,7 +532,7 @@ The percentage contribution of all factors is plotted in \ref{figure:taguchi:per
 
 
 \subsubsection{Main-effects and interaction chart}
-Identifying the optimal conditions needs analysis of the main effects per factor. They allow to predict the factors, that lead to the best result (\cite{roy_primer_1990}).
+Identifying the optimal conditions needs analysis of the main effects per factor. They allow to predict the levels, that lead to the best result (\cite{roy_primer_1990}).
 
 \begin{quote}
 	\begin{em}
@@ -563,13 +554,14 @@ The resulting main-effect charts can be seen in figure \ref{figure:taguchi:main_
 
 In case there is no interaction, the optimal setting is easily determined by using the main effects chart. Go over every factor in the chart and use the best level (in case of this experiment, the level with the highest value). 
 
-If interactions exist, they might have an influence on the best settings and need further investigation (\cite{yang_design_2009}). To investigate previously defined interaction an interaction graph can be used. The calculation is similar to calculating main effects and shown in figure \ref{figure:taguchi:test_of_interaction}.
+If interactions exist, they might have an influence on the best settings and need further investigation (\cite{yang_design_2009}). To investigate the previously defined interaction an interaction graph can be used. The calculation is similar to calculating main effects and shown in figure \ref{figure:taguchi:test_of_interaction}.
 
 \todo{Show calculation example for DE}
 
 \begin{figure}[ht] 
 	\label{figure:taguchi:test_of_interaction}
-	\includegraphics[width=1\linewidth]{simulations/taguchi/plots/test_of_interaction}
+	\centering
+	\includegraphics[width=0.4\linewidth]{simulations/taguchi/plots/test_of_interaction}
 	\caption{Test of interactions}
 \end{figure}
 
@@ -578,13 +570,13 @@ The crossing of lines indicates, that an interaction between the two factors mig
 \subsubsection{Selection of optimal setting}
 When choosing the optimal setting, the first step is to look at the best main effects combination. For this experiment, the best combination according the main effects is the following: A4, B4, C3, D2, E2, F2, G1.
 
-Looking at the ANOVA table, the interaction D:E however seams to have significance, especially compared to E. According to (\cite{field_discovering_2012}), it makes little sense of analyse or further interpret main effects if the interaction effect is significant (which it almost is with p < 0.1), thus this interaction will be integrated.
+Analysing the ANOVA table, the interaction D:E however seams to have significance, especially compared to E. According to (\cite{field_discovering_2012}), it makes little sense to further interpret main effects if the interaction effect is significant (which it almost is with p < 0.1), thus this interaction will be integrated.
 
-The test of interaction in figure \ref{figure:taguchi:test_of_interaction} suggest D2 and E1 as the best combination. This is optimal, as D2 is also suggested by the main effects. While E1 does not correspond to the suggested main effect, the low F value suggests low significance for E anyway. Concluding this line of thought, the combination A4, B4, C3, D2, E1, F2, G1 seems to be optimal.
+The test of interaction in figure \ref{figure:taguchi:test_of_interaction} suggest D2 and E1 as the best combination. This is optimal, as D2 is also recommended by the main effects. While E1 does not correspond to its main effect, the low F value suggests low significance for E anyway. Concluding this line of thought, the combination A4, B4, C3, D2, E1, F2, G1 seems to be optimal.
 
 \paragraph{Optimum performance calculation}
 \label{para:hyperparameter_tuning:optimum_perf_caluclation}
-To have a understanding on the predicted results of an algorithm with these settings, optimal performance calculation can be used. Equation \ref{optimum_perf_main_effect} only uses the optimal main effects while equation \ref{optimum_perf_included_interaction} has the interaction D:E applied. The calculation formulas are provided by \cite{roy_primer_1990}.
+To calculate the predicted results of an algorithm with these settings, optimal performance calculation can be used. Equation \ref{optimum_perf_main_effect} only uses the optimal main effects while equation \ref{optimum_perf_included_interaction} has the interaction D:E applied. The calculation formulas are provided by \cite{roy_primer_1990}.
 
 \begin{equation} \label{optimum_perf_main_effect}
 	\begin{split}
@@ -601,15 +593,20 @@ To have a understanding on the predicted results of an algorithm with these sett
 	\end{split}
 \end{equation}
 
-Using the interaction D:E, the performance estimation improves from 8.06 to 8.13. Finally the optimized settings are as follows:
-CrossoverType: Uniform 0.5, CrossoverPropability: 0.9, MutationPropability: 0.3, ChromosomeType: Time+NPC, GeneType: integer encoding, TournamentSize: 4 and IndividualMutationPropability: 0.1.
+Utilizing the interaction D:E, the performance estimation improves from 8.06 to 8.13. Finally the optimized settings are as follows:
+CrossoverType: Uniform 0.5, CrossoverPropability: 0.9, MutationPropability: 0.3, ChromosomeType: Time+NPC, GeneType: Integer, TournamentSize: 4 and IndividualMutationPropability: 0.1.
+\todo{Talk about high randomness in  the recommended settings}
 
-\todo{Talk about the settings}
+\subsubsection{signal-to-noise (S/N)}
+As previously discussed, the ANOVA model has a high error, which suggests high randomness. Taguchi recommends using signal-to-noise (S/N) ratio to reduce the variability, as using only the mean of the results does not take the variation into account (\cite{roy_primer_1990}). The greater the signal-to-noise ratio, the smaller the variance.
 
-\paragraph{signal-to-noise (S/N)}
-As previously discussed, the ANOVA model has a high error, which suggests high randomness. Taguchi recommends using signal-to-noise (S/N) ratio to reduce the variability, as using only the mean of the results does not take the variation into account (\cite{roy_primer_1990}). The greater the signal-to-noise ratio, the smaller the variance. \cite{roy_primer_1990} further states, that the \enquote{use of the S/N ratio offers an objective way to look at the two characteristics (consistency and average value) together.}
+\begin{quote}
+	\begin{em}
+		\enquote{use of the S/N ratio offers an objective way to look at the two characteristics (consistency and average value) together.} (\cite{roy_primer_1990})
+	\end{em}
+\end{quote}
 
-According to \cite{roy_primer_1990}, S/N is calculated in two steps, first the mean square deviation (MSD) is needed. Depending on the quality characteristic, a different equation has to be chosen. In this case, a higher result is better, thus equation \ref{MSD} is used for each repetition, with y being a result and n the number of repetitions.
+S/N is calculated in two steps, according to \cite{roy_primer_1990}. First the mean square deviation (MSD) is needed. Depending on the quality characteristic, a different equation has to be chosen. In this case, a higher result is better, thus equation \ref{MSD} is used for each repetition, with y being a result and n the number of repetitions.
 
 \begin{equation} \label{MSD}
 	\begin{split}
@@ -625,8 +622,7 @@ S/N is further calculated using equation \ref{S_N}.
 	\end{split}
 \end{equation}
 
-Generating main effects and ANOVA is now done using S/N instead.
-Now, only 15 DOF for the ANOVA analysis are available, as repetitions per run get merged into 1 result (in contrast to \ref{full DOF}). Which can be seen in equation \ref{s_n anova DOF}.
+Generating main effects and ANOVA is now done using S/N instead. As a side note, only 15 DOF for the ANOVA analysis are available, as repetitions per run get merged into 1 result (in contrast to \ref{full DOF}), which can be seen in equation \ref{s_n anova DOF}.
 
 \begin{equation} \label{s_n anova DOF}
 	\begin{split}
@@ -636,7 +632,7 @@ Now, only 15 DOF for the ANOVA analysis are available, as repetitions per run ge
 	\end{split}
 \end{equation}
 
-The resulting ANOVA table which can be seen in \ref{table:taguchi:s_n_anova_results}.
+The resulting ANOVA table can be seen in \ref{table:taguchi:s_n_anova_results}.
 
 \begin{table}[ht]
 	\centering
@@ -659,10 +655,10 @@ The resulting ANOVA table which can be seen in \ref{table:taguchi:s_n_anova_resu
 	\label{table:taguchi:s_n_anova_results}
 \end{table}
 
-When looking at the p values of this table, it is obvious that no factor can discard the null-hypothesis, which states that a factor has no significant effect. Considering this, it was deemed to be not necessary to perform further investigations. Using the often recommend Signal to Noise ratio does not seem to suitable for this experiment, thus the settings recommended in Paragraph \ref{para:hyperparameter_tuning:optimum_perf_caluclation} will not be adjusted.
+When looking at the p values of this table, it is obvious that no factor can discard the null-hypothesis, which states that a factor has no significant effect. Considering this fact, it was deemed to not be necessary to perform further investigations. The often recommend Signal to Noise ratio does not seem to suitable for this experiment, thus the previously calculated settings in Paragraph \ref{para:hyperparameter_tuning:optimum_perf_caluclation} will not be adjusted.
 
-\paragraph{Elite}
-Although the optimal hyperparameter setting will be discussed in chapter \ref{chap:evaluation}, a problem was obvious when analysing results of a GA using the settings from \ref{para:hyperparameter_tuning:optimum_perf_caluclation}. Setbacks in the optimal cost between two generations happen frequently, likely due to the high crossover and mutation rates. In order to mitigate this problem, it was decided to implement elite selection with a size of 2. Per generation, the two best individuals are now copied into the next generation without modifications, which makes worse performance between generations not possible. It is important to note, that the two best individuals can still be selected by tournament selection for modification, its just that a copy of them is saved. Figure \ref{figure:elite_no_elite_comp} compares both no elite selection with an elite selection of 2. For a few selected repetitions, the best individual cost per generation is plotted.
+\subsubsection{Elite Selection}
+Although the optimal hyperparameter setting are discussed in chapter \ref{chap:evaluation}, a problem was obvious when analysing results of a GA using the settings from \ref{para:hyperparameter_tuning:optimum_perf_caluclation}. Setbacks in the optimal cost between two generations happen frequently, likely due to the high crossover and mutation rates. In order to mitigate this problem, it was decided to implement elite selection with a size of 2. Per generation, the two best individuals are now copied into the next generation without modifications, which makes worse performance between generations not possible. It is important to note, that the two best individuals can still be selected by tournament selection for modification, its just that a copy of them is saved. Figure \ref{figure:elite_no_elite_comp} compares both no elite selection with an elite selection of 2. For a few selected repetitions, the best individual cost per generation is plotted.
 
 \begin{figure}[ht] 
 	\label{figure:elite_no_elite_comp}
