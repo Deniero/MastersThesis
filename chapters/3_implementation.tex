@@ -68,7 +68,7 @@ The algorithm has full access over the setting of actions for all NPCs. Searchin
 A few default settings for the genetic algorithm were chosen. It was decided for example, that the genetic algorithm will be able to set an action per actor every 50 steps, which translates to 0.5 seconds (simulation runs at 100hz). In other words, every 50 steps of the simulation is 1 timestep for the genetic algorithm. If the GA decides to not set an action, "NoAction" will be used as a placeholder.
 
 \subsection{Maximum Number of Generations}
-A fixed maximum number of generation is a commonly used stopping criteria. While more complex methods like a "adaptive convergence rate" might lead to better performance, it was decided that the additional complexity of having to choose a suitable convergence rate outweighs its pros. Especially considering that a genetic algorithm already has a lot of different control parameters that need tuning.
+A fixed maximum number of generation is a commonly used stopping criteria. While more complex methods like a "adaptive convergence rate" might lead to better performance, it was decided that the additional complexity of having to choose a suitable convergence rate outweighs its potential benefits. Especially considering that a genetic algorithm already has a lot of different control parameters that need tuning.
 
 Performance is always a big consideration in this thesis, thus a lower maximum number of generations is preferred. During testing, a generation size of 30 was almost always sufficient and will be used in all of the coming testing.
 
@@ -79,7 +79,7 @@ Here, each chromosome is required to include all actions of one whole simulation
 The different encodings presented in section \ref{chap:foundation:ga:encoding} were not directly applicable to the given problem. A custom encoding for both chromosomes and genes needed to be generated.
 
 \subsubsection{Chromosome}
-Two different encodings proved to be a good fit. Both use the position of a gene inside the chromosome to define the time step of an action. Which chromosome encoding is the most adequate will be discussed and tested in Chapter \ref{chap:hyperparameter_tuning}.
+Two different encodings proved to be a good fit. Both use the position of a gene inside the chromosome to define the time step of an action. Which chromosome encoding is the most adequate will be discussed and tested in chapter \ref{chap:hyperparameter_tuning}.
 
 \paragraph{Time}
 The first encoding is called Time. Each gene corresponds to 1 time step (so 1 gene per every 0.5 seconds), and needs to contain all actions of all NPCs at this particular moment. A gene is a list of the size of the number of NPCs. Each object in this lists equals an action. The index of an action inside a gene corresponds to the NPC ID. For example, an action positioned in the gene at index 2, will be applied to NPC 2. If the gene is at position 6 in the chromosome, the action will be set at second 3.0 in the simulation. A visualization is seen in figure \ref{figure:encoding:chromosome:time}.
@@ -95,7 +95,7 @@ Given the previously stated simulation time of 35 seconds, each chromosome has a
 Crossover can now only move all actions of a time step at once, modifications in the timeline between actions of the same time step will only happen due to a mutation operation.
 
 \paragraph{Time+NPC}
-The second encoding is called Time+NPC. Here, one gene corresponds to exactly one action. In order to not loose required information, the ID of each NPC now needs to be encoded into the genes position of its chromosome. One might visualize this as unfolding the matrix build by the genes and chromosome in encoding Time into a linear array. Each actors actions will be listed one after another. Now, each gene has a length of $1$ and each chromosome has a length of $35 * 2 * number\_of\_actors$, which makes them much longer compared to the previous encoding. Figure\ref{figure:encoding:chromosome:time_npc} provides a visualization. In this example, a gene at position 13 corresponds to an action for NPC 2 at time step 3 (which is at 1.5 seconds in the simulation).
+The second encoding is called Time+NPC. Here, one gene corresponds to exactly one action. In order to not loose required information, the ID of each NPC now needs to be encoded into the genes position of its chromosome. One might visualize this as unfolding the matrix build by the genes and chromosome in encoding Time into a linear array. Each actors actions will be listed one after another. Now, each gene has a length of $1$ and each chromosome has a length of $35 * 2 * number\_of\_actors$, which makes them much longer compared to the previous encoding. Figure \ref{figure:encoding:chromosome:time_npc} provides a visualization. In this example, a gene at position 13 corresponds to an action for NPC 2 at time step 3 (which is at 1.5 seconds in the simulation).
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{figures/time_npc_encoding}
@@ -134,7 +134,7 @@ The second encoding for genes corresponds exactly to the actual actions used in 
 	\label{figure:encoding:gene:dict}
 \end{figure}
 
-Compared to Integer encoding, this method allows for much higher granularity when selecting parameters. If the performance of a genetic algorithm differs between these settings will be investigated in Chapter \ref{chap:hyperparameter_tuning}.
+Compared to Integer encoding, this method allows for much higher granularity when selecting parameters. If the performance of a genetic algorithm differs between these settings will be investigated in chapter \ref{chap:hyperparameter_tuning}.
 
 \subsection{Cost Function}
 \label{implementation:cost_function}

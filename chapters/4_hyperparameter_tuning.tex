@@ -6,13 +6,13 @@ The performance of a genetic algorithm is significantly influenced by its contro
 According to the "No Free Lunch Theorem", no single algorithm will outperform all other algorithms on a single class of problem (\cite{kacprzyk_parameter_2007}). \cite{kacprzyk_parameter_2007} further states, that "the No Free Lunch results place an obligation on the EA practitioner to understand something about the particular properties of the problems that (s)he is trying to solve that relate to particular choices of EA parameter settings."
 A human-in-the-loop approach is needed to fine-tune parameter settings to a particular problem.
 
-This Chapter will focus on tuning the genetic algorithm to perform well on the given cost function. First, a choice on the optimal population size is made. Afterwards a Taguchi method is used for tuning the remaining hyperparameter.
+This chapter will focus on tuning the genetic algorithm to perform well on the given cost function. First, a choice on the optimal population size is made. Afterwards a Taguchi method is used for tuning the remaining hyperparameter.
 
 \section{Simulation Setup}
 \label{chap:hyperparameter_tuning:simulation_setup}
 Two workstations were available for running all of the following simulations. The first workstation had an Intel Core i7-9700K and a GeForce RTX 2070 SUPER with 32 GB of RAM. The second workstation had an Intel Core i7-6850K as well as two Nvidia GeForce GTX 1080 also with 32 GB of RAM. On both systems, Kubuntu 20.04 LTS was the operating system.
 
-As has been defined in Chapter \ref{chap:implementation}, each genetic algorithm will run for 30 generations. Additionally 1 simulation will have a duration of 35 seconds. On a single workstation, it takes approximately 3 hours and 50 minutes to complete one genetic algorithm with a population size of 96. This time indication is however influenced by the number of actors. 
+As has been defined in chapter \ref{chap:implementation}, each genetic algorithm will run for 30 generations. Additionally 1 simulation will have a duration of 35 seconds. On a single workstation, it takes approximately 3 hours and 50 minutes to complete one genetic algorithm with a population size of 96. This time indication is however influenced by the number of actors. 
 
 Town 10 from the driving simulator Carla\footnote{\href{https://carla.readthedocs.io/en/latest/map_town10/}{https://carla.readthedocs.io/en/latest/map\_town10/}} will be used as the map for all experiments. It has an adequate size, yet is not too big and allows for interesting manoeuvrers.
 
@@ -86,7 +86,7 @@ Each run will be executed 5 times to reduce randomness and to make the results m
 \end{table}
 
 In figure \ref{figure:population:results}, the results per population are plotted. The line is corresponds to the mean, while the bars show the spread (min to max) of all 5 repetitions.
-\begin{figure}[ht] 
+\begin{figure}[h] 
 	\includegraphics[width=1\linewidth]{simulations/population/plots/comparison}
 	\caption{mean and error bars per population size}
 		\label{figure:population:results}
@@ -127,13 +127,13 @@ Fractional factorial experiments require less runs ... \todo{Add Short explanati
 
 
 \subsection{Taguchi Method}
-Various improvements to design of experiment have been but forward by Dr. Genichi Taguchi, such as reducing the influence of uncontrollable (noise) factors on processes and products and reducing variability (\cite{roy_primer_1990}). This master's thesis will not discuss all of Taguchi's proposed considerations, for more detail \cite{roy_primer_1990} as well as \cite{yang_design_2009} is highly recommended.
+Various improvements to design of experiment have been but forward by Dr. Genichi Taguchi, such as reducing the influence of uncontrollable (noise) factors on processes and products and reducing variability (\cite{roy_primer_1990}). This master's thesis will not discuss all of Taguchi's proposed considerations, for more detail \cite{roy_primer_1990} as well as \cite{yang_design_2009} are recommended.
 
 Taguchi's proposed experimental design is a fractional factorial design, that requires significantly less runs. While different fractional factorial designs are available, Taguchi was chosen, because he provides a simple and easy to follow procedure which requires only a minimal number of runs.
 
 \begin{quote}
 	\begin{em}
-		\enquote{ There are many similarities between “regular” experimental design and Taguchi's experimental design. However, in a Taguchi experiment, only the main effects and two-factor interactions are considered. Higher-order interactions are assumed to be non-existent. In addition, experimenters are asked to identify which interactions might be significant before conducting the experiment, through their knowledge of the subject matter.} (\cite{yang_design_2009})
+		\enquote{There are many similarities between “regular” experimental design and Taguchi's experimental design. However, in a Taguchi experiment, only the main effects and two-factor interactions are considered. Higher-order interactions are assumed to be non-existent. In addition, experimenters are asked to identify which interactions might be significant before conducting the experiment, through their knowledge of the subject matter.} (\cite{yang_design_2009})
 	\end{em}
 \end{quote}
 
@@ -222,9 +222,10 @@ This leads to the following calculation for the needed 3 factors of level 4 and 
 	\end{split}
 \end{equation}
 
-A $L_{16}$ array seems suitable to accommodate the required 15 DOF, which can be seen in \ref{table:hyperparameter_tuning:L16_orhtogonal_array}.
+A $L_{16}$ array seems suitable to accommodate the required 15 DOF, which can be seen in table \ref{table:hyperparameter_tuning:L16_orhtogonal_array}.
 
-\begin{table}[ht]
+\begin{table}[h]
+	\label{table:hyperparameter_tuning:L16_orhtogonal_array}
 	\centering
 \begin{tabular}{ |c||c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|  }
 	\hline
@@ -249,7 +250,6 @@ A $L_{16}$ array seems suitable to accommodate the required 15 DOF, which can be
 	16 & 2 & 2 & 1 & 2 & 1 & 1 & 2 & 2 & 1 & 1 & 2 & 1 & 2 & 2 & 1\\
 	\hline
 \end{tabular}
-\label{table:hyperparameter_tuning:L16_orhtogonal_array}
 \caption{ $L_{16}(2^{15})$ Taguchi orthogonal array taken from \cite{roy_primer_1990}}
 \end{table}
 
@@ -427,26 +427,26 @@ This combination table will subsequently be used as settings for the simulation 
 
 \begin{table}[ht]
 	\centering
-	\begin{tabular}{ |c||c|c|c|c|c|c|c|c|c|  }
+	\begin{tabular}{ |c||c|c|c|c|c|c|c|c|  }
 		\hline
-		NO.& A & B & C & D & E & F & G & FG& DE\\
+		NO.& A & B & C & D & E & F & G & DE\\
 		\hline
-		1  & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\
-		2  & 1 & 2 & 2 & 1 & 2 & 1 & 2 & 2 & 2\\
-		3  & 1 & 3 & 3 & 2 & 1 & 2 & 1 & 2 & 2\\
-		4  & 1 & 4 & 4 & 2 & 2 & 2 & 2 & 1 & 1\\
-		5  & 2 & 1 & 2 & 2 & 1 & 2 & 2 & 1 & 2\\
-		6  & 2 & 2 & 1 & 2 & 2 & 2 & 1 & 2 & 1\\
-		7  & 2 & 3 & 4 & 1 & 1 & 1 & 2 & 2 & 1\\
-		8  & 2 & 4 & 3 & 1 & 2 & 1 & 1 & 1 & 2\\
-		9  & 3 & 1 & 3 & 2 & 2 & 1 & 2 & 2 & 1\\
-		10 & 3 & 2 & 4 & 2 & 1 & 1 & 1 & 1 & 2\\
-		11 & 3 & 3 & 1 & 1 & 2 & 2 & 2 & 1 & 2\\
-		12 & 3 & 4 & 2 & 1 & 1 & 2 & 1 & 2 & 1\\
-		13 & 4 & 1 & 4 & 1 & 2 & 2 & 1 & 2 & 2\\
-		14 & 4 & 2 & 3 & 1 & 1 & 2 & 2 & 1 & 1\\
-		15 & 4 & 3 & 2 & 2 & 2 & 1 & 1 & 1 & 1\\
-		16 & 4 & 4 & 1 & 2 & 1 & 1 & 2 & 2 & 2\\
+		1  & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\
+		2  & 1 & 2 & 2 & 1 & 2 & 1 & 2 & 2\\
+		3  & 1 & 3 & 3 & 2 & 1 & 2 & 1 & 2\\
+		4  & 1 & 4 & 4 & 2 & 2 & 2 & 2 & 1\\
+		5  & 2 & 1 & 2 & 2 & 1 & 2 & 2 & 2\\
+		6  & 2 & 2 & 1 & 2 & 2 & 2 & 1 & 1\\
+		7  & 2 & 3 & 4 & 1 & 1 & 1 & 2 & 1\\
+		8  & 2 & 4 & 3 & 1 & 2 & 1 & 1 & 2\\
+		9  & 3 & 1 & 3 & 2 & 2 & 1 & 2 & 1\\
+		10 & 3 & 2 & 4 & 2 & 1 & 1 & 1 & 2\\
+		11 & 3 & 3 & 1 & 1 & 2 & 2 & 2 & 2\\
+		12 & 3 & 4 & 2 & 1 & 1 & 2 & 1 & 1\\
+		13 & 4 & 1 & 4 & 1 & 2 & 2 & 1 & 2\\
+		14 & 4 & 2 & 3 & 1 & 1 & 2 & 2 & 1\\
+		15 & 4 & 3 & 2 & 2 & 2 & 1 & 1 & 1\\
+		16 & 4 & 4 & 1 & 2 & 1 & 1 & 2 & 2\\
 		\hline
 	\end{tabular}
 	\caption{Final version of used Taguchi orthogonal array}
@@ -457,7 +457,7 @@ This combination table will subsequently be used as settings for the simulation 
 \subsection{Result Analysis}
 \label{chap:hyperparameter_tuning:analysis_of_results}
 The final table \ref{table:hyperparameter_tuning:final_taguchi} will be used for running all the needed testcases (the interaction columns can be ignored until the evaluation). Transcoding all factors and levels to get the corresponding setting can be done using the table from \ref{table:hyperparameter_tuning:settings_to_level}. Every setting will be repeated 8 times to reduce randomness and gain information about variance. 
-Running the genetic algorithm with these 16 different settings each repeated 8 times took 10 days on the two in Section \ref{chap:hyperparameter_tuning:simulation_setup} described workstations. The results are found in the appendix at \ref{table:appendix:hyperparameter_tuning:final_taguchi}.
+Running the genetic algorithm with these 16 different settings each repeated 8 times took 10 days on the two in section \ref{chap:hyperparameter_tuning:simulation_setup} described workstations. The results are found in the appendix at \ref{table:appendix:hyperparameter_tuning:final_taguchi}.
 
 \subsubsection{ANOVA}
 ANOVA analysis (analysis of variance) will provide information on the magnitude of contribution of the main effects and interactions. The calculation of ANOVA on a Taguchi experiment is the same as for a classical design of experiment (\cite{yang_design_2009}). Calculating ANOVA is done using the programming language R\footnote{\href{https://www.r-project.org/}{https://www.r-project.org/}} and the result can be seen in table \ref{table:taguchi:anova_results}.
@@ -655,7 +655,7 @@ The resulting ANOVA table can be seen in \ref{table:taguchi:s_n_anova_results}.
 	\label{table:taguchi:s_n_anova_results}
 \end{table}
 
-When looking at the p values of this table, it is obvious that no factor can discard the null-hypothesis, which states that a factor has no significant effect. Considering this fact, it was deemed to not be necessary to perform further investigations. The often recommend Signal to Noise ratio does not seem to suitable for this experiment, thus the previously calculated settings in Paragraph \ref{para:hyperparameter_tuning:optimum_perf_caluclation} will not be adjusted.
+When looking at the p values of this table, it is obvious that no factor can discard the null-hypothesis, which states that a factor has no significant effect. Considering this fact, it was deemed to not be necessary to perform further investigations. The often recommend Signal to Noise ratio does not seem to suitable for this experiment, thus the previously calculated settings in paragraph \ref{para:hyperparameter_tuning:optimum_perf_caluclation} will not be adjusted.
 
 \subsubsection{Elite Selection}
 Although the optimal hyperparameter setting are discussed in chapter \ref{chap:evaluation}, a problem was obvious when analysing results of a GA using the settings from \ref{para:hyperparameter_tuning:optimum_perf_caluclation}. Setbacks in the optimal cost between two generations happen frequently, likely due to the high crossover and mutation rates. In order to mitigate this problem, it was decided to implement elite selection with a size of 2. Per generation, the two best individuals are now copied into the next generation without modifications, which makes worse performance between generations not possible. It is important to note, that the two best individuals can still be selected by tournament selection for modification, its just that a copy of them is saved. Figure \ref{figure:elite_no_elite_comp} compares both no elite selection with an elite selection of 2. For a few selected repetitions, the best individual cost per generation is plotted.
@@ -663,7 +663,7 @@ Although the optimal hyperparameter setting are discussed in chapter \ref{chap:e
 \begin{figure}[ht] 
 	\label{figure:elite_no_elite_comp}
 	\includegraphics[width=1\linewidth]{simulations/evaluation/plots/elite_vs_no_elite_generations}
-	\caption{Elite Comparison}
+	\caption{Elite Selection Comparison}
 \end{figure}
 
 For analysing the statistical significance in the differences in mean between the a genetic algorithm using elite selection of 2 vs no elite selection, a t-test can be used. In order to ignore possible violation of the assumption of homogeneity, a robust welch t-test is applied which adjusts the DOF accordingly (\cite{field_discovering_2012}).
@@ -673,10 +673,10 @@ On average, using elite improved the performance (M = 8.52, SE = *), compared to
 \begin{figure}[ht] 
 	\label{figure:elite_comparison}
 	\includegraphics[width=1\linewidth]{simulations/evaluation/plots/elite_vs_no_elite}
-	\caption{Comparison Elite vs No Elite}
+	\caption{Comparison Elite Selection vs No Elite Selection}
 \end{figure}
 
-Due to the existence of the mentioned small effect, it is concluded that the slightly modified version of the settings from \ref{para:hyperparameter_tuning:optimum_perf_caluclation} will be used in Chapter \ref{chap:evaluation}, where elite selection is set to 2.
+Due to the existence of the mentioned small effect, it is concluded that the slightly modified version of the settings from \ref{para:hyperparameter_tuning:optimum_perf_caluclation} will be used in chapter \ref{chap:evaluation}, where elite selection is set to 2.
 
 \paragraph{Effect Size}
 According to \cite{field_discovering_2012} effect sizes provide an objective measure on the importance of an effect, where 0 means no effect and 1 means a perfect effect. They allow for a standardized measure and are not affected by sample size. He further recommends to use the widely used suggestions made by Cohen (1988, 1992) \todo{Find paper} on defining between a large or small effect:
