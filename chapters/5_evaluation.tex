@@ -56,8 +56,30 @@ To further analyse both genetic algorithms, a look at their performance over the
 After generation 10, the rate of improved fitness of the Default GA drops compared to the Optimized GA. A combined early sharp decline in the diversity, suggests a connection. The Optimized GA shows to hold the diversity in the population longer, its rate of convergence is linear. Its high crossover and mutation rates seem to help with the improved diversity. The graph also shows, that a higher number of generations might not be useful for improved performance, as after 30 generations, the Optimized GA does not seem to hold enough diversity to continue with adequate performance gains. 
 
 \section{Start Scenario 2}
-9 Vehicles and 5 pedestrians. same number as start scenario 1.\todo{simulations have not yet finished}
+Start scenario 2 has with 9 vehicles and 5 predestrians the same amount of NPCs as start scenario 1 and is described in more detail in Appendix \ref{figure:appednix:start_scenario_3}
 
+\begin{figure}[ht] 
+	\label{figure:sim_2_comparison}
+	\includegraphics[width=1\linewidth]{simulations/evaluation/plots/sim_2_comparison}
+	\caption{Start Scenario 2: Default GA vs Optimized GA vs Random Search}
+\end{figure}
+
+Figure \ref{figure:sim_2_comparison} shows, that the Optimized GA can also provide better results compared to the other two algorithms in start scenarios where it has not be trained on. The Optimized GA (M = 9.24, SE = ?) achieves better fitness on average compared to the Default GA (M = 7.46, SE = ?), with a significant difference \textit{t}(17.98) = 4.19, p < 0.001 and a large effect of r = 0.7. The difference in the average fitness value compared Random Search (M = 5.13, SE = ?) is significant as well with \textit{t}(12.57) = 12.7, p < 0.001 and a large effect of r = 0.96.
+
+\begin{figure}[ht] 
+	\label{figure:sim_2_ga_comparison}
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{simulations/evaluation/plots/sim_2_ga_generations} 
+	\end{minipage}%%
+	\begin{minipage}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{simulations/evaluation/plots/sim_2_ga_diversity} 
+	\end{minipage} 
+	\caption{Start Scenario 2: Comparison of GAs}
+\end{figure}
+
+The comparison shown in figure \ref{figure:sim_2_ga_comparison} seams very similar to the comparison discussed in start scenario 1. On the one hand, the Default GA shows a slower performance increase starting already from generation 8. On the other hand, the diversity of the Optimized GA drops a bit sooner. Still both evaluations show, that the Optimized GA performs well in start scenarios with the given amount of NPCs.
 
 \section{Start Scenario 3}
 \label{chap:evaluation:scenario_3}

@@ -162,7 +162,7 @@ plot.test_of_interaction <- ggplot(test_of_interaction, aes(x=factor_2_level, y=
   scale_x_discrete(expand = c(0.1, 0.1)) +
   labs(x = "E", y = "", color = "D")
 print(plot.test_of_interaction)
-ggsave("taguchi/plots/test_of_interaction.jpg", plot = plot.test_of_interaction, width = 9, height = 8, units = "cm", dpi = 600)
+ggsave("taguchi/plots/test_of_interaction.jpg", plot = plot.test_of_interaction, width = 12, height = 8, units = "cm", dpi = 600)
 
 
 # calc Predicted Optiumum performance with interaction DE
