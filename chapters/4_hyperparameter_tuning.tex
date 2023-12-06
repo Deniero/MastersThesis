@@ -144,22 +144,9 @@ Taguchi predefined a number of different orthogonal arrays where each row contai
 The researcher has the responsibility to select an array based on the individual needs (\cite{li_taguchi_2021}).
 Using these orthogonal arrays instead of full factorial experiments will lead to a much smaller amount of simulation runs, while the full factorial experiments \enquote{might not provide appreciably more useful information} (\cite{roy_primer_1990}).
 
-\todo{explain cons (e.g. higher order interactions are not possible) and orthogonality}
-\iffalse
-" OFF and OLH experiment designs sample a full factorial design space in a balanced and orthogonal fashion. Balance ensures good effect estimates by reducing an estimator’s bias and variability. Orthogonality ensures good estimates of two-term interactions. Balance is achieved by ensuring that each level of every factor occurs an equal number of times in the selected sample. Orthogonality is achieved by ensuring that each pair of levels occurs an equal number of times across all experiment parameters in the selected sample. OFF and OLH designs exhibit good space-spanning properties, which aid screening, sensitivity, and comparative analyses. On the other hand, highly fractionated OFF or OLH designs can have poor space-filling properties, which are necessary for optimization analyses.
+A big drawback of using Taguchi orthogonal arrays is the inability of evaluating higher order interaction effects. It is only possible to measure the interaction between 2-level factors. Not only are higher order interaction effects not possible to evaluate, they also have an influence on the performance. Orthogonal array experiments perform best in cases of minimal interaction between factors. While there is still a good chance of identifying the optimum condition, especially the performance estimate can be significantly off (\cite{roy_primer_1990}).
 
-"\cite{mills_determining_2015}
-
-As has been stated, probably the biggest drawback of using Taguchi orthogonal arrays is on the one hand to increased manual labour and on the other hand the fact, that higher order interactions ignored.
-
-\cite{roy_primer_1990} explains why this might not be a big problem:
-\enquote{Generally speaking, OA experiments work well when there is minimal interaction among factors; that is, the factor influences on the measured quality objectives are independent of each other and are linear. In other words, when the outcome is directly proportional to the linear combination of individual factor main effects, OA design identifies the optimum condition and estimates performance at this condition accurately. If, however, the factors interact with each other and influence the outcome, there is still a good chance that the optimum condition will be identified accurately, but the estimate of performance at the optimum can be significantly off. The degree of inaccuracy in performance estimates will depend on the degree of complexity of interactions among all the factors.}
-
-This is complimented by \cite{yang_design_2009}, who states, that:
-\enquote{During many years of applications of factorial design, people have found that higher-order interaction effects (i.e., interaction effects involving three or more factors) are very seldom significant. In most experimental case studies, only some main effects and two-factor interactions are significant.}
-
-However, \cite{kacprzyk_parameter_2007} claim, that "tuning EA parameters can itself be a challenging task since EA parameters interact in highly non-linear ways." It remains to be seen in it is possible to use this method for optimizing parameters of a genetic algorithm.
-\fi
+While \cite{yang_design_2009} state that in many cases higher-order interaction effects in factorial designs are seldom significant, this might not be the case for genetic algorithms. For example \cite{kacprzyk_parameter_2007} claimed, that control parameters of a genetic algortithm \enquote{interact in highly non-linear ways.} If the proposed method is able to provide a suitable set of hyperparameter settings will be evaluated chapter \ref{chap:evaluation}. \todo{ref both ga taguchi paper and say, that in no cases interactions were analysed}
 
 \paragraph{Selection of an Orthogonal Array}
 When choosing a suitable Taguchi orthogonal array, various factors have to be taken into account. According to \cite{yang_design_2009}, a three step procedure needs to be followed:
