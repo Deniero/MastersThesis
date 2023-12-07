@@ -1,12 +1,12 @@
 \chapter{Foundations}
-\label{chap:foundation}
+\label{chap:foundations}
 
 \section{ADAS/AD}
 \todo{probably talk about ADAS/AD here...}
 
 
 \section{Genetic Algorithm}
-\label{chap:foundation:genetic_algorithm}
+\label{sect:foundations:genetic_algorithm}
 
 Pioneered by \cite{holland_adaptation_1992}, genetic algorithms (GAs) imitate the process of natural selection and the darwinian principle called "survival of the fittest". Genetic algorithms are a subclass of evolutionary algorithms and explore the solution space using a population of individuals (\cite{mills_determining_2015}). Each individual contains one chromosome, which serves as a candidate solution. Using genetic operations, the individuals mate among themselves and mutate independently. 
 
@@ -55,11 +55,11 @@ In contrast to that, a low convergence rate might be time consuming and result i
 Due to no real consensus on the best control parameter settings, their optimal selection proves to be difficult.
 
 \subsection{Chromosomes and Genes}
-\label{chap:foundation:ga:encoding}
+\label{sect:foundations:chromosomes_and_genes}
 
 \todo{explain genes and chromosomes a bit more}
 
-The encoding of genes proved to be, besides the hyperparamter tuning, the main challenge of setting up a genetic algorithm pipeline.
+The encoding of genes proved to be, besides the hyperparameter tuning, the main challenge of setting up a genetic algorithm pipeline.
 A simple and commonly used representation for genes is binary encoding. As suggested by its name, a gene can take on the form of 0 or 1. Further common encodings are octal and hexadecimal representations (\cite{srinivas_genetic_1994}, \cite{katoch_review_2021}).
 
 \cite{srinivas_genetic_1994} suggest to use integer representations in case a optimization problem has real-valued continuous variables, where the objects are linearly mapped to integers defined in a specific range. It is possible to again represent these integers as binary encodings. Various other encodings are available, often very problem specific. For example tree encodings allows for genes to represent programming functions, leading to a subcategory of genetic algorithms called "genetic programming" (\cite{katoch_review_2021}).
