@@ -23,7 +23,7 @@ parse_csv_min_data <- function(raw_csv_results) {
 
 
 #### settings ####
-simulation_name = "sim_2"
+simulation_name = "sim_4"
 num_of_gen = 30
 res_row_size = 1
 res_column_size = 45
@@ -60,6 +60,12 @@ sim.res_column_names <- colnames(sim.res)
 sim.res_column_names <- sim.res_column_names[sim.res_column_names != "simulation"]
 sim.res.melted<-melt(sim.res, id = c("simulation"), measured = sim.res_column_names)
 sim.res.melted$value <- ((-sim.res.melted$value + 3500) / 100)
+
+sim.res.translated <- sim.res
+sim.res.translated[, res_col_names] <- (3500 - sim.res.translated[, res_col_names]) / 100
+x <- xtable(sim.res.translated)
+#digits(x) <- 0
+print(x)
 
 # merge diversity
 sim.opt_diversity$simulation <- "Optimized"
