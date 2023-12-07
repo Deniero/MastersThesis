@@ -50,7 +50,6 @@ melted$value <- ((-melted$value + 3500) / 100)
 
 plot.bp <- ggplot(melted, aes(value, simulation)) + 
   geom_boxplot(color="#457b9d") + 
-  geom_point(color="#457b9d") + 
   labs(x = "Cummulated Emergency Break Duration", y = "")
 print(plot.bp)
 ggsave("evaluation/plots/elite_vs_no_elite.jpg", plot = plot.bp, width = 16, height = 4, units = "cm", dpi = 1000)
@@ -97,9 +96,24 @@ ggsave("evaluation/plots/elite_vs_no_elite_generations.jpg", plot = plot.line.co
 
 t_test<-t.test(value ~ simulation, data = melted)
 print(t_test)
+
+group_summary <- melted %>%
+  group_by(simulation) %>%
+  summarise(std = sd(value))
+
+group_size <- length(res_col_names)
+group_summary$se <- group_summary$std / sqrt(group_size)
+print('SE:')
+print(group_summary)
+
+
 t<-t_test$statistic[[1]]
 df<-t_test$parameter[[1]]
 r <- sqrt(t^2/(t^2+df))
 
+
+
 print("Effect Size:")
 print(round(r, 3))
+
+

@@ -143,6 +143,17 @@ t<-t_test$statistic[[1]]
 df<-t_test$parameter[[1]]
 r <- sqrt(t^2/(t^2+df))
 
+group_summary <- sim.res.melted.only_ga %>%
+  group_by(simulation) %>%
+  summarise(std = sd(value))
+
+group_size <- length(res_col_names)
+group_summary$se <- group_summary$std / sqrt(group_size)
+print('SE:')
+print(group_summary)
+
+
+
 print("Effect Size:")
 print(round(r, 3))
 
@@ -155,6 +166,17 @@ print(t_test)
 t<-t_test$statistic[[1]]
 df<-t_test$parameter[[1]]
 r <- sqrt(t^2/(t^2+df))
+
+
+group_summary <- sim.res.melted.rand_with_opt %>%
+  group_by(simulation) %>%
+  summarise(std = sd(value))
+
+group_size <- length(res_col_names)
+group_summary$se <- group_summary$std / sqrt(group_size)
+print('SE:')
+print(group_summary)
+
 
 print("Effect Size:")
 print(round(r, 3))

@@ -33,8 +33,8 @@ First, a comparison of the three algorithms on start scenario 1 was made. This i
 
 Analysing the graph, the Optimized GA clearly outperformed the Default GA as well as Random Search.
 
-Welchs t-test shows that on average, greater fitness is achieved by using Optimized GA (M = 8.52, SE = ?) than from using Default GA (M = 7.09, SE = ?). This difference was significant \textit{t}(17.87) = 3.15, p < .01. It did represent a large effect r = 0.60.
-Compared to Random (M = 4.943, SE = ?), the Optimized GA has even higher dominance, with a significant difference \textit{t}(16.9) = 7.12, p < .001 and a large effect r = 0.87.
+Welchs t-test shows that on average, greater fitness is achieved by using Optimized GA (M = 8.52, SE = 0.31) than from using Default GA (M = 7.09, SE = 0.34). This difference was significant \textit{t}(17.87) = 3.15, p < .01. It did represent a large effect r = 0.60.
+Compared to Random (M = 4.943, SE = 0.4), the Optimized GA has even higher dominance, with a significant difference \textit{t}(16.9) = 7.12, p < .001 and a large effect r = 0.87.
 
 The better performance of the Optimized GA was however unsurprising, as it was specifically trained on the used start scenario.
 
@@ -64,7 +64,7 @@ Start scenario 2 has with 9 vehicles and 5 predestrians the same amount of NPCs 
 	\caption{Start Scenario 2: Default GA vs Optimized GA vs Random Search}
 \end{figure}
 
-Figure \ref{fig:evaluation:sim_2_comparison} shows, that the Optimized GA can also provide better results compared to the other two algorithms in start scenarios where it has not be trained on. The Optimized GA (M = 9.24, SE = ?) achieves better fitness on average compared to the Default GA (M = 7.46, SE = ?), with a significant difference \textit{t}(17.98) = 4.19, p < 0.001 and a large effect of r = 0.7. The difference in the average fitness value compared Random Search (M = 5.13, SE = ?) is significant as well with \textit{t}(12.57) = 12.7, p < 0.001 and a large effect of r = 0.96.
+Figure \ref{fig:evaluation:sim_2_comparison} shows, that the Optimized GA can also provide better results compared to the other two algorithms in start scenarios where it has not be trained on. The Optimized GA (M = 9.24, SE = 0.3) achieves better fitness on average compared to the Default GA (M = 7.46, SE = 0.31, with a significant difference \textit{t}(17.98) = 4.19, p < 0.001 and a large effect of r = 0.7. The difference in the average fitness value compared Random Search (M = 5.13, SE = 0.13) is significant as well with \textit{t}(12.57) = 12.7, p < 0.001 and a large effect of r = 0.96.
 
 \begin{figure}[ht] 
 	\label{fig:evaluation:sim_2_ga_comparison}
@@ -93,8 +93,8 @@ Start scenario 3 is described in more detail in Appendix \ref{fig:appendix:start
 
 Looking at the graph, the Optimized GA again outperforms the Random Search, however there seams to be only marginal improvements compared to Default GA. 
 
-A t-test confirms these findings. While on average, greater fitness is achieved by using Optimized GA (M = 6.66, SE = ?) than from using Default GA (M = 6.49, SE = ?). This difference was however not significant \textit{t}(17.83) = 0.29, p > .05 and an effect size of r = 0.07.
-Verifying the better performance of the Optimized GA compared to Random Search (M = 4.619, SE = ?) shows a significat difference \textit{t}(12.4) = 4.9, p < .001 and a large effect size of r = 0.81.
+A t-test confirms these findings. While on average, greater fitness is achieved by using Optimized GA (M = 6.66, SE = 0.38) than from using Default GA (M = 6.49, SE = 0.42). This difference was however not significant \textit{t}(17.83) = 0.29, p > .05 and an effect size of r = 0.07.
+Verifying the better performance of the Optimized GA compared to Random Search (M = 4.619, SE = 0.17) shows a significant difference \textit{t}(12.4) = 4.9, p < .001 and a large effect size of r = 0.81.
 
 To further analyse both genetic algorithms, their performance over the generations next to their diversity chart is again shown in figure \ref{fig:evaluation:sim_3_ga_comparison}. The mean over 10 repetitions is plotted, the outline show the first and third quantiles.
 
@@ -124,8 +124,8 @@ Start scenario 4 can be seen in Appendix at \ref{fig:appendix:start_scenarios}. 
 \end{figure}
 
 Figure \ref{fig:evaluation:sim_4_comparison} shows the Optimized GA clearly outperforming the Default GA as well as Random Search.
-The Optimized GA (M = 10.60, SE = ?) has significantly greater fitness then the Default GA (M = 8.46, SE = ?) with \textit{t}(17.98) = 5.30, p < .001 and a large effect r = 0.78.
-Compared to Random Search (M = 6.86, SE = ?), the greater fitness of the Optimized GAs is significant with \textit{t}(11.71) = 12.7, p < .001 and a large effect r = 0.96.
+The Optimized GA (M = 10.60, SE = 0.29) has significantly greater fitness then the Default GA (M = 8.46, SE = 0.28) with \textit{t}(17.98) = 5.30, p < .001 and a large effect r = 0.78.
+Compared to Random Search (M = 6.86, SE = 0.14), the greater fitness of the Optimized GAs is significant with \textit{t}(11.71) = 12.7, p < .001 and a large effect r = 0.96.
 
 Both genetic algorithms performance over the generations next to their diversity chart is compared in figure \ref{fig:evaluation:sim_4_ga_comparison}.
 

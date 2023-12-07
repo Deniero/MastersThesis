@@ -111,9 +111,10 @@ Two different encodings for genes were implemented. A gene always consists of a 
 
 \paragraph{Integer}
 \todo{Bad explanation for integer encoding, needs rewriting}
-The first encoding uses integer, which are translated into actions when the simulation is started. For each action, a range of integers is assigned, the larger the range, the more likely the action is chosen by the GA. These ranges were assigned based on intuition and trial and error. In Appendix \todo{ref appendix} these probabilities can be viewed.
+\todo{maybe get probability table from appendix to this section}
+The first encoding uses integer, which are translated into actions when the simulation is started. For each action, a range of integers is assigned, the larger the range, the more likely the action is chosen by the GA. These ranges were assigned based on intuition and trial and error. In appendix\ref{tab:appendix:action_probabilities} these probabilities can be viewed.
 
-Actions have parameters split into different ranges, according to which values make sense. For example ModifyTargetVelocity has five different percentages assigned, namely 50, 70, 100, 130, 160. The range of integers assigned to each of these parts is different as well. A percentage setting of 100 for example has the largest integer range assigned.
+Actions have parameters split into different ranges, according to which values make sense. For example ModifyTargetVelocity has five different percentages assigned, namely 50, 70, 100, 130, 160. The range of integers assigned to each of these parts is different as well. A percentage setting of 100 for example has the largest integer range assigned, which can be seen in \ref{tab:appendix:integer_encoding_probabilities}.
 
 Actions will be split into 1 or more parts that get an range of integer assigned. Combing these ranges results in a continuos list of integers.
 The encoding is visualized in \ref{fig:implementation:encoding_gene_int}
@@ -126,7 +127,7 @@ The encoding is visualized in \ref{fig:implementation:encoding_gene_int}
 
 \paragraph{Dictionary}
 \todo{Also bad explanation for dictionary encoding, needs rewriting}
-The second encoding for genes corresponds exactly to the actual actions used in the simulations, requiring no translation. Each action is again selected based on the same probabilities as for the integer encoding\todo{ref appendix}. For actions without parameters, the different encoding will make no difference. However actions with parameters no longer are split into different discrete settings. Now, each parameter is chosen by a randomness function, which is individually selected per action. For example in case of the percentage parameter in ModifyTargetVelocity, the values are selected from a gaussian distribution with mu=100, sigma=25 and a range limit between 0 and 300. Figure \ref{fig:implementation:encoding_gene_dict} shows a visualization. Again, these probability functions with settings were assigned based on intuition as well as trial and error. Detailed information can be seen in Appendix \todo{ref appendix}.
+The second encoding for genes corresponds exactly to the actual actions used in the simulations, requiring no translation. Each action is again selected based on the same probabilities as for the integer encoding\ref{tab:appendix:action_probabilities}. For actions without parameters, the different encoding will make no difference. However actions with parameters no longer are split into different discrete settings. Now, each parameter is chosen by a randomness function, which is individually selected per action. For example in case of the percentage parameter in ModifyTargetVelocity, the values are selected from a gaussian distribution with mu=100, sigma=25 and a range limit between 0 and 300. Figure \ref{fig:implementation:encoding_gene_dict} shows a visualization. Again, these probability functions with settings were assigned based on intuition as well as trial and error. Detailed information can be seen in appendix\ref{tab:appendix:dict_encoding_probabilities}.
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{figures/dict_encoding}
