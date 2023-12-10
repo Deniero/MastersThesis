@@ -107,41 +107,89 @@ The second encoding is called Time+NPC. Here, one gene corresponds to exactly on
 However for this encoding to make sense, the crossover operations OnePoint and TwoPoint had to be modified. For each NPC, these crossover operations are applied individually. If this was not the case, OnePoint crossover would introduce changes to actions of only one NPC. Because the different crossover points are independently chosen, the position of the crossing differs between the NPCs. This fact allows the crossover operation to break up actions at the same time step, which was not possible with the Time encoding.
 
 \subsubsection{Gene}
-Two different encodings for genes were implemented. A gene always consists of a list, which depending on the chromosome type either has a length of $number\_of\_actors$ (in case of Time) or of length 1 (in case of Time+NPC). The following two encodings thus explain the type of object in these lists.
+Two different encodings for genes were implemented. A gene always consists of a list, which depending on the chromosome type either has a length of $number\_of\_actors$ (in case of Time) or of length 1 (in case of Time+NPC). 
+
+\todo{needs an additional sentence}The following two encodings thus explain the type of object in these lists. In both encodings, the probability of each action remains the same and can be seen in \ref{tab:implementation:action_probabilities}.
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{lc|lc}
+		\hline
+		\multicolumn{2}{c|}{Vehicles} & \multicolumn{2}{c}{Pedestrians} \\
+		ActionType & Probability & ActionType & Probability \\
+		\hline
+		NoAction & 65\% & NoAction & 84\% \\
+		JunctionSelection & 6\% & PedTurnHeading & 2\% \\
+		LaneChange & 10\% & PedCrossRoad & 4\% \\
+		AbortLaneChange & 2\% & CrossAtCrosswalk & 10\% \\
+		ModifyTargetVelocity & 17\% & & \\
+		\hline
+	\end{tabular}
+	\caption{Probability of Actions for Actors}
+	\label{tab:implementation:action_probabilities}
+\end{table}
+
+These probabilities were manually chosen based on experience. For example setting PedTurnHeading to a high probability will see many pedestrians change their direction in front of the EGO vehicle multiple times, in order to initiate emergency breaks by the EGO. 
 
 \paragraph{Integer}
-\todo{Bad explanation for integer encoding, needs rewriting}
-\todo{maybe get probability table from appendix to this section}
-The first encoding uses integer, which are translated into actions when the simulation is started. For each action, a range of integers is assigned, the larger the range, the more likely the action is chosen by the GA. These ranges were assigned based on intuition and trial and error. In appendix\ref{tab:appendix:action_probabilities} these probabilities can be viewed.
+The first encoding uses integer, which are translated into actions when the simulation is started. For each action, a range of integers is assigned, the larger the range, the more likely the action is chosen by the GA. These ranges correspond to the probabilities given in \ref{tab:implementation:action_probabilities}.
 
-Actions have parameters split into different ranges, according to which values make sense. For example ModifyTargetVelocity has five different percentages assigned, namely 50, 70, 100, 130, 160. The range of integers assigned to each of these parts is different as well. A percentage setting of 100 for example has the largest integer range assigned, which can be seen in \ref{tab:appendix:integer_encoding_probabilities}.
+Actions that have parameters need their assigned integer range to be manually split again. For example, it was decided, that ModifyTargetVelocity has five different percentage settings, namely 50, 70, 100, 130, 160. So each of these 5 settings needs a unique range of integers assigned, again with different lengths, in order to have different probabilities. A percentage setting of 100 for example has the largest integer range assigned. A complete list can be seen in \ref{tab:implementation:integer_encoding_probabilities}.
 
-Actions will be split into 1 or more parts that get an range of integer assigned. Combing these ranges results in a continuos list of integers.
-The encoding is visualized in \ref{fig:implementation:encoding_gene_int}
 
-\begin{figure}[ht] 
-	\includegraphics[width=1\linewidth]{figures/int_encoding}
-	\caption{Integer}
-	\label{fig:implementation:encoding_gene_int}
-\end{figure}
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{llc}
+		\hline
+		ActionType & Parameter & Probability \\
+		\hline
+		JunctionSelection 	& straight & 34\% \\
+		& left & 33\% \\
+		& right & 33\% \\
+		\hline
+		LaneChange 			& left & 50\% \\
+		& right & 50\% \\
+		\hline
+		ModifyTargetVelocity & 50 & 10\%\\
+		& 70 & 20\%\\
+		& 100 & 45\%\\
+		& 130 & 20\%\\
+		& 160 & 5\%\\
+		\hline
+	\end{tabular}
+	\caption{Integer Encoding: Probability of Parameters per Action}
+	\label{tab:implementation:integer_encoding_probabilities}
+\end{table}
+
+Combing these ranges results in a continuos list of integers. The genetic algorithm will choose integers in the list for its genes. Before a simulation is started, these integers are encoded back into actions.
 
 \paragraph{Dictionary}
-\todo{Also bad explanation for dictionary encoding, needs rewriting}
-The second encoding for genes corresponds exactly to the actual actions used in the simulations, requiring no translation. Each action is again selected based on the same probabilities as for the integer encoding\ref{tab:appendix:action_probabilities}. For actions without parameters, the different encoding will make no difference. However actions with parameters no longer are split into different discrete settings. Now, each parameter is chosen by a randomness function, which is individually selected per action. For example in case of the percentage parameter in ModifyTargetVelocity, the values are selected from a gaussian distribution with mu=100, sigma=25 and a range limit between 0 and 300. Figure \ref{fig:implementation:encoding_gene_dict} shows a visualization. Again, these probability functions with settings were assigned based on intuition as well as trial and error. Detailed information can be seen in appendix\ref{tab:appendix:dict_encoding_probabilities}.
+The second encoding for genes corresponds exactly to the actual actions used in the simulations, requiring no translation. Each action is again selected based on the same probabilities in \ref{tab:implementation:action_probabilities}. For actions without parameters, the different encoding will make no difference. However actions with parameters are no longer split into different discrete settings. Now, each parameter is chosen by a randomness function, which is individually selected per action. For example in case of the percentage parameter in ModifyTargetVelocity, the values are selected from a gaussian distribution with mu=100, sigma=25 and a range limit between 0 and 300. An overview is provided in table \ref{tab:implementation:dict_encoding_probabilities}.
+Again, these probability functions were assigned based on intuition as well as trial and error. 
 
-\begin{figure}[ht] 
-	\includegraphics[width=1\linewidth]{figures/dict_encoding}
-	\caption{Dictionary}
-	\label{fig:implementation:encoding_gene_dict}
-\end{figure}
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{lcc}
+		\hline
+		ActionType & SelectionFunction & Settings \\
+		\hline
+		JunctionSelection 	& Choice & [straight, left, right] \\
+		LaneChange 			& Choice & [left, right]\\
+		ModifyTargetVelocity & Gauss Distribution & Mu: 100, sigma: 25\\
+		\hline
+	\end{tabular}
+	\caption{Dictionary Encoding: Probability of Parameters per Action}
+	\label{tab:implementation:dict_encoding_probabilities}
+\end{table}
 
-Compared to Integer encoding, this method allows for much higher granularity when selecting parameters. If the performance of a genetic algorithm differs between these settings will be investigated in chapter \ref{chap:hyperparameter_tuning}.
+Compared to integer encoding, this method allows for much higher granularity when selecting parameters. However because only one action type has a setting, that allows for continuos variables, this difference might be insignificant. The contrast between the encodings will likely get more pronounced with an increasing number of implemented actions in the Action Interface. Chapter \ref{chap:hyperparameter_tuning} will investigate, if the performance of a genetic algorithm differs between these settings.
 
 \subsection{Cost Function}
 \label{sect:implementation:cost_function}
 This master's thesis only utilized internal values from the Traffic Manager for the cost function. Namely if the ego vehicle has to initiate an emergency break. The emergency break values are booleans stored in a list called result["ego\_emergency\_stop"] which has a length of $100 * simulation\_duration\_seconds$ (because of 100hz). 
 
-In case an emergency break lasts longer than 3 seconds, a penalty will be applied. This penalty was introduced as it mitigated results, where the ego vehicle is constantly brake-checked\footnote{\enquote{the unsafe action of applying a car’s brakes to dissuade a driver who is following too closely} according to \href{https://www.dictionary.com/e/slang/brake-check/}{https://www.dictionary.com/e/slang/brake-check/}} by the leading vehicle. The following code snipped shows the cost calculation:\todo{explain code a bit}
+In case an emergency break lasts longer than 3 seconds, a penalty will be applied. This penalty was introduced as it mitigated results, where the ego vehicle is constantly brake-checked\footnote{\enquote{the unsafe action of applying a car’s brakes to dissuade a driver who is following too closely} according to \href{https://www.dictionary.com/e/slang/brake-check/}{https://www.dictionary.com/e/slang/brake-check/}} by the leading vehicle. The following code snipped shows the cost calculation.
+
 \begin{lstlisting}[language=Python, tabsize=4]
 SEPS_PER_SECOND = 100
 # allow emergency breaks to last only 3 seconds
@@ -161,6 +209,8 @@ for i in range(len(result["ego_emergency_stop"])):
 		duration_counter += 1
 return cost
 \end{lstlisting}
+
+As long as the ego has no emergency stop initiated, the cost value will increase. If the emergency break max duration is exceeded, the cost value will increase as well. Only in cases where non of these two conditions are fulfilled, no cost will be added.
 
 The resulting cost values however are a not easy to interpret, thus these numbers are modified using equation \ref{equ:implementation:modified_cost}.
 

@@ -1,18 +1,20 @@
 \chapter{Conclusion}
-\todo{write better and longer conclusion}
-The in this master's thesis proposed settings for a genetic algorithm show good performance on the given search problem.
+The evaluated genetic algorithm displays good performance on the given search problem. The results of chapter \ref{chap:evaluation} show, that the optimized settings for a GA provide significant improvements in most start scenarios compared to general settings from the existing literature as well as compared to random search. Only in the case of a small number of NPCs, the performance seems to be on par with a genetic algorithm utilizing settings from the literature.
 
-The results of chapter \ref{chap:evaluation} prove, that the optimized settings GA shows significant improvements in most start scenarios compared to general settings from the literature as well as compared to random search. Only in the case of a small number of NPCs, the performance seems to be on par with a genetic algorithm utilizing settings from the literature.
+\subsection{Research Question 1}
+\begin{quote}
+	\begin{em}
+		\textit{Is a genetic algorithm suitable for generating critical driving scenarios compared to random search?}
+	\end{em}
+\end{quote}
 
-Compared to random testing, research question 1 definitely holds true. The optimized genetic algorithm will drastically improve performance when using the given cost function.
+Compared to random search, research question 1 definitely holds true. The optimized genetic algorithm will drastically improve performance when using the given cost function. In all four analysed starting scenarios, random search resulted overall in significantly worse results. There were no cases where a random search run surpassed the mean result of the optimized genetic algorithm runs.
 
-The second research question can be answered as well with yes. Taguchi orthogonal testing only needs a minimal amount of different experiments while leading to impressive performance improvements compared to using control parameters suggested by the literature.
+\subsection{Research Question 2}
+\begin{quote}
+	\begin{em}
+		\textit{Is it possible to improve the performance of a genetic algorithm by optimizing the control parameter using the taguchi method?}
+	\end{em}
+\end{quote}
 
-\section{Future Work}
-\subsection{Oracles}
-\todo{move to new section}
-\todo{add Responsibility-Sensitive Safety (RSS)}
-\todo{Better introduction}
-Using oracle functions to select interesting scenarios during the runtime of a genetic algorithm was already done by \cite{almanee_scenorita_2021}. Different oracle functions test for different thresholds in the simulation. Examples are 'overSpeedLimit', 'criticalLaneChange', 'criticalComfortLevel'. These functions will test each individual in the population. In case one or multiple functions return true, the individual scenario will be saved and automatically categorized according to the types of thresholds. The genetic algorithm remains unaffected.
-
-Oracles have the potential to extract a multiple different scenarios from only one genetic algorithm run. The automatic categorization drastically improves the usefulness of this testing approach. Otherwise each result from the genetic algorithm needs to be evaluated manually for finding errors in the ADAS/AD function.
+The second research question can be answered as well with yes. The genetic algorithm that was optimized utilizing the taguchi method showed pronounced improvements in 3 of the 4 start scenarios compared to using control parameters suggested by the literature. Only in one start scenario with a small number of NPCs, the difference was not significant. It can be concluded, that taguchi orthogonal testing, which only needs a minimal amount of experiment runs, can lead to impressive performance improvements when it comes to optimizing the control parameter of a genetic algorithm.

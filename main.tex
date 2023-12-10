@@ -133,11 +133,11 @@
 %% ========================================================================
 
 %% general metadata:
-\newcommand{\myauthor}{AUTHOR}  %% also used for PDF metadata (hyperref)
-\newcommand{\myauthorwithexistingtitles}{\myauthor{}, OLDDEGREE}  %% including
+\newcommand{\myauthor}{Daniel Sumann}  %% also used for PDF metadata (hyperref)
+\newcommand{\myauthorwithexistingtitles}{\myauthor{}, BSc}  %% including
                                 %% university degree already held
                                 %% (BSc, MSc, ...)
-\newcommand{\mytitle}{Evaluation of a Genetic Algorithm on generating critical Scenarios in a Traffic Simulation}  %% also used for PDF metadata (hyperref)
+\newcommand{\mytitle}{Evaluation of a Genetic Algorithm on Searching for critical Scenarios in a Traffic Simulation}  %% also used for PDF metadata (hyperref)
 \newcommand{\mysubtitle}{ }  %% only used with title_Thesis_TU_Graz_-_kazemakase
 \newcommand{\mysubject}{SUBJECT}  %% also used for PDF metadata (hyperref)
 \newcommand{\mykeywords}{KEYWORDS}  %% also used for PDF metadata (hyperref)
@@ -145,20 +145,20 @@
 %% this information is used only for generating the title page:
 \newcommand{\myworktitle}{Master's Thesis}  %% official type of work like ``Master theses''
 \newcommand{\mygrade}{Master of Science} %% title you are getting with this work like ``Master of ...''
-\newcommand{\mystudy}{Telematik} %% your study like ``Arts''
+\newcommand{\mystudy}{Computer Science} %% your study like ``Arts''
 \newcommand{\mydegreeprogramme}{Master's degree programme: \mystudy} %% Master's or PhD degree programme
 \newcommand{\myuniversity}{Graz University of Technology} %% your university/school
 \newcommand{\myfaculty}{ }  %% only used with title_Thesis_TU_Graz_-_kazemakase
 \newcommand{\myinstitute}{Institute for Softwaretechnology} %% affiliation
-\newcommand{\myinstitutehead}{Univ.-Prof.\,Dipl-Ing.\,Dr.techn.~Some One} %% head of institute
-\newcommand{\mysupervisor}{Dr.~Some Body} %% your supervisor
-\newcommand{\mycosupervisor}{\ }  %% only used with title_Thesis_TU_Graz_-_kazemakase
-\newcommand{\myevaluator}{Prof.~Some Genius} %% your evaluator
-\newcommand{\myhomestreet}{Street~42} %% your home street (with house number)
-\newcommand{\myhometown}{Graz} %% your home town
-\newcommand{\myhomepostalnumber}{8010} %% your postal number of home town
-\newcommand{\mysubmissionmonth}{November} %% month you are handing in
-\newcommand{\mysubmissionyear}{2013} %% year you are handing in
+\newcommand{\myinstitutehead}{Univ.-Prof.\,Dipl.Ing.\,Dr.techn.~Franz Wotawa} %% head of institute
+\newcommand{\mysupervisor}{Univ.-Prof.\,Dipl.Ing.\,Dr.techn.~Franz Wotawa} %% your supervisor
+\newcommand{\mycosupervisor}{Dr. Florian Klück}  %% only used with title_Thesis_TU_Graz_-_kazemakase
+%\newcommand{\myevaluator}{Univ.-Prof.\,Dipl.Ing.\,Dr.techn.~Franz Wotawa} %% your evaluator
+\newcommand{\myhomestreet}{Viktor Geramb Str. 43} %% your home street (with house number)
+\newcommand{\myhometown}{Seiersberg-Pirka} %% your home town
+\newcommand{\myhomepostalnumber}{8054} %% your postal number of home town
+\newcommand{\mysubmissionmonth}{December} %% month you are handing in
+\newcommand{\mysubmissionyear}{2023} %% year you are handing in
 \newcommand{\mysubmissiontown}{\myhometown} %% town of handing in (or \myhometown)
 
 
@@ -281,6 +281,7 @@
 \tableofcontents                %% this produces the table of contents - you might have guessed :-)
 
 \listoffigures
+\listoftables
 
 %% if myaddlistoftodos is set to "true", the current list of open todos is added:
 \ifthenelse{\boolean{myaddlistoftodos}}{
@@ -300,13 +301,15 @@
 \include{chapters/4_hyperparameter_tuning}
 \include{chapters/5_evaluation}
 \include{chapters/6_conclusion}
+\include{chapters/7_future_work}
+
+\printbibliography              %% remove, if using BibTeX instead of biblatex
 
 \backmatter
+
 \appendix                       %% closes main document, appendix follows until end; only available in book-classes
 \addpart*{Appendix}             %% adding Appendix to tableofcontents
-\include{chapters/7_appendix}
-\printbibliography              %% remove, if using BibTeX instead of biblatex
-% \include{further_ressources}  %% this is a suggestion: you have to create this file on demand
+\include{chapters/8_appendix}
 
 
 
