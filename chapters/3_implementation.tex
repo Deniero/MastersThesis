@@ -188,7 +188,7 @@ Compared to integer encoding, this method allows for much higher granularity whe
 \label{sect:implementation:cost_function}
 This master's thesis only utilized internal values from the Traffic Manager for the cost function. Namely if the ego vehicle has to initiate an emergency break. The emergency break values are booleans stored in a list called result["ego\_emergency\_stop"] which has a length of $100 * simulation\_duration\_seconds$ (because of 100hz). 
 
-In case an emergency break lasts longer than 3 seconds, a penalty will be applied. This penalty was introduced as it mitigated results, where the ego vehicle is constantly brake-checked\footnote{\enquote{the unsafe action of applying a car’s brakes to dissuade a driver who is following too closely} according to \href{https://www.dictionary.com/e/slang/brake-check/}{https://www.dictionary.com/e/slang/brake-check/}} by the leading vehicle. The following code snipped shows the cost calculation.
+In case an emergency break lasts longer than 3 seconds, a penalty will be applied. This penalty was introduced as it mitigated results, where the ego vehicle is constantly brake-checked\footnote{\enquote{the unsafe action of applying a car’s brakes to dissuade a driver who is following too closely} according to \href{https://www.dictionary.com/e/slang/brake-check/}{https://www.dictionary.com/e/slang/brake-check/}} by the leading vehicle. The following code snipped shows the cost calculation.\todo{remove code and write better}
 
 \begin{lstlisting}[language=Python, tabsize=4]
 SEPS_PER_SECOND = 100
@@ -226,51 +226,28 @@ The constant 3500 is chosen to account for the 100hz sampling rate and the durat
 Optimizing for different cost functions, such as improving time to collision (TTC)\todo{explanation} would have been interesting as well. However at the time, no working TTC functionality was implemented. Consequently, only the emergency break cost function will be optimized by the genetic algorithm.
 
 \section{Behaviour Tree}
-The EGO vehicle will not be controlled by the genetic algorithm, rather by a behaviour tree. The general idea is to have an EGO vehicle moving in a relatable manner trough the world. It will try to dodge standing or slow moving obstacles. Every 3 seconds the behaviour tree switches between left, straight and right for the junction selection, to produce more interesting scenarios, where the EGO vehicle is not always moving straight. Figure \ref{fig:implementation:bt} shows the behaviour tree implemented.
+The EGO vehicle will be controlled by a behaviour tree. The general idea is to have an EGO vehicle moving in a relatable manner trough the world. It will try to dodge standing or slow moving obstacles.  
 
-\begin{figure}[ht]
+"
+py\_trees is one of the most used BT libraries, possibly because it is open source and well maintained.
+"\cite{iovino_survey_2022}
+
+\subsection{Structure}
+While the behaviour tree has access to the same Action Interface (described in section \ref{sect:implementation:action_interface}) as the genetic algorithm, it needs a higher level of integration with the Traffic Manger. The genetic algorithm is only interested in the resulting emergency break values, the behaviour tree however needs access to internal functions during the simulation. Conditions like NoObstacle() or LaneChangePossible() execute internal Traffic Manager functions to get needed information on the world around the EGO vehicle. Figure \ref{fig:implementation:bt} shows the behaviour tree implemented.
+\todo{probably have -> instead of first ?}
+
+\begin{figure}[ht] 
+	\includegraphics[width=1\linewidth]{figures/behaviorTree}
+	\caption{Implemented Behaviour Tree}
 	\label{fig:implementation:bt}
-	\centering
-	\begin{tikzpicture}
-		% Define 1 2 3
-		\node[draw, circle] (NodeStart) at (0,0) {0};
-		\node[draw, circle] (Sequence1) at (0,-1) {->};
-		\draw[->] (NodeStart) -- (Sequence1);
-		
-		\node (Action1) at (-3,-3) {setJunctionSelection};
-		\node[draw, circle] (OR1) at (3,-3) {?};
-		\draw[->] (Sequence1) -- (Action1);
-		\draw[->] (Sequence1) -- (OR1);
-		
-		\node (Action21) at (-3,-5) {NoObstacle};
-		\node (Action22) at (1,-5) {ObstacleNotSlower};
-		\node (Action23) at (5,-5) {ObstacleWillResolve};
-		\node[draw, circle] (OR2) at (9,-5) {?};
-		\draw[->] (OR1) -- (Action21);
-		\draw[->] (OR1) -- (Action22);
-		\draw[->] (OR1) -- (Action23);
-		\draw[->] (OR1) -- (OR2);
-		
-		\node[draw, circle] (Sequence31) at (-1,-7) {->};
-		\node[draw, circle] (Sequence32) at (7,-7) {->};
-		\draw[->] (OR2) -- (Sequence31);
-		\draw[->] (OR2) -- (Sequence32);
-		
-		\node (Action41) at (-3,-8) {LaneChangePossible(left)};
-		\node (Action42) at (2,-8) {SetLaneChange(left)};
-		\node (Action43) at (4,-9) {LaneChangePossible(right)};
-		\node (Action44) at (9,-9) {SetLaneChange(right)};
-		\draw[->] (Sequence31) -- (Action41);
-		\draw[->] (Sequence31) -- (Action42);
-		\draw[->] (Sequence32) -- (Action43);
-		\draw[->] (Sequence32) -- (Action44);
-		
-		
-	\end{tikzpicture}
-	\caption{Used Behaviour Tree}
 \end{figure}
-\todo{better visual BT}
 
-While the behaviour tree has access to the same Action Interface (described in section \ref{sect:implementation:action_interface}) as the genetic algorithm, it needs a higher level of integration with the Traffic Manger. The genetic algorithm is only interested in the resulting emergency break values, the behaviour tree however needs access to internal functions during the simulation. Conditions like NoObstacle() or LaneChangePossible() execute internal Traffic Manager functions to get needed information on the world around the EGO vehicle.
+Each tick, the branch junction selection will first get executed, which will switch between the settings "straight", "left" and "right" every 3 seconds. This surfs the purpose of generating more interesting situations, as otherwise the ego vehicle will only move straight. A random junction selection would not be possible, as this would make the simulation not deterministic.
+While a full navigation system was investigated to implement instead, it was decided against, as the added complexity did not seem to significantly improve the resulting simulations.
 
-\todo{detailed explanation on bt functions}
+The next branch is all about dodging obstacles. First, the condition NoObstacle() decides, if an obstacle is on the path of the EGO vehicle. Second, a threshold of 50\% in ObstacleNotSlower() declares, a lanechange makes sense. Third, the ObstacleWillResolve() function has the responsibility to check, it the obstacle is 1. in a junction or 2. roughly at a 90 degree angle. I both cases not takeover will be performed.
+
+In case all of the 3 functions return false, a final function LaneChangePossible() will first check, if a lanechange to the left is possible and if this is not the case, if a lanechange to the right is possible. Depending on its result, a lanechange to the suggested direction is performed.
+LaneChangePossible() might not allow a lanechange if 1. there is no lane or 2. if the lane is blocked by an obstacle.
+
+

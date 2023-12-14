@@ -37,20 +37,20 @@ Table \ref{tab:hyperparameter_tuning:ga_hyperparameters} aims to provide a short
 	\centering
 	\caption{Summary of Genetic Algorithm Hyperparameters}
 	\label{tab:hyperparameter_tuning:ga_hyperparameters}
-	\begin{tabular}{lccccc}
+	\begin{tabular}{lcccc}
 		\hline
-		\textbf{Parameter Set} & \textbf{Pop} & \textbf{Cross} & \textbf{Mut} & \textbf{Sel} & \textbf{Elite} \\
+		\textbf{Parameter Set} & \textbf{Pop} & \textbf{Cross} & \textbf{Mut} & \textbf{Sel} \\
 		\hline
-		\cite{de_jong_analysis_1975} & 50 & 0.6 & 0.001 & ? & 1 \\
-		\cite{mills_determining_2015} & 200 & ? & Adaptive & SUS & 8\% \\
-		\cite{grefenstette_optimization_1986} & 30 & 0.95 & 0.01 & ? & 1 \\
-		\cite{grefenstette_optimization_1986} & 80 & 0.45 & 0.01 & ? & 1 \\
-		\cite{almanee_scenorita_2021} & 50 & 0.8 & 0.2 & ? & ? \\
-		\cite{srinivas_genetic_1994}  & 30-100 & 0.9 & 0.01 & ? & ? \\
-		\cite{fazal_estimating_2005} & 50 & 0.5 & ? & Tourn & 5 \\
-		\cite{dao_maximising_2016} & 200 & 0.7 & ? & Roul & 1 \\
-		\cite{naruka_parameter_2019} & 200 & 0.4 & ? & Roul & 10 \\
-		\cite{jinghui_zhong_comparison_2005} & 50-250 & 0.1-0.9 & 0.05-0.25 & ? & ? \\
+		\cite{de_jong_analysis_1975} & 50 & 0.6 & 0.001 & ? \\
+		\cite{mills_determining_2015} & 200 & ? & Adaptive & SUS\\
+		\cite{grefenstette_optimization_1986} & 30 & 0.95 & 0.01 & ?\\
+		\cite{grefenstette_optimization_1986} & 80 & 0.45 & 0.01 & ?\\
+		\cite{almanee_scenorita_2021} & 50 & 0.8 & 0.2 & ?\\
+		\cite{srinivas_genetic_1994}  & 30-100 & 0.9 & 0.01 & ?\\
+		\cite{fazal_estimating_2005} & 50 & 0.5 & ? & Tourn\\
+		\cite{dao_maximising_2016} & 200 & 0.7 & ? & Roul\\
+		\cite{naruka_parameter_2019} & 200 & 0.4 & ? & Roul \\
+		\cite{jinghui_zhong_comparison_2005} & 50-250 & 0.1-0.9 & 0.05-0.25 & ?\\
 		\hline
 	\end{tabular}
 \end{table}
@@ -86,6 +86,7 @@ Each run will be executed 5 times to reduce randomness and to make the results m
 \end{table}
 
 In figure \ref{fig:hyperparameter_tuning:population_results}, the results per population are plotted. The line is corresponds to the mean, while the bars show the spread (min to max) of all 5 repetitions.
+
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{simulations/population/plots/comparison}
 	\caption{mean and error bars per population size}
@@ -189,6 +190,8 @@ For this design of experiment, 7 factors (3 factors of level 4 and 4 factors of 
 \end{table}
 
 It is important to state, that Taguchi allows to only test for possible (pre determined) two-level interactions, evaluating higher level interactions is not possible (\cite{yang_design_2009}). Analysing interactions comes at the cost of degrees of freedom. An interaction between ChromosomeType and GeneType might be of interest and will thus be chosen.
+
+\todo{check again: A Taguchi experiment considers only main effects and some predetermined two-factor interactions, as higher-order interactions are assumed to be nonexistent. Not two-level, but two factor...}
 
 \subsection{Selection of a Suitable Standard Orthogonal Array}
 \label{sect:hyperparameter_tuning:selection_orthogonal_array}

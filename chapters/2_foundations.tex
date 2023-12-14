@@ -131,4 +131,29 @@ Contrary, \cite{kacprzyk_parameter_2007} is more critical on adaptive control pa
 In order to keep the number of tunable parameters low, the approach implemented by this master's thesis will not utilized adaptive control parameters.
 
 \section{Behaviour Tree}
-A behaviour tree is a decision tree. \todo{insert a short introduction to BT}
+Behavior Trees were invented and developed by the computer game industry as a control structure of non-player characters (\cite{collendanchise_behavior_2019}). Since then, their scope of application has expanded into include robotics, smart homes, power grids, autonomous vehicles and various other fields \cite{iovino_survey_2022}. \cite{sprague_improving_2018} show, that they can also be used as a robust control architecture for autonomous underwater vehicles.
+
+Their high modularity and reactiveness are often stated as their main advantages. The high modularity stems from the fact, that different parts in the BT can be changed and modified without influencing the rest of the tree. This goes in hand with the reactiveness shown by the Behavior Tree. Per tick, safety test can be performed before going into the execution logic of the tree, making the system react immediately to a non safe situation. Adding complex details to this execution sub-tree will not jeopardise with the safety tests (\cite{sprague_improving_2018}).
+
+A behavior tree is a directed tree, with root, child, parent and leaf nodes. Non-leaf nodes are control flow nodes, while leaf nodes are called execution nodes. The execution of a BT is done by ticks, that propagate down starting from the root node with a given frequency to its children. All nodes only execute when recieving a tick and can return either "Running", "Success" or "Failure" (\cite{collendanchise_behavior_2019}).
+
+\subsection{Control Flow Nodes}
+The control flow nodes decide which Actions and Condition nodes to execute next. Three categories of control flow nodes (Sequence, Fallback and Parallel) exist (\cite{collendanchise_behavior_2019}).
+
+\subsubsection{Sequence Nodes}
+Sequences will execute its children nodes (routing the ticks) in sequence as long as each child returns "Success". If this has happened for every child, the sequence node itself will return "Success". In case one child returns "Failure" or "Running", the sequence node will immediately return the corresponding value and not route the tick to the next child.
+
+\subsubsection{Fallback Nodes}
+The fallback node executes its children one after another until one child returns "Success" or "Running", in which case it will itselfe returns "Success" or "Running" accordingly. As long as the childs status is "Failure", it will continue routing the ticks to the next child. If all children have returned "Failure", the fallback node will also return "Failure"
+
+\subsubsection{Parallel Nodes}
+The parallel node will execute all children simultaneously. Given a parameter m, it will decide on its return status. If more than m children succeeded, it will return "Success". If enough children have failed to make the "Success" impossible, "Failure" is returned, otherwise "Running"
+
+\subsection{Execution Nodes}
+The two existing categories of execution nodes are Actions and Conditions. They are responsible for executing the actual behavior of the behavior tree.
+
+\subsubsection{Action Nodes}
+Action nodes will execute a command after receiving a tick. They can return "Success", "Failure" as well as "Running". Action nodes typically execute the behavior of an agent, for example: "open door".
+
+\subsubsection{Condition Nodes}
+Similarly, Condition Nodes will also execute a command after receiving a tick. However contrary to the  Action Nodes, the can only return "Success" and "Failure". It is not possible for them execute over multiple ticks and thus can not return "Running". As suggested by their name, Condition Nodes typically check conditions like for example: "is door closed".
