@@ -6,22 +6,22 @@
 \contentsline {table}{\numberline {3.2}{\ignorespaces Integer Encoding: Probability of Parameters per Action}}{21}{table.3.2}%
 \contentsline {table}{\numberline {3.3}{\ignorespaces Dictionary Encoding: Probability of Parameters per Action}}{22}{table.3.3}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Summary of Genetic Algorithm Hyperparameters}}{29}{table.4.1}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces results from testing population size - mean of 5 repetitions}}{30}{table.4.2}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Control Parameters (Factors) with corresponding Settings (Levels) - ($^*$uniform)}}{35}{table.4.3}%
-\contentsline {table}{\numberline {4.4}{\ignorespaces $L_{16}(2^{15})$ Taguchi orthogonal array taken from \blx@tocontentsinit {0}\cite {roy_primer_1990}}}{36}{table.4.4}%
-\contentsline {table}{\numberline {4.5}{\ignorespaces Rules taken from \blx@tocontentsinit {0}\cite {roy_primer_1990}}}{37}{table.4.5}%
-\contentsline {table}{\numberline {4.6}{\ignorespaces Building 4 Level columns from 2 Level columns}}{39}{table.4.6}%
-\contentsline {table}{\numberline {4.7}{\ignorespaces Final version of used Taguchi orthogonal array}}{40}{table.4.7}%
-\contentsline {table}{\numberline {4.8}{\ignorespaces ANOVA results}}{41}{table.4.8}%
-\contentsline {table}{\numberline {4.9}{\ignorespaces S/N ANOVA results}}{47}{table.4.9}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Summary of Genetic Algorithm Hyperparameters}}{27}{table.4.1}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces results from testing population size - mean of 5 repetitions}}{28}{table.4.2}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Control Parameters (Factors) with corresponding Settings (Levels) - ($^*$uniform)}}{33}{table.4.3}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces $L_{16}(2^{15})$ Taguchi orthogonal array taken from \blx@tocontentsinit {0}\cite {roy_primer_1990}}}{34}{table.4.4}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Rules taken from \blx@tocontentsinit {0}\cite {roy_primer_1990}}}{35}{table.4.5}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Building 4 Level columns from 2 Level columns}}{37}{table.4.6}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces Final version of used Taguchi orthogonal array}}{38}{table.4.7}%
+\contentsline {table}{\numberline {4.8}{\ignorespaces ANOVA results}}{39}{table.4.8}%
+\contentsline {table}{\numberline {4.9}{\ignorespaces S/N ANOVA results}}{45}{table.4.9}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {1}{\ignorespaces Hyperparameter Tuning: Taguchi Experiment Results}}{73}{table.Alph0.1}%
-\contentsline {table}{\numberline {2}{\ignorespaces Evaluation Results Optimized}}{74}{table.Alph0.2}%
-\contentsline {table}{\numberline {3}{\ignorespaces Evaluation Results Default}}{74}{table.Alph0.3}%
-\contentsline {table}{\numberline {4}{\ignorespaces Evaluation Results Random}}{74}{table.Alph0.4}%
+\contentsline {table}{\numberline {1}{\ignorespaces Hyperparameter Tuning: Taguchi Experiment Results}}{71}{table.Alph0.1}%
+\contentsline {table}{\numberline {2}{\ignorespaces Evaluation Results Optimized}}{72}{table.Alph0.2}%
+\contentsline {table}{\numberline {3}{\ignorespaces Evaluation Results Default}}{72}{table.Alph0.3}%
+\contentsline {table}{\numberline {4}{\ignorespaces Evaluation Results Random}}{72}{table.Alph0.4}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
