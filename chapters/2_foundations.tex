@@ -3,12 +3,9 @@
 
 \section{Genetic Algorithm}
 \label{sect:foundations:genetic_algorithm}
-
 Pioneered by \cite{holland_adaptation_1992}, genetic algorithms imitate the process of natural selection and the darwinian principle called "survival of the fittest". Genetic algorithms are a subclass of evolutionary algorithms (EAs) and explore the solution space using a population of individuals (\cite{mills_determining_2015}). Each individual contains one chromosome, which serves as a candidate solution. Using genetic operations, the individuals mate among themselves and mutate independently. 
 
-The selection of an individual is determined by a fitness function, which defines the search problem. Each individual has a fitness value corresponding to the performance of its chromosome (\cite{majumdar_genetic_2015}). Individuals that do poorly on the given problem die out, while individuals deemed "strong" propagate. Genetic algorithms optimize iteratively, with each iteration referred to as a generation. Chromosomes consist of individual genes, which form a solution to the search problem. Through successive generations using genetic operations, gene values and position will be optimized, resulting in progressively improved solutions (\cite{srinivas_genetic_1994}).
-
-Generational genetic algorithms, where the entire population is replaced each generation, will be utilized in this master's thesis. In contrast, steady state genetic algorithms only replace a small fraction of the population at a time (\cite{srinivas_genetic_1994}).
+The selection of an individual is determined by a fitness function, which defines the search problem. Each individual has a fitness value corresponding to the performance of its chromosome (\cite{majumdar_genetic_2015}). Individuals that do poorly on the given problem die out, while individuals deemed "strong" propagate. Genetic algorithms optimize iteratively, with each iteration referred to as a generation. Chromosomes consist of individual genes, which form a solution to the search problem. Through successive generations using genetic operations, gene values and position will be optimized, resulting in progressively improved solutions (\cite{srinivas_genetic_1994}). Generational genetic algorithms, where the entire population is replaced each generation, will be utilized in this master's thesis. In contrast, steady state genetic algorithms only replace a small fraction of the population at a time (\cite{srinivas_genetic_1994}).
 
 This search method on the basis of biological principles allows for a global and dispersed search through its population, which avoids various shortcomings of local search techniques (\cite{grefenstette_optimization_1986}). Especially on challenging search spaces with multiple local optima, a GA is less prone to get stuck on a substandard solution (\cite{katoch_review_2021}, \cite{xia_genetic_2019}, \cite{majumdar_genetic_2015}). Genetic algorithms offer advantages for complex optimization and non-deterministic polynomial (NP-hard) problems (\cite{hussain_trade-off_2020}).
 
@@ -21,18 +18,18 @@ This search method on the basis of biological principles allows for a global and
 \cite{grefenstette_optimization_1986} further emphasis its ability to outperform gradient techniques on difficult problems with high-dimensional, noisy or discontinuous fitness functions by efficiently exploiting a "relatively simple selection mechanism." The main advantage of a GA in tackling these problems comes from its capability to explore the search space using its entire population (\cite{hussain_trade-off_2020}). The \enquote{high implicit parallelism} makes genetic algorithms \enquote{numerically very efficient} (\cite{marsili_libelli_adaptive_2000}). A basic GA proposed by \cite{holland_adaptation_1992} can be defined as follows:
 
 \begin{lstlisting}[language=C, tabsize=4]
-	simple_genetic_algorithm() 
+simple_genetic_algorithm() 
+{
+	initialize_population();
+	evaluate_population();
+	for(int i = 0; i < num_of_generations; i++) 
 	{
-		initialize_population();
+		select_individuals_for_next_population();
+		perform_crossover();
+		perform_mutation();
 		evaluate_population();
-		for(int i = 0; i < num_of_generations; i++) 
-		{
-			select_individuals_for_next_population();
-			perform_crossover();
-			perform_mutation();
-			evaluate_population();
-		}
 	}
+}
 \end{lstlisting}
 
 The population is initialized randomly, and its individuals are subsequently evaluated using the fitness function. The following steps are iteratively repeated until some stopping criterium is triggered. 

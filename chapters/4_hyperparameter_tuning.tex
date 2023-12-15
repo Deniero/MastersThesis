@@ -173,11 +173,12 @@ For this design of experiment, 7 factors (3 factors of level 4 and 4 factors of 
 \begin{table}[ht]
 	\label{tab:hyperparameter_tuning:settings_to_level}
 	\centering
+	\small
 \begin{tabular}{ l|c|cccc }
 	\hline
 	Factors & Code & Level 1 & Level 2 & Level 3 & Level 4\\
 	\hline
-	CrossoverType 		& A & one point & two point & uniform 0.1 & uniform 0.5\\
+	CrossoverType 		& A & one point & two point & uni$^*$ 0.1 & uni$^*$ 0.5\\
 	CrossoverRate    	& B & 0.2 & 0.5 & 0.8 & 0.9\\
 	MutationRate   		& C & 0.01 & 0.1 & 0.3 & 0.5\\
 	ChromosomeType   	& D & Time & Time+NPC & - & -\\
@@ -186,12 +187,10 @@ For this design of experiment, 7 factors (3 factors of level 4 and 4 factors of 
 	IndMutationRate		& G & 0.1 & 0.5 & - & -\\
 	\hline
 \end{tabular}
-\caption{List of control parameters (factors) with correspond settings (levels)}
+\caption{Control Parameters (Factors) with corresponding Settings (Levels) - ($^*$uniform)}
 \end{table}
 
-It is important to state, that Taguchi allows to only test for possible (pre determined) two-level interactions, evaluating higher level interactions is not possible (\cite{yang_design_2009}). Analysing interactions comes at the cost of degrees of freedom. An interaction between ChromosomeType and GeneType might be of interest and will thus be chosen.
-
-\todo{check again: A Taguchi experiment considers only main effects and some predetermined two-factor interactions, as higher-order interactions are assumed to be nonexistent. Not two-level, but two factor...}
+It is important to state, that Taguchi allows to only test for possible (pre determined) two-factor interactions, evaluating higher factor interactions is not possible (\cite{yang_design_2009}). Analysing interactions comes at the cost of degrees of freedom. An interaction between ChromosomeType and GeneType might be of interest and will thus be chosen. In order to minimized the required degrees of freedom (and correspondingly the required number of experiment runs), no additional interactions will be analysed.
 
 \subsection{Selection of a Suitable Standard Orthogonal Array}
 \label{sect:hyperparameter_tuning:selection_orthogonal_array}
@@ -319,7 +318,7 @@ As calculated in \ref{equ:hyperparam_tuning:DOF}, a four-level column requires t
 The four-level factor can then be assigned to this newly generated column. Because three four-level factors are needed for the current experiment, nine two-level columns have to be merged in total.
 
 \paragraph{Assigning Interactions}
-Interactions between two-level factors can be assigned using the linear graph as well. An interaction between ChromosomeType and GeneType seems possible, thus D and E will be assigned to connected nodes in the linear graph. The resulting graph can be seen in \ref{fig:hyperparameter_tuning:linear_graph_assigned}. An interaction between F and G can not be investigated, as the chosen orthogonal array is not able to fit the additional 1 degree of freedom (see equation \ref{equ:hyperparam_tuning:DOF}).
+The interaction between both two-level factors can be assigned using the linear graph as well. An interaction between ChromosomeType and GeneType seems possible, thus D and E will be assigned to connected nodes in the linear graph. The resulting graph can be seen in \ref{fig:hyperparameter_tuning:linear_graph_assigned}. An interaction between F and G can not be investigated, as the chosen orthogonal array is not able to fit the additional 1 degree of freedom (see equation \ref{equ:hyperparam_tuning:DOF}).
 
 \begin{figure}[H]
 	\centering

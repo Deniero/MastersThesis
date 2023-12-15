@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-12-14T09:52:52.170Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0" etag="TUdDbvYaDBpB_6Vl6SIe" version="22.1.8" type="device">
+<mxfile host="app.diagrams.net" modified="2023-12-14T14:01:58.580Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0" etag="U4epE-FdWCZsQ1zFDbnL" version="22.1.8" type="device">
   <diagram name="Page-1" id="10a91c8b-09ff-31b1-d368-03940ed4cc9e">
-    <mxGraphModel dx="1434" dy="782" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
+    <mxGraphModel dx="1434" dy="902" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -35,16 +35,16 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="by95sy3RrXnE14wRs8OI-7" value="?" style="whiteSpace=wrap;html=1;rounded=1;shadow=1;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;arcSize=50;" vertex="1" parent="1">
-          <mxGeometry x="600" y="200" width="40" height="40" as="geometry" />
+          <mxGeometry x="610" y="200" width="40" height="40" as="geometry" />
         </mxCell>
         <mxCell id="by95sy3RrXnE14wRs8OI-10" value="&lt;div&gt;NoObstacle&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=1;shadow=1;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;arcSize=0;" vertex="1" parent="1">
           <mxGeometry x="240" y="280" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="by95sy3RrXnE14wRs8OI-11" value="ObstacleNotSlower" style="whiteSpace=wrap;html=1;rounded=1;shadow=1;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;arcSize=0;" vertex="1" parent="1">
-          <mxGeometry x="380" y="280" width="140" height="40" as="geometry" />
+          <mxGeometry x="390" y="280" width="140" height="40" as="geometry" />
         </mxCell>
         <mxCell id="by95sy3RrXnE14wRs8OI-12" value="ObstacleWillResolve" style="whiteSpace=wrap;html=1;rounded=1;shadow=1;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;arcSize=0;" vertex="1" parent="1">
-          <mxGeometry x="550" y="280" width="140" height="40" as="geometry" />
+          <mxGeometry x="560" y="280" width="140" height="40" as="geometry" />
         </mxCell>
         <mxCell id="by95sy3RrXnE14wRs8OI-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="by95sy3RrXnE14wRs8OI-13" target="by95sy3RrXnE14wRs8OI-19">
           <mxGeometry relative="1" as="geometry">
@@ -88,10 +88,10 @@
           <mxGeometry x="170" y="440" width="190" height="40" as="geometry" />
         </mxCell>
         <mxCell id="by95sy3RrXnE14wRs8OI-26" value="SetLaneChange(right)" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;labelBackgroundColor=none;strokeWidth=2;fontFamily=Verdana;fontSize=12;align=center;" vertex="1" parent="1">
-          <mxGeometry x="840" y="440" width="150" height="40" as="geometry" />
+          <mxGeometry x="840" y="440" width="160" height="40" as="geometry" />
         </mxCell>
         <mxCell id="by95sy3RrXnE14wRs8OI-27" value="IsLaneChangePossible(right)" style="whiteSpace=wrap;html=1;rounded=1;shadow=1;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;arcSize=0;" vertex="1" parent="1">
-          <mxGeometry x="630" y="440" width="190" height="40" as="geometry" />
+          <mxGeometry x="620" y="440" width="200" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

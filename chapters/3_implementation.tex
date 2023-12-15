@@ -188,31 +188,9 @@ Compared to integer encoding, this method allows for much higher granularity whe
 \label{sect:implementation:cost_function}
 This master's thesis only utilized internal values from the Traffic Manager for the cost function. Namely if the ego vehicle has to initiate an emergency break. The emergency break values are booleans stored in a list called result["ego\_emergency\_stop"] which has a length of $100 * simulation\_duration\_seconds$ (because of 100hz). 
 
-In case an emergency break lasts longer than 3 seconds, a penalty will be applied. This penalty was introduced as it mitigated results, where the ego vehicle is constantly brake-checked\footnote{\enquote{the unsafe action of applying a car’s brakes to dissuade a driver who is following too closely} according to \href{https://www.dictionary.com/e/slang/brake-check/}{https://www.dictionary.com/e/slang/brake-check/}} by the leading vehicle. The following code snipped shows the cost calculation.\todo{remove code and write better}
+In case an emergency break lasts longer than 3 seconds, a penalty will be applied. This penalty was introduced as it mitigated results, where the ego vehicle is constantly brake-checked\footnote{\enquote{the unsafe action of applying a car’s brakes to dissuade a driver who is following too closely} according to \href{https://www.dictionary.com/e/slang/brake-check/}{https://www.dictionary.com/e/slang/brake-check/}} by the leading vehicle.
 
-\begin{lstlisting}[language=Python, tabsize=4]
-SEPS_PER_SECOND = 100
-# allow emergency breaks to last only 3 seconds
-MAX_DURATION = 3 * STEPS_PER_SECOND
-
-cost = 0
-duration_counter = 0
-for i in range(len(result["ego_emergency_stop"])):
-	if not result["ego_emergency_stop"][i]:
-		# base cost in case of no current emergency break
-		cost = cost + 1
-		duration_counter = 0
-	else:
-		if duration_counter > MAX_DURATION:
-			# increase cost if emergency break max duration is exceeded
-			cost = cost + 10
-		duration_counter += 1
-return cost
-\end{lstlisting}
-
-As long as the ego has no emergency stop initiated, the cost value will increase. If the emergency break max duration is exceeded, the cost value will increase as well. Only in cases where non of these two conditions are fulfilled, no cost will be added.
-
-The resulting cost values however are a not easy to interpret, thus these numbers are modified using equation \ref{equ:implementation:modified_cost}.
+As long as the ego has no emergency stop initiated, the cost value will increase. If the emergency break max duration is exceeded, the cost value will increase as well. Only in cases where non of these two conditions are fulfilled, no cost will be added. The resulting cost values however are a not easy to interpret, thus these numbers are modified using equation \ref{equ:implementation:modified_cost}.
 
 \begin{equation} 
 	\label{equ:implementation:modified_cost}
@@ -234,7 +212,6 @@ py\_trees is one of the most used BT libraries, possibly because it is open sour
 
 \subsection{Structure}
 While the behaviour tree has access to the same Action Interface (described in section \ref{sect:implementation:action_interface}) as the genetic algorithm, it needs a higher level of integration with the Traffic Manger. The genetic algorithm is only interested in the resulting emergency break values, the behaviour tree however needs access to internal functions during the simulation. Conditions like NoObstacle() or LaneChangePossible() execute internal Traffic Manager functions to get needed information on the world around the EGO vehicle. Figure \ref{fig:implementation:bt} shows the behaviour tree implemented.
-\todo{probably have -> instead of first ?}
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{figures/behaviorTree}

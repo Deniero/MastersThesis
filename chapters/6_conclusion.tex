@@ -1,7 +1,8 @@
 \chapter{Conclusion}
-The evaluated genetic algorithm displays good performance on the given search problem. The results of chapter \ref{chap:evaluation} show, that the optimized settings for a GA provide significant improvements in most start scenarios compared to general settings from the existing literature as well as compared to random search. Only in the case of a small number of NPCs, the performance seems to be on par with a genetic algorithm utilizing settings from the literature.
+This masters thesis first explained both the concept of genetic algorithms as well as behavior trees in chapter \ref{chap:foundations}. In the subsequent chapter, the design and implementation of both tools is outlined. The stated search goal lies in the domain of autonomous vehicle testing, specifically in finding critical scenarios. In order the find such results, the behavior tree aims to control the EGO vehicle in a realistic manner while the genetic algorithm maximises its cumulated emergency stop duration by commanding all NPCs in the scenario. In chapter \ref{chap:hyperparameter_tuning}, this masters thesis successfully optimized control parameters of a genetic algorithm using first literature research accompanied by comparison testing in order to find a suitable population size. Utilizing a taguchi orthogonal array, the remaining hyperparameter were selected and evaluated for their significance. Finally, the genetic algorithm using the optimized parameters is evaluated in chapter \ref{chap:evaluation}. The evaluated genetic algorithm displays good performance on the given search problem. The results show, that the optimized settings for a GA provide significant improvements in most start scenarios compared to general settings from the existing literature as well as compared to random search. Only in the case of a small number of NPCs, the performance seems to be on par with a genetic algorithm utilizing settings from the literature.
 
-\section{Research Question 1}
+\section{Research Questions}
+\subsection{Research Question 1}
 \begin{quote}
 	\begin{em}
 		\textit{Is a genetic algorithm suitable for generating critical driving scenarios compared to random search?}
@@ -10,7 +11,7 @@ The evaluated genetic algorithm displays good performance on the given search pr
 
 Compared to random search, research question 1 definitely holds true. The optimized genetic algorithm will drastically improve performance when using the given cost function. In all four analysed starting scenarios, random search resulted overall in significantly worse results. There were no cases where a random search run surpassed the mean result of the optimized genetic algorithm runs.
 
-\section{Research Question 2}
+\subsection{Research Question 2}
 \begin{quote}
 	\begin{em}
 		\textit{Is it possible to improve the performance of a genetic algorithm by optimizing the control parameter using the taguchi method?}
@@ -18,3 +19,18 @@ Compared to random search, research question 1 definitely holds true. The optimi
 \end{quote}
 
 The second research question can be answered as well with yes. The genetic algorithm that was optimized utilizing the taguchi method showed pronounced improvements in 3 of the 4 start scenarios compared to using control parameters suggested by the literature. Only in one start scenario with a small number of NPCs, the difference was not significant. It can be concluded, that taguchi orthogonal testing, which only needs a minimal amount of experiment runs, can lead to impressive performance improvements when it comes to optimizing the control parameter of a genetic algorithm.
+
+\section{Outlook and Future Work}
+Significant improvements to the genetic algorithm as well as to the Traffic Manger are possible. Two main paths seem to provide valuable enhancements.
+
+\subsection{Additional Actions}
+Although the provided actions by the Action Interface (see section \ref{sect:implementation:action_interface}) already produce a vast search space, additional actions might improve variation in the results and provide even more complex critical scenarios. Examples for new actions are applying a lane offset, ignoring red traffic lights or simulating a blown tire.
+
+Implementing these actions will in some cases require only minimal effort and will allow a genetic algorithm to use even more complex action sequences for its search.
+
+\subsection{Oracles}
+Utilizing oracle functions in order to select interesting scenarios during the runtime of a genetic algorithm was already done by \cite{almanee_scenorita_2021}. Multiple oracle functions will test for different thresholds. For example, one oracle function might check, if the ego vehicle has exceeded the speed limit, a different function checks for crashes where the ego vehicle is at fault. Other ideas include having an oracle which evaluates if the comfort level of the passenger is under a certain threshold.
+
+These functions will test each individual in the population. In case one or multiple functions return true, the individual scenario will be saved and automatically categorized according to the types of thresholds. The genetic algorithm however remains unaffected.
+
+Oracles have the potential to extract multiple different scenarios from only one genetic algorithm run. The automatic categorization drastically improves the usefulness of this testing approach. Otherwise each search result needs to be evaluated manually for finding errors in the autonomous driving system.
