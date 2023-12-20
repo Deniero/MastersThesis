@@ -1,8 +1,23 @@
 %%%% Time-stamp: <2013-02-25 10:31:01 vk>
+\chapter*{Acknowledgements}
+\label{chap:acknowledgements}
 
+I would like to express my deep gratitude to my supervisor Univ.Prof. Dipl.-Ing. Dr.techn. Franz Wotawa for his...
+
+This master's thesis was a company collaboration with AVL List GmbH in Graz, so I thank my colleages Florian Klück, Lorenz Klampfl, David Kaufmann and Gabriel Muresan.
+
+Finally, I thank my family and my partner Johanna for...
 
 \chapter*{Abstract}
-\label{cha:abstract}
+\label{chap:abstract}
+
+With the advent of autonomous driving, ensuring the correct implementation and safety of these systems becomes crucial. Relying solely on real-world driving might not be able to accumulate enough mileage; thus testing autonomous driving functions will need to be supported using simulations and software. This master's thesis will deploy a search-based approach for finding critical traffic situations in a simulation environment. This will be done by utilizing the dispersed search power of genetic algorithms. The genetic algorithm will be responsible for controlling vehicles in the simulation in a way, that will generate critical situations for the autonomous driving function. For the purposes of this master's thesis, the tested vehicle lacks complete autonomous driving capabilities. Instead, a behavior tree guides it through the simulated world.
+
+After establishing the used tools and discussing their implementation, this master's thesis will focus on optimizing the control parameters of the genetic algorithm. Design of experiment, namely the Taguchi method was applied for that purpose. This optimized algorithm will be subsequently compared in different start scenarios to a genetic algorithm with control parameters taken from the literature as well as random search. The results of this evaluation show, that utilizing the Taguchi method is a very effective way of tuning a genetic algorithm on the given search problem. The optimized genetic algorithm displayed significantly better performance compared to random search and to a genetic algorithm which utilizes hyperparameters suggested by existing literature. Only in the case of a small number of actors, the performance between both genetic algorithms was similar.
+
+
+\chapter*{Kurzfassung}
+\label{chap:kurzfassung}
 
 
 This is a placeholder for the abstract. It summarizes the whole thesis
