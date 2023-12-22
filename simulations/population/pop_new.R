@@ -81,7 +81,7 @@ plot.pop_comp <- ggplot(melted, aes(x=setting, y=value, group=population)) +
   stat_summary(fun.max = function(y) max(y), fun.min = function(y) min(y), geom = "errorbar", size = 0.5, color="#457b9d") +
   stat_summary(fun.y = "mean", geom = "line", size = 1.1, color="#457b9d")  +
   facet_wrap(~population, ncol = 4) +
-  labs(x = "Settings", y = "Fitness")
+  labs(x = "Settings", y = "Cummulated Emergency Break Duration")
 print(plot.pop_comp)
 ggsave("population/plots/comparison.jpg", plot = plot.pop_comp, width = 25, height = 10, units = "cm", dpi = 600)
 
