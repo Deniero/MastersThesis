@@ -91,7 +91,7 @@ melted_generations["Source"] <- lapply(melted_generations["Source"] , factor)
 plot.line.combined <- ggplot(melted_generations, aes(gen, value, color=variable)) + geom_line()  + facet_wrap(~Source, scales = "free_x",) +
   labs(x = "Generations", y = "Cummulated Emergency Break Duration", color = "Repetitions")
 print(plot.line.combined)
-ggsave("evaluation/plots/elite_vs_no_elite_generations.jpg", plot = plot.line.combined, width = 16, height = 9, units = "cm", dpi = 1000)
+ggsave("evaluation/plots/elite_vs_no_elite_generations.jpg", plot = plot.line.combined, width = 16, height = 8, units = "cm", dpi = 1000)
 #### T test ####
 
 t_test<-t.test(value ~ simulation, data = melted)
