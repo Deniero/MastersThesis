@@ -462,7 +462,7 @@ Identifying the optimal conditions needs analysis of the main effects per factor
 	\end{em}
 \end{quote}
 
-For every factor, the mean of all results per level is summed up and subsequently divided by the number of runs per level. The resulting main-effect charts are visualized in Figure \ref{fig:hyperparam_tuning:main_effects}.
+For every factor, the mean of all results per level is summed up and subsequently divided by the number of runs per level. The resulting main-effect charts are visualized in Figure \ref{fig:hyperparam_tuning:main_effects}. In case there is no interaction, the optimal setting is easily determined by using the main effects chart. Go over every factor in the chart and use the best level (in this experiment, the level with the highest value).
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{simulations/taguchi/plots/main_effects}
@@ -471,7 +471,7 @@ For every factor, the mean of all results per level is summed up and subsequentl
 \end{figure}
 
 
-In case there is no interaction, the optimal setting is easily determined by using the main effects chart. Go over every factor in the chart and use the best level (in this experiment, the level with the highest value). If interactions, however, exist, they might have an influence on the best settings and need further investigation~\cite{yang_design_2009}. The previously defined interaction is visualized in an interaction plot in Figure \ref{fig:hyperparam_tuning:interaction_plot}. The calculation is similar to calculating main effects, now the mean response for each level combination is summed up and divided by the number of runs per combination.
+ If interactions, however, exist, they might have an influence on the best settings and need further investigation~\cite{yang_design_2009}. The previously defined interaction is visualized in an interaction plot in Figure \ref{fig:hyperparam_tuning:interaction_plot}. The calculation is similar to calculating main effects, now the mean response for each level combination is summed up and divided by the number of runs per combination. The crossing of lines in the interaction plot indicates that an interaction between the two factors might exist~\cite{field_discovering_2012}. The more parallel the lines are, the less likely an interaction. The magnitude of the angle between the lines corresponds to the degree of interaction presence~\cite{roy_primer_1990}.
 
 \begin{figure}[ht] 
 	\centering
@@ -479,8 +479,6 @@ In case there is no interaction, the optimal setting is easily determined by usi
 	\caption{interaction plot}
 	\label{fig:hyperparam_tuning:interaction_plot}
 \end{figure}
-
-The crossing of lines in the interaction plot indicates that an interaction between the two factors might exist~\cite{field_discovering_2012}. The more parallel the lines are, the less likely an interaction. The magnitude of the angle between the lines corresponds to the degree of interaction presence~\cite{roy_primer_1990}.
 
 \subsubsection{Selection of optimal setting}
 When choosing the optimal setting, the first step is to look at the best main effects combination. For this experiment, the best combination according the main effects is the following: $A_4$, $B_4$, $C_3$, $D_2$, $E_2$, $F_2$, $G_1$.
@@ -569,7 +567,7 @@ Generating the main effects and performing ANOVA is done using the S/N instead. 
 	\label{tab:hyperparameter_tuning:s_n_anova_results}
 \end{table}
 
-Based on the p values obtained from the ANOVA results in Table \ref{tab:hyperparameter_tuning:s_n_anova_results}, no factor shows statistical significance to reject the null hypothesis, which states that a factor has no significant effect. Considering this fact, further investigations were deemed unnecessary. The often recommend signal-to-noise ratio does not appear suitable for this experiment, thus the previously calculated settings in Paragraph \ref{sect:hyperparameter_tuning:optimum_perf_caluclation} will remain unchanged.
+Based on the p values obtained from the ANOVA results in Table \ref{tab:hyperparameter_tuning:s_n_anova_results}, no factor is able to reject the null hypothesis, which states that a factor has no significant effect. Considering this fact, further investigations were deemed unnecessary. The often recommend signal-to-noise ratio does not appear suitable for this experiment, thus the previously calculated settings in Paragraph \ref{sect:hyperparameter_tuning:optimum_perf_caluclation} will remain unchanged.
 
 \subsubsection{Elite Selection}
 Although the optimal hyperparameter setting are reviewed in Chapter \ref{chap:evaluation}, a problem was obvious when analysing results of a GA using the settings from Section \ref{sect:hyperparameter_tuning:optimum_perf_caluclation}. Setbacks in the fitness value between two generations happen frequently, likely due to the high crossover and mutation rates. In order to mitigate this problem, elite selection with a size of 2 was implemented. Per generation, the two best individuals are now copied into the next generation without modifications, which makes worse performance between generations not possible. It is important to note, that these two individuals can still be selected by tournament selection for modification, its just that a copy of them is automatically saved. Figure \ref{fig:hyperparameter_tuning:elite_no_elite_comp} compares both no elite selection with an elite selection of 2. For a few selected repetitions, the best individual fitness per generation is plotted.

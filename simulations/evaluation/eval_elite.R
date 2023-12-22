@@ -66,7 +66,7 @@ levels(melted_generations_elite$variable) <- c("Rep 1", "Rep 2", "Rep 3")
 plot.line.elite <- ggplot(melted_generations_elite, aes(gen, value, color=variable)) + geom_line()  +
   labs(x = "Generations", y = "Cummulated Emergency Break Duration", color = "Repetitions")
 print(plot.line.elite)
-ggsave("evaluation/plots/ga_elite_generations.jpg", plot = plot.line.elite, width = 15, height = 7, units = "cm", dpi = 300)
+#ggsave("evaluation/plots/ga_elite_generations.jpg", plot = plot.line.elite, width = 15, height = 4, units = "cm", dpi = 300)
 
 
 selected_repetitions = c("min_2", "min_3", "min_8")
@@ -79,7 +79,7 @@ levels(melted_generations_no_elite$variable) <- c("Rep 1", "Rep 2", "Rep 3")
 plot.line.no_elite <- ggplot(melted_generations_no_elite, aes(gen, value, color=variable)) + geom_line()  +
   labs(x = "Generations", y = "Cummulated Emergency Break Duration", color = "Repetitions")
 print(plot.line.no_elite)
-ggsave("evaluation/plots/ga_no_elite_generations.jpg", plot = plot.line.no_elite, width = 15, height = 7, units = "cm", dpi = 300)
+#ggsave("evaluation/plots/ga_no_elite_generations.jpg", plot = plot.line.no_elite, width = 15, height = 7, units = "cm", dpi = 300)
 
 
 melted_generations_no_elite$Source <- "Elite = 0"

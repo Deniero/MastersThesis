@@ -83,6 +83,6 @@ plot.pop_comp <- ggplot(melted, aes(x=setting, y=value, group=population)) +
   facet_wrap(~population, ncol = 4) +
   labs(x = "Settings", y = "Cummulated Emergency Break Duration")
 print(plot.pop_comp)
-ggsave("population/plots/comparison.jpg", plot = plot.pop_comp, width = 25, height = 10, units = "cm", dpi = 600)
-
+#ggsave("population/plots/comparison.jpg", plot = plot.pop_comp, width = 25, height = 10, units = "cm", dpi = 600)
+ggsave("population/plots/comparison.jpg", plot = plot.pop_comp, width = 25, height = 10.5, units = "cm", dpi = 600)
 

@@ -130,7 +130,7 @@ plot.main_effects <- ggplot(main_effects, aes(x=level, y=effect, group=factor_na
   labs(x = "", y = "")
 
 print(plot.main_effects)
-ggsave("taguchi/plots/main_effects.jpg", plot = plot.main_effects, width = 18, height = 10, units = "cm", dpi = 600)
+ggsave("taguchi/plots/main_effects.jpg", plot = plot.main_effects, width = 15, height = 9, units = "cm", dpi = 600)
 
 # calc optimum performance without interaction DE:
 main_effects.best_effects <- main_effects %>%
@@ -162,7 +162,7 @@ plot.test_of_interaction <- ggplot(test_of_interaction, aes(x=factor_2_level, y=
   scale_x_discrete(expand = c(0.1, 0.1)) +
   labs(x = "E", y = "", color = "D")
 print(plot.test_of_interaction)
-ggsave("taguchi/plots/test_of_interaction.jpg", plot = plot.test_of_interaction, width = 12, height = 8, units = "cm", dpi = 600)
+ggsave("taguchi/plots/test_of_interaction.jpg", plot = plot.test_of_interaction, width = 7, height = 6, units = "cm", dpi = 600)
 
 
 # calc Predicted Optiumum performance with interaction DE
@@ -201,7 +201,7 @@ plot.percentage_contribution <- ggplot(percentage_contribution, aes(y = reorder(
   labs(x = "", y = "Factors")
 
 print(plot.percentage_contribution)
-ggsave("taguchi/plots/percentage_contribution.jpg", plot = plot.percentage_contribution, width = 12, height = 6, units = "cm", dpi = 600)
+ggsave("taguchi/plots/percentage_contribution.jpg", plot = plot.percentage_contribution, width = 15, height = 6, units = "cm", dpi = 600)
 
 
 #plot(anova)
