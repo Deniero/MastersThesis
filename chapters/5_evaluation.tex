@@ -1,20 +1,19 @@
 \chapter{Evaluation}
 \label{chap:evaluation}
-This Chapter will compare the GA settings proposed in Section \ref{sect:hyperparameter_tuning:optimum_perf_caluclation} with the best settings found in Section \ref{sect:hyperparameter_tuning:population} as well as with random search. The three different algorithms that are going to be compared are as follows:
+This Chapter will compare the GA settings proposed in Section \ref{sect:hyperparameter_tuning:design_of_experiment} with the best settings found in Section \ref{sect:hyperparameter_tuning:population} as well as with random search. The three different algorithms that are going to be compared are as follows:
 \begin{itemize}
 	\item \textbf{Default} Genetic Algorithm - using the best settings found in Section \ref{sect:hyperparameter_tuning:population}
 	\begin{itemize}
-		\item CrossoverType: Two-Point, CrossoverRate: 0.8, MutationRate: 0.20, TournamentSize: 4, ChromosomeType: Time, GeneType: Integer, IndividualMutatioRate: 0.1 and EliteSelection: 0. 
-		\item The algorithm will be run 10 times. The population of 96 needs is simulated 31 times per run (30 generations + initialization), which leads to $96 * 31 * 10 = 29,760$ simulations.
+		\item CrossoverType: Two-Point, CrossoverRate: 0.8, MutationRate: 0.20, ChromosomeType: Time, GeneType: Integer, TournamentSize: 4, IndividualMutatioRate: 0.1 and EliteSelection: 0. 
+		\item The algorithm will be run 10 times. The population of 96 is simulated 31 times per run (30 generations + initialization), which leads to $96 * 31 * 10 = 29,760$ simulations.
 	\end{itemize}
-	\item \textbf{Optimized} Genetic Algorithm - using the recommended settings found in Section \ref{sect:hyperparameter_tuning:optimum_perf_caluclation}
+	\item \textbf{Optimized} Genetic Algorithm - using the recommended settings found in Section \ref{sect:hyperparameter_tuning:design_of_experiment}
 	\begin{itemize}
 		\item CrossoverType: Uniform 0.5, CrossoverRate: 0.9, MutationRate: 0.3, ChromosomeType: Time+NPC, GeneType: Integer, TournamentSize: 4 and IndividualMutationRate: 0.1 and EliteSelection: 2. 
-		\item The algorithm will be run 10 times. The population of 96 needs is simulated 31 times per run (30 generations + initialization), which leads to $96 * 31 * 10 = 29,760$ simulations.
+		\item The algorithm will be run 10 times. The population of 96 is simulated 31 times per run (30 generations + initialization), which leads to $96 * 31 * 10 = 29,760$ simulations.
 	\end{itemize}
-	\item \textbf{Random} Search
+	\item \textbf{Random} Search - Chooses random actions, using the probabilities from Table \ref{tab:implementation:action_probabilities}. 
 	\begin{itemize}
-		\item Randomly choosing actions, using the probabilities from Table \ref{tab:implementation:action_probabilities}. 
 		\item The algorithm will be run 10 times each with $2,976$ simulations, always taking the maximum value as the result. $29,760$ simulations were executed in total.
 	\end{itemize}
 \end{itemize}
@@ -50,7 +49,7 @@ To further analyse both genetic algorithms, a look at their performance over the
 After generation 10, the rate of improved fitness of the Default GA decreases compared to the Optimized GA. A combined early sharp decline in the diversity, suggests a connection. The Optimized GA shows to hold the diversity in the population longer, its rate of convergence is linear. The high crossover and mutation rates appear to help with the improved diversity. The graph also shows, that a higher number of generations might not be useful for improved performance, as after 30 generations, the Optimized GA does not seem to hold enough diversity to continue with adequate performance gains. 
 
 \section{Start Scenario 2}
-Start scenario 2 has with nine vehicles and five pedestrians the same amount of NPCs as start scenario 1 and is described in more detail in the Appendix at Figure \ref{fig:appendix:start_scenarios_1_2}.
+Start scenario 2 has nine vehicles and five pedestrians, which is the same amount of NPCs as start scenario 1 and is described in more detail in the Appendix at Figure \ref{fig:appendix:start_scenarios_1_2}.
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{simulations/evaluation/plots/sim_2_comparison}
@@ -73,7 +72,7 @@ Figure \ref{fig:evaluation:sim_2_comparison} shows that the Optimized GA can als
 	\label{fig:evaluation:sim_2_ga_comparison}
 \end{figure}
 
-The comparison shown in Figure \ref{fig:evaluation:sim_2_ga_comparison} seems very similar to the comparison discussed in start scenario 1. On the one hand, the Default GA shows a slower performance increase, which starts already at generation 8. On the other hand, the diversity of the Optimized GA drops a bit sooner. Still both evaluations show, that the Optimized GA performs well in start scenarios with the given amount of NPCs.
+The comparison shown in Figure \ref{fig:evaluation:sim_2_ga_comparison} seems very similar to the comparison discussed in start scenario 1. While the Default GA again shows to not be able to keep up with the high performance increase of the Optimized GA, the diversity of the Optimized GA drops a bit sooner compared to previously. Still both evaluations show, that the Optimized GA performs well in start scenarios with the given amount of NPCs.
 
 \section{Start Scenario 3}
 \label{sect:evaluation:scenario_3}
@@ -85,7 +84,7 @@ Start scenario 3 is described in more detail in Appendix at Figure \ref{fig:appe
 	\label{fig:evaluation:sim_3_comparison}
 \end{figure}
 
-Looking at the graph, the Optimized GA again outperforms the Random Search, however there seems to be only marginal improvements compared to Default GA. A t-test confirms these findings. While on average, greater fitness is achieved by using Optimized GA (M = 6.66, SE = 0.38) than from using Default GA (M = 6.49, SE = 0.42), this difference was not significant \textit{t}(17.83) = 0.29, p > 0.05 with an effect size of r = 0.07. Verifying the better performance of the Optimized GA compared to Random Search (M = 4.619, SE = 0.17) shows a significant difference \textit{t}(12.4) = 4.9, p < 0.001 and a large effect size of r = 0.81. To further analyse both genetic algorithms, their performance over the generations next to their diversity chart is shown in Figure \ref{fig:evaluation:sim_3_ga_comparison}. The mean over 10 repetitions is plotted, the outline show the first and third quantiles.
+Looking at the graph, the Optimized GA again outperforms the Random Search, however there seems to be only marginal improvements compared to Default GA. A Welch's t-test confirms these findings. While on average, greater fitness is achieved by using Optimized GA (M = 6.66, SE = 0.38) than from using Default GA (M = 6.49, SE = 0.42), this difference was not significant \textit{t}(17.83) = 0.29, p > 0.05 with an effect size of r = 0.07. Verifying the better performance of the Optimized GA compared to Random Search (M = 4.619, SE = 0.17) shows a significant difference \textit{t}(12.4) = 4.9, p < 0.001 and a large effect size of r = 0.81. To further analyse both genetic algorithms, their performance over the generations next to their diversity chart is shown in Figure \ref{fig:evaluation:sim_3_ga_comparison}. The mean over 10 repetitions is plotted, the outline show the first and third quantiles.
 
 \begin{figure}[ht] 
 	\begin{minipage}[b]{0.5\linewidth}
@@ -101,7 +100,7 @@ Looking at the graph, the Optimized GA again outperforms the Random Search, howe
 \end{figure}
 
 
-The rate of improved fitness of the Default GA drops very similar to the Optimized GA. The early decline in the diversity is also not as pronounced as in the previous two comparisons. While the optimized GA shows to still hold the diversity in the population longer, this only has a minimal impact on its average fitness. The similarity in performance might be explained by the smaller search space, which is a result of the reduced number of NPCs. Here, high mutation and crossover rates might not have the previously pronounced advantage.
+The rate of improved fitness of the Default GA drops very similar to the Optimized GA. The difference of decline in the diversity is also not as pronounced as in the previous two comparisons. While the optimized GA shows to still hold the diversity in the population longer, this only has a minimal impact on its average fitness. The similarity in performance might be explained by the smaller search space, which is a result of the reduced number of NPCs. Here, high mutation and crossover rates might not have the previously pronounced advantage.
 
 \section{Start Scenario 4}
 Start scenario 4 can be seen in Appendix at Figure \ref{fig:appendix:start_scenarios_3_4}. Eighteen vehicles with ten pedestrians are initialized, resulting in the start scenario with the most NPCs.

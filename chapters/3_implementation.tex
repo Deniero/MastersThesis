@@ -4,7 +4,7 @@
 In addition to an overview of the simulation environment, the implementation of both the genetic algorithm and the behavior tree will be discussed in this chapter.
 
 \section{Traffic Manager}
-A custom-developed Traffic Manger is employed to simulate a traffic environment, which is subsequently controlled by a genetic algorithm. The Traffic Manager is treated as a 'black box' in this master's thesis, with only a brief introduction provided. In essence, it simulates simulate traffic using a start scenario, where the positions and types of actors (vehicles and pedestrians) are defined. Throughout all simulations conducted in this thesis, the Traffic Manager was configured with a frequency of 100Hz and the simulation duration set to 35 seconds.
+A custom-developed Traffic Manger is employed to simulate a traffic environment, which is subsequently controlled by a genetic algorithm. The Traffic Manager is treated as a 'black box' in this master's thesis, with only a brief introduction provided. In essence, it simulates traffic using a start scenario, where the positions and types of actors (vehicles and pedestrians) are defined. Throughout all simulations conducted in this thesis, the Traffic Manager was configured with a frequency of 100Hz and the simulation duration set to 35 seconds.
 
 Each simulation involves at least one EGO vehicle, with the option to include any number of Non-Player Characters (NPCs). The EGO vehicle can be either partly or completely supervised by autonomous driving functions. The goal of the genetic algorithm is to subsequently test these function for requirements like safety and comfort. This is achieved by controlling the NPCs in a way to generate critical scenarios.
 
@@ -158,8 +158,8 @@ Once again, these probability functions were assigned based on intuition as well
 		\hline
 		ActionType & SelectionFunction & Settings \\
 		\hline
-		JunctionSelection 	& Choice & [straight, left, right] \\
-		LaneChange 			& Choice & [left, right]\\
+		JunctionSelection 	& Random Choice & [straight, left, right] \\
+		LaneChange 			& Random Choice & [left, right]\\
 		ModifyTargetVelocity & Gauss Distribution & Mu: 100, Sigma: 25\\
 		\hline
 	\end{tabular}
@@ -196,6 +196,6 @@ While the behaviour tree has access to the same Action Interface (see Section \r
 
 Each tick, the branch junction selection will first get executed, which will switch between the settings "straight", "left" and "right" every 3 seconds. This serves the purpose of generating more interesting situations, as otherwise, the ego vehicle will only move straight. A random junction selection would not be possible, as this would make the simulation non-deterministic. While implementing a navigation system was investigated, it was decided against doing so, as the added complexity did not seem to significantly improve the resulting simulations.
 
-The next branch focuses on dodging obstacles. First, the condition NoObstacle() determines , if an obstacle is on the path of the EGO vehicle. Second, a threshold of 50\% in ObstacleNotSlower() determines if a lane change makes sense. Third, the ObstacleWillResolve() function has the responsibility to check if the obstacle is 1. inside a junction or 2. roughly at a 90 degree angle. In both cases, no takeover will be performed. In case all of the three functions return false, a final function LaneChangePossible() will check, if a lane change to the left is possible and if this is not the case, if a lane change to the right is possible. Depending on its result, a lane change to the suggested direction is performed. LaneChangePossible() might not allow a lane change if 1. there is no lane or 2. if the lane is blocked by an obstacle.
+The next branch focuses on dodging obstacles. First, the condition NoObstacle() determines , if an obstacle is on the path of the EGO vehicle. Second, a threshold of 50\% in ObstacleNotSlower() determines if a lane change makes sense. Third, the ObstacleWillResolve() function has the responsibility to check if the obstacle is 1. waiting before a junction or 2. inside a junction. In both cases, no takeover will be performed. In case all of the three functions return false, a final function LaneChangePossible() will check, if a lane change to the left is possible and if this is not the case, if a lane change to the right is possible. Depending on its result, a lane change to the suggested direction is performed. LaneChangePossible() might not allow a lane change if 1. there is no lane or 2. if the lane is blocked by an obstacle.
 
 

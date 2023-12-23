@@ -1,6 +1,6 @@
 \chapter{Hyperparameter Tuning}
 \label{chap:hyperparameter_tuning}
-The performance of a genetic algorithm is significantly influenced by its control parameters. Performant settings on one particular fitness landscape might not be on appropriate a different one~\cite{kacprzyk_parameter_2007}. This chapter will focus on tuning the genetic algorithm to perform well on the given cost function. First, a choice on the optimal population size is made. Afterwards, the Taguchi method is used for tuning the remaining hyperparameter.
+The performance of a genetic algorithm is significantly influenced by its control parameters. Performant settings on one particular fitness landscape might not be on appropriate a different one~\cite{kacprzyk_parameter_2007}. This chapter will focus on tuning the genetic algorithm on the given cost function. First, a choice on the optimal population size is made. Afterwards, the Taguchi method is used for optimizing the remaining hyperparameter.
 
 \section{Simulation Setup}
 \label{sect:hyperparameter_tuning:simulation_setup}
@@ -42,7 +42,7 @@ After reviewing various literature regarding control parameter of genetic algori
 A value between 30-200 is a commonly recommended as a population size. In order to reduce the needed computation time, a population size of 96 is defined as a maximum for the future evaluation. Crossover rates are mostly be in a range of 0.6-0.9. When it comes to the mutation rate, a low value is commonly advised. For example Grefenstette~\cite{grefenstette_optimization_1986} suggest poor performance using a rate over 0.05. Using a low mutation rate is also suggested by Whitley~\cite{whitley_genetic_1994} and Jinghui Zhong et al.~\cite{jinghui_zhong_comparison_2005}. On the other hand, Boyabatli~\cite{boyabatli_parameter_2004} found higher mutation rates for their application to be more suitable. Srinivas and Patnaik~\cite{srinivas_genetic_1994} differentiate between higher and lower population numbers, claiming that a smaller population needs higher mutation rates in order to maintain a sufficient diversity.
 
 \subsection{Comparison of Population Size}
-Based on the described research, population sizes of 32, 48, 64 and 96 will be compared. Crossover rates are set to 0.6 and 0.8. For mutation, 0.01 and 0.2 will be discussed. Further, tournament selection of 2 and 4 is used. Individual mutation probability will stay at 0.1. Chromosome encoding is set to Time and gene encoding is set to Integer.  Each run will be executed 5 times in order to reduce randomness and to make the results more robust. Each simulation will last for 30 generations. A list of all settings with the mean over 5 repetitions per population size can be seen in Table \ref{tab:hyperparameter_tuning:pop_settings_results}.
+Based on the described research, population sizes of 32, 48, 64 and 96 will be compared. Crossover rates are set to 0.6 and 0.8. For mutation, 0.01 and 0.2 will be discussed. Further, tournament selection of 2 and 4 is used. Individual mutation probability will stay at 0.1. Chromosome encoding is set to Time and gene encoding is set to Integer.  Each run will be executed 5 times in order to make the results more robust. Each simulation will last for 30 generations. A list of all settings with the mean over 5 repetitions per population size can be seen in Table \ref{tab:hyperparameter_tuning:pop_settings_results}.
 
 \begin{table}[ht]
 	\centering
@@ -99,9 +99,9 @@ Various improvements to design of experiment have been but forward by Dr. Genich
 
 Taguchi predefined a number of different orthogonal arrays where each row contains the specific levels (i.e the settings) of one experiment, while the columns correspond to the factors. The researcher has the responsibility to select an array based on the individual needs~\cite{li_taguchi_2021}. Using these orthogonal arrays instead of full factorial experiments will lead to a much smaller amount of simulation runs, while the full factorial experiments \enquote{might not provide appreciably more useful information}~\cite{roy_primer_1990}.
 
-A big drawback of using Taguchi orthogonal arrays is the inability of evaluating higher-order interaction effects. Not only are these interaction effects impossible to evaluate, but they also have a negative influence on the performance. Orthogonal array experiments perform best in cases of minimal interaction between factors. While there is still a good chance of identifying the optimum condition, especially the performance estimate can be significantly off~\cite{roy_primer_1990}. Although Yang and El-Haik~\cite{yang_design_2009} state that in many cases higher-order interaction effects in factorial designs are seldom significant, this might not be the case for genetic algorithms. For example, according to \cite{kacprzyk_parameter_2007}, control parameters of a genetic algorithm \enquote{interact in highly non-linear ways.} If the proposed method is able to provide a suitable set of hyperparameter settings will be evaluated in Chapter \ref{chap:evaluation}.
+A big drawback of using Taguchi orthogonal arrays is the inability of evaluating higher-order interaction effects. Not only are these interaction effects impossible to evaluate, but they also have a negative influence on the performance. Orthogonal array experiments perform best in cases of minimal interaction between factors~\cite{roy_primer_1990}. Although Yang and El-Haik~\cite{yang_design_2009} state that in many cases higher-order interaction effects in factorial designs are seldom significant, this might not be the case for genetic algorithms. For example, according to De Jong~\cite{kacprzyk_parameter_2007}, control parameters of a genetic algorithm \enquote{interact in highly non-linear ways.} If the proposed method is able to provide a suitable set of hyperparameter settings will be evaluated in Chapter \ref{chap:evaluation}.
 
-\paragraph{Selection of an Orthogonal Array}
+\paragraph{Rules for Selecting a Taguchi Orthogonal Array}
 When choosing a suitable Taguchi orthogonal array, various factors have to be taken into account. According to Yang and El-Haik~\cite{yang_design_2009}, a three step procedure needs to be followed:
 
 \begin{enumerate}
@@ -144,7 +144,7 @@ For this design of experiment, seven factors (three 4-level factors and four 2-l
 
 As already stated, Taguchi allows to only test for predetermined two-factor interactions; evaluating higher-order factor interactions is not possible~\cite{yang_design_2009}. Analysing interactions comes at the cost of degrees of freedom. An interaction between ChromosomeType and GeneType might be of interest and will thus be chosen. In order to minimized the required degrees of freedom (and correspondingly the required number of experiment runs), no additional interactions will be analysed.
 
-\subsection{Selection of a Suitable Standard Orthogonal Array}
+\subsection{Selection and Modification of a Taguchi Orthogonal Array}
 \label{sect:hyperparameter_tuning:selection_orthogonal_array}
 The total degree of freedom can be calculated using the rules provided by Yang and El-Haik~\cite{yang_design_2009}:
 
@@ -355,7 +355,7 @@ Combining columns 1 2 3 to A, 4 8 12 to B and 5 10 15 to C using rules defined b
 		16 & \multicolumn{4}{c}{\sout{2 2} > 4 } & \multicolumn{4}{|c|}{\sout{2 2} > 4 } & \multicolumn{4}{c|}{\sout{1 1} > 1 }\\
 		\hline
 	\end{tabular}
-	\caption{Building 4 Level columns from 2 Level columns}
+	\caption{building 4 Level columns from 2 Level columns}
 	\label{tab:hyperparameter_tuning:merging_columns}
 \end{table}
 
@@ -429,7 +429,7 @@ The sum of squares column tells how much of the total variation is explained by 
 
 The multiple R-squared value of the model is 0.416 while the adjusted R-squared value is 0.344. Multiple R-squared gives a measure on how much variability in the outcome is explained by the predictors~\cite{field_discovering_2012}. Having only 41.6\% does not seem optimal. Field et al.~\cite{field_discovering_2012} state further that a model which generalizes well has an adjusted R-squared value that is similar to multiple R-squared, which is also not the case. The high error might possibly be explained by the huge search space in the scenario. Increasing the population and number of generations can lead to improvements, however at the cost of computational time. Whether the model, having this much of an error, will perform well compared to either a genetic algorithm build from values from the literature or compared to random search will be evaluated in Section \ref{chap:evaluation}.
 
-Looking at the factors as well as the interaction, significant factors can be seen. The highest F value has the factor F (TournamentSize). The factor is significant with F(1, 112) = 15.64, p < 0.001. Next, the C (MutationRate) is significant with F(3, 112) = 9.46, p < 0.001. A (CrossoverType) is also significant F(3, 112) = 6.59, p < 0.001. Finally G (IndependendMutationRate) is significant with F(1, 112) = 5.77, p < 0.05. D (ChromosomeType) and the interaction D:E will be mentioned as well with F(1, 112) = 3.21, p < 0.1 and F(1, 112) = 3.4, p < 0.1 respectively. There is not enough evidence to suggest significance for the factors B (CrossoverRate) and E (GeneType). Particularly noteworthy is the insignificance of the CrossoverRate. The low influence of GeneType, however, might be explained by the fact, that it does not have an impact on the action selected apart from more granularity of the parameters when Dictionary encoding is used. To calculate the percentage contribution of each factor, Equations \ref{equ:hyperparam_tuning:ss_t} and \ref{equ:hyperparam_tuning:contribution} (gathered from from Yang and El-Haik~\cite{yang_design_2009}) are used.
+Looking at the factors as well as the interaction, significant factors can be seen. The highest F value has the factor F (TournamentSize). It is significant with F(1, 112) = 15.64, p < 0.001. Next, the factor C (MutationRate) is significant with F(3, 112) = 9.46, p < 0.001. A (CrossoverType) is also significant F(3, 112) = 6.59, p < 0.001. Finally G (IndependendMutationRate) is significant with F(1, 112) = 5.77, p < 0.05. The factor D (ChromosomeType) and the interaction D:E will be mentioned as well with F(1, 112) = 3.21, p < 0.1 and F(1, 112) = 3.4, p < 0.1 respectively. There is not enough evidence to suggest significance for the factors B (CrossoverRate) and E (GeneType). Particularly noteworthy is the insignificance of the CrossoverRate. The low influence of GeneType, however, might be explained by the fact, that it does not have an impact on the action selected apart from more granularity of the parameters when Dictionary encoding is used. To calculate the percentage contribution of each factor, Equations \ref{equ:hyperparam_tuning:ss_t} and \ref{equ:hyperparam_tuning:contribution} (gathered from from Yang and El-Haik~\cite{yang_design_2009}) are used.
 
 \begin{equation}
 	\begin{split}
@@ -466,7 +466,7 @@ For every factor, the mean of all results per level is summed up and subsequentl
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{simulations/taguchi/plots/main_effects}
-	\caption{Main Effects}
+	\caption{main effects}
 	\label{fig:hyperparam_tuning:main_effects}
 \end{figure}
 
@@ -508,7 +508,7 @@ To calculate the predicted results of a genetic algorithm with these settings, o
 
 The inclusion of the interaction term D:E results in an improved performance estimation from 8.06 to 8.13. Consequently, the final optimal combination of control parameters is determined as follows: CrossoverType: Uniform 0.5, CrossoverRate: 0.9, MutationRate: 0.3, ChromosomeType: Time+NPC, GeneType: Integer, TournamentSize: 4 and IndividualMutationRate: 0.1.
 
-The added higher granularity for the crossover function was preferred, which is provided by the chromosome encoding 'Time+NPC'. This encoding allows for the crossover operation to exchange actions between actors across different time steps. Notably, the choice of Uniform 0.5 as the CrossoverType as well as the high CrossoverRate and MutationRate is surprising. It remains to be seen, if the genetic algorithms will behave similar to random search or if the high rates will contribute to maintain diversity in its population.
+The added higher granularity for the crossover function was preferred, which is provided by the chromosome encoding 'Time+NPC'. This encoding allows for the crossover operation to exchange actions between actors across different time steps. Notably, the choice of Uniform 0.5 as the CrossoverType as well as the high CrossoverRate and MutationRate are surprising. It remains to be seen, if the genetic algorithms will behave similar to random search or if the high probabilities will contribute to maintain diversity in its population.
 
 \subsubsection{Signal-to-Noise Ratio}
 As discussed earlier, the ANOVA model has a high error, which suggests high randomness. Taguchi recommends using signal-to-noise ratio (S/N) to reduce the variability, as using only the mean of the results (which is used when calculating the main effects) does not take the variation into account~\cite{roy_primer_1990}. S/N quantifies the ratio between the 'desired' signal to the 'undesired' noise. Essentially, a higher signal-to-noise ratio corresponds to reduced variance.
@@ -535,7 +535,7 @@ S/N is calculated in two steps~\cite{roy_primer_1990}. The first step involves d
 	 \label{equ:hyperparam_tuning:S_N}
 \end{equation}
 
-Generating the main effects and performing ANOVA is done using the S/N instead. As a side note, it's important to mention that only 15 DOF are available for the ANOVA analysis, as repetitions per run are merged when calculating S/N, which can be observed in Equation \ref{equ:hyperparam_tuning:S_N_anova_DOF}.
+Generating the main effects and performing ANOVA is done using S/N instead. As a side note, it's important to mention that only 15 DOF are available for the ANOVA analysis, as repetitions per run are merged when calculating S/N, which can be observed in Equation \ref{equ:hyperparam_tuning:S_N_anova_DOF}.
 
 \begin{equation}
 	\begin{split}
@@ -578,7 +578,7 @@ Although the optimal hyperparameter setting are reviewed in Chapter \ref{chap:ev
 	\label{fig:hyperparameter_tuning:elite_no_elite_comp}
 \end{figure}
 
-For analysing the statistical significance in the differences in mean between a genetic algorithm using elite selection of 2 vs no elite selection, a t-test can be used. To account for possible violation of the assumption of homogeneity, a robust welch's t-test is applied, which adjusts the DOF accordingly~\cite{field_discovering_2012}. On average, using elite improved the performance (M = 8.52, SE = 0.31), compared to using no elite (M = 7.92, SE = 0.55). This difference was not significant \textit{t}(14.21) = 0.96, p > 0.05; however, it did represent a small-sized effect r = 0.25. A visual comparison of both GAs, each repeated 10 times, can be seen in Figure \ref{fig:hyperparameter_tuning:elite_comparison}. Due to the existence of the aforementioned small effect as well as the reduced variance, it is concluded that elite selection of 2 is added to the settings from \ref{sect:hyperparameter_tuning:optimum_perf_caluclation}, which will be used in Chapter \ref{chap:evaluation}.
+For analysing the statistical significance in the differences in mean between a genetic algorithm using elite selection of 2 vs no elite selection, a t-test can be used. To account for possible violation of the assumption of homogeneity, a robust welch's t-test is applied, which adjusts the DOF accordingly~\cite{field_discovering_2012}. On average, using elite selection improved the performance (M = 8.52, SE = 0.31), compared to using no elite (M = 7.92, SE = 0.55). This difference was not significant \textit{t}(14.21) = 0.96, p > 0.05; however, it did represent a small-sized effect r = 0.25. A visual comparison of both GAs, each repeated 10 times, can be seen in Figure \ref{fig:hyperparameter_tuning:elite_comparison}. Due to the existence of the aforementioned small effect as well as the reduced variance, it is concluded that elite selection of 2 is added to the settings from \ref{sect:hyperparameter_tuning:optimum_perf_caluclation}, which will be used in Chapter \ref{chap:evaluation}.
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{simulations/evaluation/plots/elite_vs_no_elite}
