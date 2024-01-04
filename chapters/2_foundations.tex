@@ -62,7 +62,7 @@ The selection operator chooses two parents for crossover and mutation operations
 
 Roulette wheel selection is a popular mechanism, where each individual corresponds to an area on a roulette wheel, based on its fitness value~\cite{holland_adaptation_1992}. Grefenstette~\cite{grefenstette_optimization_1986} points out the scaling problem as its major drawback. As the algorithm progresses, its fitness variance to mean ratio becomes increasingly small, leading to low selection pressure. This problem can be mitigated by using ranks instead of the fitness value~\cite{katoch_review_2021}. Individuals will be sorted based on their performance and their relative ranks are then inserted into the roulette wheel instead. 
 
-Tournament selection is a popular alternative to roulette wheel selection. A parameter \textit{t} defines the size of a tournament. Until the desired number of offsprings is achieved, \textit{t} individuals will be chosen at random from the population. Only from this smaller list, the best individual is selected. A popular tournament size is 2, larger sizes might enhance competition among individuals, however they can also has an impact on the diversity of the population~\cite{hussain_trade-off_2020}. In a comparison of different selection methods by Jinghui Zhong et al.~\cite{jinghui_zhong_comparison_2005}, tournament selection was deemed to be the most performant, converging more quickly than for example roulette wheel selection.
+Tournament selection is a popular alternative to roulette wheel selection. A parameter \textit{t} defines the size of a tournament. Until the desired number of offsprings is achieved, \textit{t} individuals will be chosen at random from the population. Only from this smaller list, the best individual is selected. A popular tournament size is 2, larger sizes might enhance competition among individuals, however they can also have an impact on the diversity of the population~\cite{hussain_trade-off_2020}. In a comparison of different selection methods by Jinghui Zhong et al.~\cite{jinghui_zhong_comparison_2005}, tournament selection was deemed to be the most performant, converging more quickly than for example roulette wheel selection.
 
 Elite selection is an additional method that can enhance a selection operation and was proposed by De Jong~\cite{de_jong_analysis_1975}. The best \textit{n} individuals are automatically chosen for the next generation. Elite selection can help reduce variance, as the highest performing individuals can not be removed by randomness.
 
@@ -120,7 +120,7 @@ The control flow nodes decide which actions and condition nodes to execute next.
 	\end{itemize}
 	\item Execution nodes
 	\begin{itemize}
-		\item \textbf{Action nodes:} These nodes execute a command upon receiving a tickand can return "Success," "Failure," or "Running." Typically, action nodes execute the behavior of an agent, such as "open\_door()".
+		\item \textbf{Action nodes:} These nodes execute a command upon receiving a tick and can return "Success," "Failure," or "Running." Typically, action nodes execute the behavior of an agent, such as "open\_door()".
 		
 		\item \textbf{Condition nodes:} These nodes also execute a command after receiving a tick. Contrary to the  Action Nodes, they can only return "Success" and "Failure".  Condition nodes are designed to check conditions, such as "is\_door\_closed()". They cannot execute over multiple ticks and thus can never return "Running".
 	\end{itemize}
