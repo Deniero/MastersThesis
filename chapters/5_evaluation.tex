@@ -25,9 +25,10 @@ First, a comparison of the three algorithms was made on start scenario 1. This i
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{simulations/evaluation/plots/sim_1_comparison}
-	\caption{start scenario 1: Default GA vs Optimized GA vs Random Search}
+	\caption{Start Scenario 1 Comparison Results: The x-axis displays the cumulative emergency brake duration (in seconds), and the y-axis represents the three compared algorithms. The box plot presents the result over 10 repetitions.}
 	\label{fig:evaluation:sim_1_comparison}
 \end{figure}
+
 
 Analysing the graph, the Optimized GA clearly outperformed the Default GA as well as Random Search. Welch's t-test shows that, on average, greater fitness is achieved by using Optimized GA (M = 8.52, SE = 0.31) than by using Default GA (M = 7.09, SE = 0.34). This difference was significant \textit{t}(17.87) = 3.15, p < 0.01. It did represent a large effect r = 0.60. Compared to Random Search (M = 4.943, SE = 0.4), the Optimized GA exhibits even higher performance, with a significant difference \textit{t}(16.9) = 7.12, p < 0.001 and a large effect r = 0.87. The better performance of the Optimized GA was however unsurprising, as it was specifically trained on the used start scenario.
 
@@ -42,7 +43,7 @@ To further analyse both genetic algorithms, a look at their performance over the
 		\centering
 		\includegraphics[width=1\linewidth]{simulations/evaluation/plots/sim_1_ga_diversity} 
 	\end{minipage} 
-	\caption{start scenario 1: comparison of GAs}
+	\caption{Comparison of GAs in Start Scenario 1: The x-axis represents 30 generations. In the first plot, the y-axis illustrates the cumulative emergency brake duration (in seconds), while the y-axis depicts the diversity among individuals within the GA in the second plot. The presented data is the mean over 10 repetitions, with the outlines indicating the first and third quantiles.}
 	\label{fig:evaluation:sim_1_ga_comparison}
 \end{figure}
 
@@ -53,7 +54,7 @@ Start scenario 2 has nine vehicles and five pedestrians, which is the same amoun
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{simulations/evaluation/plots/sim_2_comparison}
-	\caption{start scenario 2: Default GA vs Optimized GA vs Random Search}
+	\caption{Start Scenario 2 Comparison Results: The x-axis displays the cumulative emergency brake duration (in seconds), and the y-axis represents the three compared algorithms. The box plot presents the result over 10 repetitions.}
 	\label{fig:evaluation:sim_2_comparison}
 \end{figure}
 
@@ -68,7 +69,7 @@ Figure \ref{fig:evaluation:sim_2_comparison} shows that the Optimized GA can als
 		\centering
 		\includegraphics[width=1\linewidth]{simulations/evaluation/plots/sim_2_ga_diversity} 
 	\end{minipage} 
-	\caption{start scenario 2: comparison of GAs}
+	\caption{Comparison of GAs in Start Scenario 2: The x-axis represents 30 generations. In the first plot, the y-axis illustrates the cumulative emergency brake duration (in seconds), while the y-axis depicts the diversity among individuals within the GA in the second plot. The presented data is the mean over 10 repetitions, with the outlines indicating the first and third quantiles.}
 	\label{fig:evaluation:sim_2_ga_comparison}
 \end{figure}
 
@@ -80,7 +81,7 @@ Start scenario 3 is described in more detail in Appendix at Figure \ref{fig:appe
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{simulations/evaluation/plots/sim_3_comparison}
-	\caption{start scenario 3: Default GA vs Optimized GA vs Random Search}
+	\caption{Start Scenario 3 Comparison Results: The x-axis displays the cumulative emergency brake duration (in seconds), and the y-axis represents the three compared algorithms. The box plot presents the result over 10 repetitions.}
 	\label{fig:evaluation:sim_3_comparison}
 \end{figure}
 
@@ -95,7 +96,7 @@ Looking at the graph, the Optimized GA again outperforms the Random Search, howe
 		\centering
 		\includegraphics[width=1\linewidth]{simulations/evaluation/plots/sim_3_ga_diversity} 
 	\end{minipage} 
-	\caption{start scenario 3: comparison of GAs}
+	\caption{Comparison of GAs in Start Scenario 3: The x-axis represents 30 generations. In the first plot, the y-axis illustrates the cumulative emergency brake duration (in seconds), while the y-axis depicts the diversity among individuals within the GA in the second plot. The presented data is the mean over 10 repetitions, with the outlines indicating the first and third quantiles.}
 	\label{fig:evaluation:sim_3_ga_comparison}
 \end{figure}
 
@@ -107,7 +108,7 @@ Start scenario 4 can be seen in Appendix at Figure \ref{fig:appendix:start_scena
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{simulations/evaluation/plots/sim_4_comparison}
-	\caption{Start Scenario 4: Default GA vs Optimized GA vs Random Search}
+	\caption{Start Scenario 4 Comparison Results: The x-axis displays the cumulative emergency brake duration (in seconds), and the y-axis represents the three compared algorithms. The box plot presents the result over 10 repetitions.}
 	\label{fig:evaluation:sim_4_comparison}
 \end{figure}
 
@@ -124,7 +125,7 @@ Compared to Random Search (M = 6.86, SE = 0.14), the greater fitness of the Opti
 		\centering
 		\includegraphics[width=1\linewidth]{simulations/evaluation/plots/sim_4_ga_diversity} 
 	\end{minipage} 
-	\caption{start scenario 4: comparison of GAs}
+	\caption{Comparison of GAs in Start Scenario 4: The x-axis represents 30 generations. In the first plot, the y-axis illustrates the cumulative emergency brake duration (in seconds), while the y-axis depicts the diversity among individuals within the GA in the second plot. The presented data is the mean over 10 repetitions, with the outlines indicating the first and third quantiles.}
 	\label{fig:evaluation:sim_4_ga_comparison}
 \end{figure}
 

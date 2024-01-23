@@ -1,7 +1,6 @@
 \chapter{Implementation}
 \label{chap:implementation}
-
-In addition to an overview of the simulation environment, the implementation of both the genetic algorithm and the behavior tree will be discussed in this chapter.
+In addition to an overview of the simulation environment, the implementation of both the genetic algorithm and the behaviour tree will be discussed in this chapter. Subsequently the experiment setup is outlined.
 
 \section{Traffic Manager}
 A custom-developed Traffic Manger is employed to simulate a traffic environment, which is subsequently controlled by a genetic algorithm. The Traffic Manager is treated as a 'black box' in this master's thesis, with only a brief introduction provided. In essence, it simulates traffic using a start scenario, where the positions and types of actors (vehicles and pedestrians) are defined. Throughout all simulations conducted in this thesis, the Traffic Manager was configured with a frequency of 100Hz and the simulation duration set to 35 seconds.
@@ -10,7 +9,7 @@ Each simulation involves at least one EGO vehicle, with the option to include an
 
 \subsection{Action Interface}
 \label{sect:implementation:action_interface}
-In order to control the behaviour of all actors inside the simulation, actions can be requested via the Action Interface, which is provided by the Traffic Manager. An action initiates a certain behaviour from an actor and can be set at any timestep\footnote{~depending on the autonomous driving function under test, the Action Interface might be disabled for the EGO vehicle}. Pedestrians and vehicles have different sets of possible actions. If no action is applied, the actor will behave in a normal manner inside the simulation. This implies that the actor will follow its assigned path until a new action changes its behaviour. It will stick to traffic rules and will break in case of an obstacle. The following list shows all actions which were available for the genetic algorithm at the time of this master's thesis.
+In order to control the behaviour of all actors inside the simulation, actions can be requested via the Action Interface, which is provided by the Traffic Manager. An action initiates a certain behaviour from an actor and can be set at any timestep\footnote{~depending on the autonomous driving function under test, the Action Interface might be disabled for the EGO vehicle}. Pedestrians and vehicles have different sets of possible actions. If no action is applied, the actor will behave in a normal manner inside the simulation. This implies that the actor will follow its assigned path until a new action changes its behaviour. It will stick to traffic rules and will brake in case of an obstacle. The following list shows all actions which were available for the genetic algorithm at the time of this master's thesis.
 
 \begin{itemize}
 	\item JunctionSelection
@@ -50,13 +49,6 @@ In order to control the behaviour of all actors inside the simulation, actions c
 	\end{itemize}
 \end{itemize}
 
-The genetic algorithm only controls NPCs, while a behaviour tree is used for the EGO vehicle itself. Both methods utilize the Action Interface to guide their respective actors. An overview is provided in Figure \ref{fig:implementation:traffic_manager_structure}.
-
-\begin{figure}[ht] 
-	\includegraphics[width=1\linewidth]{figures/tm_structure}
-	\caption{Action Interface structure}
-	\label{fig:implementation:traffic_manager_structure}
-\end{figure}
 
 \section{Genetic Algorithm}
 The genetic algorithm will search for sequences of actions that will result in the most interesting scenarios according to its cost function. To implement the genetic algorithm, the Python library DEAP\footnote{~\url{https://deap.readthedocs.io/en/master}} was chosen, as it is a popular tool in academia and allows for high customisability. The algorithm has full access to set actions for all NPCs. Searching for sequences of actions, the GA tries to optimize a cost function.
@@ -72,27 +64,27 @@ When implementing a genetic algorithm, it is necessary to use an encoding that f
 \subsubsection{Chromosome}
 Two different encodings proved to be a good fit. Both use the position of a gene inside the chromosome to define the time step of an action. Which chromosome encoding is the most adequate will be discussed and tested in Chapter \ref{chap:hyperparameter_tuning}.
 
-\paragraph{Time}
+\paragraph{Time Encoding}
 The first encoding is called 'Time'. In this encoding, each gene corresponds to 1 time step (1 gene per 0.5 seconds) and needs to contain all actions of all NPCs at that particular moment. A gene is a list with a size equal to the number of NPCs. Each object in this list represents an action. The index of an action inside a gene corresponds to the NPC ID. For example, an action positioned in the gene at index 2, will be applied to NPC 2. If the gene is at position 6 in the chromosome, the action will be set at second 3.0 in the simulation. A visualization is seen in Figure \ref{fig:implementation:encoding_chromosome_time}.
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{figures/time_encoding}
-	\caption{Time}
+	\caption{Time Encoding: Each time step is encapsulated within a single gene, where the gene's position denotes the current time step. The index of an action in the gene corresponds to the NPC ID.}
 	\label{fig:implementation:encoding_chromosome_time}
 \end{figure}
 
 Given the previously stated simulation time of 35 seconds, each chromosome has a length of $35 * 2 = 70$ genes. The crossover operation can only move all actions of a time step at once. Modifications in the timeline between actions of the same time step will only happen through a mutation operation.
 
-\paragraph{Time+NPC}
+\paragraph{Time+NPC Encoding}
 The second encoding is called 'Time+NPC'. Here, one gene corresponds to exactly one action. In order to not loose required information, the IDs of each NPC must also be encoded into the gene's position in its chromosome. One might visualize this as unfolding the matrix build by the genes and chromosome in the Time encoding into a linear array. Each actor's actions are listed one after another. Now, each gene has a length of $1$ and each chromosome has a length of $35 * 2 * number\_of\_actors$, which makes them much longer compared to the previous encoding. Figure \ref{fig:implementation:encoding_chromosome_time_npc} provides a visualization. In this example, a gene at position 13 corresponds to an action for NPC 2 at time step 3 (which is at 1.5 seconds in the simulation).
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{figures/time_npc_encoding}
-	\caption{Time + NPC}
+	\caption{Time+NPC Encoding: Each gene encapsulates a single action, with the gene's position representing both the NPC ID and the current time step.}
 	\label{fig:implementation:encoding_chromosome_time_npc}
 \end{figure}
 
-However for this encoding to make sense, the OnePoint and TwoPoint crossover operations had to be modified in a way, that for each NPC, these crossover operations are applied individually. If this was not the case, OnePoint crossover would introduce changes to actions of only one NPC. Because these different crossover points are chosen independently, the position of the crossing now differs between the NPCs. This modification allows the crossover operation to break up actions at the same time step, which was not possible with the Time encoding.
+However for this encoding to make sense, the OnePoint and TwoPoint crossover operations had to be modified in a way, that for each NPC, these crossover operations are applied individually. If this was not the case, OnePoint crossover would introduce changes to actions of only one NPC. Because these different crossover points are chosen independently, the position of the crossing now differs between the NPCs. This modification allows the crossover operation to brake up actions at the same time step, which was not possible with the Time encoding.
 
 \subsubsection{Gene}
 Two different encodings for genes were implemented. A gene always consists of a list, which depending on the chromosome type either has a length of $number\_of\_actors$ (in case of Time) or of length 1 (in case of Time+NPC). The following two encodings explain the possible objects in these lists. In both encodings, the probability of each action remains the same and can be seen in Table \ref{tab:implementation:action_probabilities}.
@@ -111,16 +103,16 @@ Two different encodings for genes were implemented. A gene always consists of a 
 		ModifyTargetVelocity & 17\% & & \\
 		\hline
 	\end{tabular}
-	\caption{probability of actions}
+	\caption{Action Probabilities: The genetic algorithm selects actions based on these assigned probabilities.}
 	\label{tab:implementation:action_probabilities}
 \end{table}
 
-These probabilities were manually chosen based on experience. For example, setting PedTurnHeading to a high probability will see many pedestrians change their direction in front of the EGO vehicle multiple times, aiming to initiate emergency breaks by the EGO vehicle. However, this is only critical to a certain extend and the probability is accordingly set to a low value.
+These probabilities were manually chosen based on experience. For example, setting PedTurnHeading to a high probability will see many pedestrians change their direction in front of the EGO vehicle multiple times, aiming to initiate emergency brakes by the EGO vehicle. However, this is only critical to a certain extend and the probability is accordingly set to a low value.
 
-\paragraph{Integer}
+\paragraph{Integer Encoding}
 The first encoding uses integers that are translated into actions when the simulation starts. For each action, a range of integers is assigned; the larger the range, the more likely an action is chosen by the GA. These ranges correspond to the probabilities given in Table \ref{tab:implementation:action_probabilities}.
 
-Actions that have parameters need their assigned integer range to be manually split again. For example, it was decided, that ModifyTargetVelocity has five different percentage settings, namely 50, 70, 100, 130, 160. Therefore, each of these 5 settings needs a unique range of integers assigned, again with different lengths, in order to have different probabilities. A complete list can be seen in Table \ref{tab:implementation:integer_encoding_probabilities}.
+Actions, that have parameters, need their assigned integer range to be manually split again. For example, it was decided, that ModifyTargetVelocity has five different percentage settings, namely 50, 70, 100, 130, 160. Therefore, each of these 5 settings needs a unique range of integers assigned, again with different lengths, in order to have different probabilities. A complete list can be seen in Table \ref{tab:implementation:integer_encoding_probabilities}.
 
 \begin{table}[ht]
 	\centering
@@ -142,13 +134,13 @@ Actions that have parameters need their assigned integer range to be manually sp
 		& 160 & 5\%\\
 		\hline
 	\end{tabular}
-	\caption{Integer encoding: probability of parameters per action}
+	\caption{Integer Encoding: The genetic algorithm determines the parameters of actions based on these assigned probabilities.}
 	\label{tab:implementation:integer_encoding_probabilities}
 \end{table}
 
 Combining these ranges results in a continuos list of integers. The genetic algorithm will choose integers in this list for its genes. Before a simulation is started, these integers are then encoded back into actions.
 
-\paragraph{Dictionary}
+\paragraph{Dictionary Encoding}
 The second encoding for genes corresponds exactly to the actual actions used in the simulations, requiring no translation. Each action is again selected based on the same probabilities from Table \ref{tab:implementation:action_probabilities}. For actions without parameters, the different encoding will make no difference. However, actions with parameters are no longer split into different discrete settings. Instead, each parameter is chosen by a randomness function, which is individually selected per action. For example in case of the percentage parameter in ModifyTargetVelocity, the values are selected from a gaussian distribution with $mu=100$, $sigma=25$ and a range limit between 0 and 300. An overview is provided in Table \ref{tab:implementation:dict_encoding_probabilities}.
 Once again, these probability functions were assigned based on intuition as well as trial and error. 
 
@@ -163,7 +155,7 @@ Once again, these probability functions were assigned based on intuition as well
 		ModifyTargetVelocity & Gauss Distribution & Mu: 100, Sigma: 25\\
 		\hline
 	\end{tabular}
-	\caption{Dictionary encoding: probability of parameters per action}
+	\caption{Dictionary encoding: The genetic algorithm determines the parameters of actions based on these assigned selection functions.}
 	\label{tab:implementation:dict_encoding_probabilities}
 \end{table}
 
@@ -171,31 +163,67 @@ Compared to integer encoding, this method allows for much higher granularity whe
 
 \subsection{Cost Function}
 \label{sect:implementation:cost_function}
-This master's thesis utilizes only internal values from the Traffic Manager for the cost function, specifically if the ego vehicle had to initiate an emergency break. As long as the EGO vehicle has no emergency stop initiated, the cost value will increase. If a maximum duration of 3 seconds is exceeded, the cost value will increase as well. Only in cases where none of these two conditions is fulfilled, no cost will be added. This penalty of the maximum duration was introduced to reduce the number of instances, where the ego vehicle is constantly brake-checked\footnote{~\enquote{the unsafe action of applying a car’s brakes to dissuade a driver who is following too closely} according to \href{https://www.dictionary.com/e/slang/brake-check/}{https://www.dictionary.com/e/slang/brake-check/}} by the leading vehicle. The cost values are not easily interpreted, so these numbers are modified for this master's thesis using Equation \ref{equ:implementation:modified_cost}.
+This master's thesis utilizes only internal values from the Traffic Manager for the cost function, specifically if the ego vehicle had to initiate an emergency brake. As long as the EGO vehicle has no emergency stop initiated, the cost value will increase. If a maximum duration of 3 seconds is exceeded, the cost value will increase as well. Only in cases where none of these two conditions is fulfilled, no cost will be added. This penalty of the maximum duration was introduced to reduce the number of instances, where the ego vehicle is constantly brake-checked\footnote{~\enquote{the unsafe action of applying a car’s brakes to dissuade a driver who is following too closely} according to \href{https://www.dictionary.com/e/slang/brake-check/}{https://www.dictionary.com/e/slang/brake-check/}} by the leading vehicle. The cost values are not easily interpreted, so these numbers are modified for this master's thesis using Equation \ref{equ:implementation:modified_cost}.
 
 \begin{equation} 
 	\begin{split}
-		cummulated\_emergency\_break\_duration & = (3500 - cost) / 100
+		cummulated\_emergency\_brake\_duration & = (3500 - cost) / 100
 	\end{split}
 	\label{equ:implementation:modified_cost}
 \end{equation}
 
-The constant 3500 is used to account for the 100Hz sampling rate and the duration of 35 seconds. The division by 100 transforms the value into seconds. A higher cumulated emergency brake duration is preferable. It is important to consider that this value might not exactly correspond to the actual cumulated emergency brake duration time from the simulation, due to the penalty applied by the cost function for emergency breaks that last longer then 3 seconds.
+The constant 3500 is used to account for the 100Hz sampling rate and the duration of 35 seconds. The division by 100 transforms the value into seconds. A higher cumulated emergency brake duration is preferable. It is important to consider that this value might not exactly correspond to the actual cumulated emergency brake duration time from the simulation, due to the penalty applied by the cost function for emergency brakes that last longer then 3 seconds.
 
 \section{Behaviour Tree}
 The EGO vehicle will be controlled by a behaviour tree, which is implemented using the Python library py\_trees\footnote{~\href{https://py-trees.readthedocs.io/en/release-2.2.x/}{https://py-trees.readthedocs.io/en/release-2.2.x/}}. The general idea is to have the EGO vehicle move in a relatable manner trough the world. It will attempt to dodge standing or slow-moving obstacles as well as decide which turn to take at junctions.
 
 \subsection{Structure}
-While the behaviour tree has access to the same Action Interface (see Section \ref{sect:implementation:action_interface}) as the genetic algorithm, it needs a higher level of integration with the Traffic Manger. The genetic algorithm is only interested in the resulting emergency break values, but the behaviour tree needs access to internal functions during the simulation. Conditions like NoObstacle() or LaneChangePossible() execute functions from the Traffic Manager to get needed information on the world around the EGO vehicle. Figure \ref{fig:implementation:bt} shows the implemented behaviour tree.
+While the behaviour tree has access to the same Action Interface (see Section \ref{sect:implementation:action_interface}) as the genetic algorithm, it needs a higher level of integration with the Traffic Manger. The genetic algorithm is only interested in the resulting emergency brake values, but the behaviour tree needs access to internal functions during the simulation. Conditions like NoObstacle() or LaneChangePossible() execute functions from the Traffic Manager to get needed information on the world around the EGO vehicle. Figure \ref{fig:implementation:bt} shows the implemented behaviour tree.
 
 \begin{figure}[ht] 
 	\includegraphics[width=1\linewidth]{figures/behaviorTree}
-	\caption{implemented behaviour tree}
+	\caption{Visualization of the implemented behaviour tree.}
 	\label{fig:implementation:bt}
 \end{figure}
 
 Each tick, the branch junction selection will first get executed, which will switch between the settings "straight", "left" and "right" every 3 seconds. This serves the purpose of generating more interesting situations, as otherwise, the ego vehicle will only move straight. A random junction selection would not be possible, as this would make the simulation non-deterministic. While implementing a navigation system was investigated, it was decided against doing so, as the added complexity did not seem to significantly improve the resulting simulations.
 
-The next branch focuses on dodging obstacles. First, the condition NoObstacle() determines , if an obstacle is on the path of the EGO vehicle. Second, a threshold of 50\% in ObstacleNotSlower() determines if a lane change makes sense. Third, the ObstacleWillResolve() function has the responsibility to check if the obstacle is 1. waiting before a junction or 2. inside a junction. In both cases, no takeover will be performed. In case all of the three functions return false, a final function LaneChangePossible() will check, if a lane change to the left is possible and if this is not the case, if a lane change to the right is possible. Depending on its result, a lane change to the suggested direction is performed. LaneChangePossible() might not allow a lane change if 1. there is no lane or 2. if the lane is blocked by an obstacle.
+The next branch focuses on dodging obstacles. First, the condition NoObstacle() determines, if an obstacle is on the path of the EGO vehicle. Second, a threshold of 50\% in ObstacleNotSlower() determines if a lane change makes sense. Third, the ObstacleWillResolve() function has the responsibility to check if the obstacle is 1. waiting before a junction or 2. inside a junction. In both cases, no takeover will be performed. In case all of the three functions return false, a final function LaneChangePossible() will check, if a lane change to the left is possible and if this is not the case, if a lane change to the right is possible. Depending on its result, a lane change to the suggested direction is performed. LaneChangePossible() might not allow a lane change if 1. there is no lane or 2. if the lane is blocked by an obstacle.
+
+
+\section{Experiment Setup}
+\label{sect:implementation:experiment_setup}
+Two workstations were available for running all of the following simulations. The first workstation had an Intel Core i7-9700K and a GeForce RTX 2070 SUPER with 32 GB of RAM. The second workstation had an Intel Core i7-6850K as well as two Nvidia GeForce GTX 1080, also equipped with 32 GB of RAM. On both systems, Kubuntu 20.04 LTS was the operating system.
+
+The software part of the setup consists of the genetic algorithm which only controls NPCs, and the behaviour tree used for the EGO vehicle itself. Both methods utilize the Action Interface to guide their respective actors. An overview is provided in Figure \ref{fig:implementation:traffic_manager_structure}.
+
+\begin{figure}[ht] 
+	\includegraphics[width=1\linewidth]{figures/tm_structure}
+	\caption{The Traffic Manager provides world information to both the genetic algorithm and behaviour tree. The genetic algorithm accesses all NPCs through the Action Interface, while the behaviour tree accesses only the EGO vehicle via the Action Interface.}
+	\label{fig:implementation:traffic_manager_structure}
+\end{figure}
+
+Each genetic algorithm will run for 30 generations. Additionally one simulation will have a duration of 35 seconds. On a single workstation, approximately 3 hours and 50 minutes are needed to complete one genetic algorithm with a population size of 96. This time indication, however, is influenced by the number of actors, as increasing the actor count has an impact on performance. The street map 'Town 10' from the driving simulator Carla\footnote{~\href{https://carla.readthedocs.io/en/latest/map_town10/}{https://carla.readthedocs.io/en/latest/map\_town10/}} will be used for all experiments. It has an adequate size, yet is not too big, and allows for interesting manoeuvrers.
+
+Multiple repetitions are executed for each run, which is required to enhance the robustness of the results. In order to reduce computation time, the first experiment described in Chapter \ref{chap:hyperparameter_tuning} is only repeated five times, the second one is repeated eight times. The evaluation of the algorithms in Chapter \ref{chap:evaluation} uses ten repetitions.
+
+For analysing the statistical significance in the differences in mean between different results and algorithms, a t-test is used. More specifically, a Welch's t-test is applied, which adjust the degrees of freedom (DOF) in order to account for possible violations of the assumption of homogeneity~\cite{field_discovering_2012}.
+
+Additionally the effect size is calculated, which, according to Field et al.~\cite{field_discovering_2012}, provides an objective measure on the importance of an effect, where $0$ means no effect and $1$ means a perfect effect. It allows for a standardized measure and is not affected by sample size. He further recommends to utilize the widely used suggestions made by Cohen~\cite{cohen_statistical_1988, cohen_power_1992} on defining between a large or small effect:
+
+\begin{itemize}
+	\item r = .10 (small effect): The effect explains 1\% of the variance. 
+	\item r = .30 (medium effect): The effect explains 9\% of the variance. 
+	\item r = .50 (large effect): The effect explains 25\% of the variance.
+\end{itemize} 
+
+Effect sizes are calculated for a t-test using Equation \ref{equ:implementation:effect_size}.
+
+\begin{equation}
+	\begin{split}
+		r & = \sqrt{\frac{t^2}{t^2 + DOF}}
+	\end{split}
+	\label{equ:implementation:effect_size}
+\end{equation}
 
 

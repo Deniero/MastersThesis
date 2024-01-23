@@ -50,7 +50,7 @@ melted$value <- ((-melted$value + 3500) / 100)
 
 plot.bp <- ggplot(melted, aes(value, simulation)) + 
   geom_boxplot(color="#457b9d") + 
-  labs(x = "Cummulated Emergency Break Duration", y = "")
+  labs(x = "Cumulated Emergency Brake Duration [s]", y = "")
 print(plot.bp)
 ggsave("evaluation/plots/elite_vs_no_elite.jpg", plot = plot.bp, width = 16, height = 4, units = "cm", dpi = 1000)
 
@@ -64,7 +64,7 @@ melted_generations_elite$value <- ((-melted_generations_elite$value + 3500) / 10
 
 levels(melted_generations_elite$variable) <- c("Rep 1", "Rep 2", "Rep 3")
 plot.line.elite <- ggplot(melted_generations_elite, aes(gen, value, color=variable)) + geom_line()  +
-  labs(x = "Generations", y = "Cummulated Emergency Break Duration", color = "Repetitions")
+  labs(x = "Generations", y = "Cumulated Emergency Brake Duration [s]", color = "Repetitions")
 print(plot.line.elite)
 #ggsave("evaluation/plots/ga_elite_generations.jpg", plot = plot.line.elite, width = 15, height = 4, units = "cm", dpi = 300)
 
@@ -77,7 +77,7 @@ melted_generations_no_elite$value <- ((-melted_generations_no_elite$value + 3500
 
 levels(melted_generations_no_elite$variable) <- c("Rep 1", "Rep 2", "Rep 3")
 plot.line.no_elite <- ggplot(melted_generations_no_elite, aes(gen, value, color=variable)) + geom_line()  +
-  labs(x = "Generations", y = "Cummulated Emergency Break Duration", color = "Repetitions")
+  labs(x = "Generations", y = "Cumulated Emergency Brake Duration [s]", color = "Repetitions")
 print(plot.line.no_elite)
 #ggsave("evaluation/plots/ga_no_elite_generations.jpg", plot = plot.line.no_elite, width = 15, height = 7, units = "cm", dpi = 300)
 
@@ -89,7 +89,7 @@ melted_generations <- bind_rows(melted_generations_no_elite, melted_generations_
 melted_generations["Source"] <- lapply(melted_generations["Source"] , factor)
 
 plot.line.combined <- ggplot(melted_generations, aes(gen, value, color=variable)) + geom_line()  + facet_wrap(~Source, scales = "free_x",) +
-  labs(x = "Generations", y = "Cummulated Emergency Break Duration", color = "Repetitions")
+  labs(x = "Generations", y = "Cumulated Emergency Brake Duration [s]", color = "Repetitions")
 print(plot.line.combined)
 ggsave("evaluation/plots/elite_vs_no_elite_generations.jpg", plot = plot.line.combined, width = 16, height = 8, units = "cm", dpi = 1000)
 #### T test ####

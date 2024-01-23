@@ -23,7 +23,7 @@ parse_csv_min_data <- function(raw_csv_results) {
 
 
 #### settings ####
-simulation_name = "sim_4"
+simulation_name = "sim_3"
 num_of_gen = 30
 res_row_size = 1
 res_column_size = 45
@@ -94,9 +94,9 @@ sim.all_ga.melted$value <- ((3500 -sim.all_ga.melted$value) / 100)
 
 plot.bp <- ggplot(sim.res.melted, aes(value, simulation)) + 
   geom_boxplot(color="#457b9d") + 
-  labs(x = "Cummulated Emergency Break Duration", y = "")
+  labs(x = "Cumulated Emergency Brake Duration [s]", y = "")
 print(plot.bp)
-ggsave(paste0('evaluation/plots/', simulation_name, '_comparison.jpg'), plot = plot.bp, width = 16, height = 6, units = "cm", dpi = 1000)
+ggsave(paste0('evaluation/plots/', simulation_name, '_comparison.jpg'), plot = plot.bp, width = 16, height = 5, units = "cm", dpi = 1000)
 
 #plot.bp.left <- ggplot(sim.res.melted, aes(value, simulation)) + 
 #  geom_boxplot(color="#457b9d") + coord_cartesian(xlim = c(-200, 0)) + scale_x_continuous(expand = c(0, 0)) + 
@@ -119,16 +119,16 @@ plot.diversity_comparison <- ggplot(sim.diversity, aes(x=generation, y=diversity
   stat_summary(fun.max = function(y) quantile(y, 0.75), fun.min = function(y) quantile(y, 0.25), geom = "ribbon", alpha = 0.1, aes(fill = simulation)) +
   labs(x = "Generations", y = "Diversity", color = "Simulations", fill = "Simulations")
 print(plot.diversity_comparison)
-ggsave(paste0('evaluation/plots/', simulation_name, '_ga_diversity.jpg'), plot = plot.diversity_comparison, width = 12, height = 8, units = "cm", dpi = 600)
+ggsave(paste0('evaluation/plots/', simulation_name, '_ga_diversity.jpg'), plot = plot.diversity_comparison, width = 12, height = 8.15, units = "cm", dpi = 600)
 
 # plot generation comparison
 plot.generation_comparison <- ggplot(sim.all_ga.melted, aes(x=gen, y=value, group=simulation, color=simulation)) + 
   stat_summary(fun.data = "mean_se", geom = "line", linewidth = 1) + 
   stat_summary(fun.max = function(y) quantile(y, 0.75), fun.min = function(y) quantile(y, 0.25), geom = "ribbon", alpha = 0.1, aes(fill = simulation)) +
-  labs(x = "Generations", y = "Cummulated Emergency Break Duration", color = "Simulations", fill = "Simulations")
+  labs(x = "Generations", y = "Cumulated Emergency Brake Duration [s]", color = "Simulations", fill = "Simulations")
 plot.generation_comparison <- plot.generation_comparison + guides(color = FALSE, fill = FALSE)
 print(plot.generation_comparison)
-ggsave(paste0('evaluation/plots/', simulation_name, '_ga_generations.jpg'), plot = plot.generation_comparison, width = 12, height = 8, units = "cm", dpi = 600)
+ggsave(paste0('evaluation/plots/', simulation_name, '_ga_generations.jpg'), plot = plot.generation_comparison, width = 12, height = 8.15, units = "cm", dpi = 600)
 
 
 ##### t - test and effect size #####

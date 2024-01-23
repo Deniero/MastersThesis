@@ -2,26 +2,26 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces probability of actions}}{20}{table.3.1}%
-\contentsline {table}{\numberline {3.2}{\ignorespaces Integer encoding: probability of parameters per action}}{21}{table.3.2}%
-\contentsline {table}{\numberline {3.3}{\ignorespaces Dictionary encoding: probability of parameters per action}}{22}{table.3.3}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Action Probabilities: The genetic algorithm selects actions based on these assigned probabilities.}}{20}{table.3.1}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Integer Encoding: The genetic algorithm determines the parameters of actions based on these assigned probabilities.}}{21}{table.3.2}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Dictionary encoding: The genetic algorithm determines the parameters of actions based on these assigned selection functions.}}{22}{table.3.3}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces summary of literature review}}{27}{table.4.1}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces population size results - mean over 5 repetitions}}{28}{table.4.2}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces control parameters (factors) with corresponding settings (levels) - ($^*$uniform)}}{32}{table.4.3}%
-\contentsline {table}{\numberline {4.4}{\ignorespaces $L_{16}(2^{15})$ Taguchi orthogonal array taken from Roy~\blx@tocontentsinit {0}\cite {roy_primer_1990}}}{33}{table.4.4}%
-\contentsline {table}{\numberline {4.5}{\ignorespaces merging rules taken from Roy~\blx@tocontentsinit {0}\cite {roy_primer_1990}}}{35}{table.4.5}%
-\contentsline {table}{\numberline {4.6}{\ignorespaces building 4 Level columns from 2 Level columns}}{36}{table.4.6}%
-\contentsline {table}{\numberline {4.7}{\ignorespaces final version of orthogonal array}}{37}{table.4.7}%
-\contentsline {table}{\numberline {4.8}{\ignorespaces ANOVA results}}{38}{table.4.8}%
-\contentsline {table}{\numberline {4.9}{\ignorespaces S/N ANOVA results}}{43}{table.4.9}%
-\addvspace {10\p@ }
-\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Summary of Literature Review: Compilation of various settings for the GA hyperparameters used in the literature, namely population size, crossover rate, mutation rate and selection.}}{28}{table.4.1}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Population Size Results Table: Each row represents a different combination of crossover rates, mutation rates and tournament sizes. The mean of the cumulated emergency break duration (in seconds) over 5 repetitions per population size is shown.}}{29}{table.4.2}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Table of control parameters (factors) with corresponding settings (levels) for Design of Experiment. ($^*$uniform)}}{33}{table.4.3}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces $L_{16}(2^{15})$ Taguchi orthogonal array~\blx@tocontentsinit {0}\cite {roy_primer_1990}.}}{35}{table.4.4}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Merging rules for combining three 2-level columns into one 4-level columns~\blx@tocontentsinit {0}\cite {roy_primer_1990}.}}{36}{table.4.5}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Construction of three 4-level columns using merging rules from Table~\ref {tab:hyperparameter_tuning:merging_rules}.}}{37}{table.4.6}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces Final version of the modified orthogonal array.}}{38}{table.4.7}%
+\contentsline {table}{\numberline {4.8}{\ignorespaces ANOVA results: DOF, sum of squares, mean squares, F-value and p-value are displayed for each factor.}}{39}{table.4.8}%
+\contentsline {table}{\numberline {4.9}{\ignorespaces S/N ANOVA results: DOF, sum of squares, mean squares, F-value and p-value are displayed for each factor.}}{45}{table.4.9}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {1}{\ignorespaces hyperparameter tuning: taguchi experiment results}}{69}{table.Alph0.1}%
-\contentsline {table}{\numberline {2}{\ignorespaces evaluation results Optimized GA}}{70}{table.Alph0.2}%
-\contentsline {table}{\numberline {3}{\ignorespaces evaluation results Default GA}}{70}{table.Alph0.3}%
-\contentsline {table}{\numberline {4}{\ignorespaces evaluation results Random Search}}{70}{table.Alph0.4}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {1}{\ignorespaces Table of Taguchi Experiment Results: A row corresponds to an experiment, each repeated eight times. The cumulated emergency break duration (in seconds) is shown.}}{71}{table.Alph0.1}%
+\contentsline {table}{\numberline {2}{\ignorespaces Optimized Genetic Algorithm Evaluation: The results of the optimized genetic algorithm over ten repetitions across four different start scenarios. The cumulated emergency break duration (in seconds) is shown.}}{72}{table.Alph0.2}%
+\contentsline {table}{\numberline {3}{\ignorespaces Default Genetic Algorithm Evaluation: The results of the default genetic algorithm over ten repetitions across four different start scenarios. The cumulated emergency break duration (in seconds) is shown.}}{72}{table.Alph0.3}%
+\contentsline {table}{\numberline {4}{\ignorespaces Random Search Evaluation: The results of the random search over ten repetitions across four different start scenarios. The cumulated emergency break duration (in seconds) is shown.}}{72}{table.Alph0.4}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
