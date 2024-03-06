@@ -1,7 +1,11 @@
 
-* LaTeX-KOMA-template
+* Method of Hyperparameter Optimization of a Genetic Algorithm applied in Critical Scenario Generation for Autonomous Vehicles
+Master's Thesis TU Graz
 
-** Purpose of This Project
+Author: Daniel Sumann 
+
+
+** LaTeX-KOMA-template
 
 This is a generic template for [[http://en.wikipedia.org/wiki/LaTeX][LaTeX]] documents using [[http://www.komascript.de/][KOMA Script]] classes
 which are pretty common at least in German spoken countries.
@@ -19,7 +23,7 @@ that is optimized to deliver your content.
 
 Please do read [[https://github.com/novoid/LaTeX-KOMA-template/blob/master/Template-Documentation.pdf][Template-Documentation.pdf]].
 
-** Example Documents
+*** Example Documents
 
 In case you want to see some example documents generated via this
 template, please do read [[https://github.com/novoid/LaTeX-KOMA-template/blob/master/Hall_of_fame.org][the Hall of Fame]].
@@ -45,7 +49,7 @@ collection of results we can be proud of.
 [[figures/PDF preview - bibliography -- screenshots.png]]
 
 
-** Requirements
+*** Requirements
 
 This template uses up-to-date technology like pdflatex, [[http://www.tex.ac.uk/tex-archive/info/translations/biblatex/de/][biblatex]]
 (instead of BibTeX-Format), [[http://en.wikipedia.org/wiki/Biber_(LaTeX)][biber]] (instead of bibtex-compiler), and
@@ -71,12 +75,12 @@ This command results in the "[[https://github.com/novoid/LaTeX-KOMA-template/blo
 containing the most current documentation of this template. Please
 refer to this PDF file for further information about the template.
 
-** How to Start?
+*** How to Start?
 
 Please do read the "[[https://github.com/novoid/LaTeX-KOMA-template/blob/master/Template-Documentation.pdf][Template-Documentation.pdf]]" file which contains a
 "How to use this LaTeX template" section.
 
-** License
+*** License
 
 This template is licensed under a [[https://creativecommons.org/licenses/by-sa/3.0/][Creative Commons
       Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0) license]]:
@@ -95,6 +99,6 @@ This template is licensed under a [[https://creativecommons.org/licenses/by-sa/3
   resulting (PDF) document!
 - You may remove the colophon (but it's not recommended).
 
-** What Is Still Work in Progress?
+*** What Is Still Work in Progress?
 
 Please have a look at the file "[[https://github.com/novoid/LaTeX-KOMA-template/blob/master/template/todos.org][template/todos.org]]".
