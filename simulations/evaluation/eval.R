@@ -4,7 +4,7 @@ library(reshape)
 library(xtable)
 
 theme_set(theme_light())
-setwd("C:/Users/u19i96/Documents/MastersThesis/simulations")
+setwd("C:/Users/danie/Documents/Studium/MastersThesis/simulations")
 
 
 #### functions ####
@@ -60,6 +60,37 @@ sim.res_column_names <- colnames(sim.res)
 sim.res_column_names <- sim.res_column_names[sim.res_column_names != "simulation"]
 sim.res.melted<-melt(sim.res, id = c("simulation"), measured = sim.res_column_names)
 sim.res.melted$value <- ((-sim.res.melted$value + 3500) / 100)
+
+#### start merge into one whole result file
+
+sim.res.complete_tmp <- sim.res.melted
+sim.res.complete_tmp$start_scenario <- simulation_name
+
+#sim.res.complete <- sim.res.complete_tmp
+sim.res.complete <- bind_rows(sim.res.complete, sim.res.complete_tmp)
+sim.res.complete <- sim.res.complete %>%
+  mutate(start_scenario = case_when(
+    start_scenario == "start scenario 1" ~ "Start Scenario 1",
+    start_scenario == "start scenario 2" ~ "Start Scenario 2",
+    start_scenario == "start scenario 3" ~ "Start Scenario 3",
+    start_scenario == "start scenario 4" ~ "Start Scenario 4",
+    TRUE ~ start_scenario
+  ))
+
+
+plot.bp <- ggplot(sim.res.complete, aes(x=value, y=simulation)) + 
+  geom_boxplot(color="#457b9d") +
+  facet_wrap(~start_scenario, scales = "free", ncol = 2) +
+  labs(x = "Cumulated Emergency Brake Duration [s]", y = "")
+print(plot.bp)
+ggsave(paste0('evaluation/plots/', 'whole_simulation_comparison.png'), plot = plot.bp, width = 20, height = 9, units = "cm", dpi = 600)
+
+
+#### end merge into one whole result file
+
+
+
+
 
 sim.res.translated <- sim.res
 sim.res.translated[, res_col_names] <- (3500 - sim.res.translated[, res_col_names]) / 100
